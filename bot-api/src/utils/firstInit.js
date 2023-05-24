@@ -1,7 +1,7 @@
 import { StringSession } from 'telegram/sessions';
 import { TelegramClient } from 'telegram';
 import sessions from '../models/sessions';
-import emmiter from '../emitter';
+import emmiter from './emitter';
 
 async function firstInit() {
   const allSessions = await sessions.getSessions();

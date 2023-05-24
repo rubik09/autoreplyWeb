@@ -3,14 +3,17 @@ import { NewMessage } from 'telegram/events';
 import parser from 'koa-bodyparser';
 import cors from '@koa/cors';
 import Koa from 'koa';
-import eventPrint from './eventPrint';
 import firstInit from './utils/firstInit';
 import users from './app/users';
 import mariaDb from './mariaDb';
-import emmiter from './emitter';
+import emmiter from './utils/emitter';
+import incomingMessages from './eventPrint';
 
 emmiter.on('newClient', async (client) => {
-  client.addEventHandler((event) => eventPrint(client, event), new NewMessage({}));
+  client.addEventHandler(
+    (event) => incomingMessages(client, event),
+    new NewMessage({ incoming: true }),
+  );
 });
 
 await firstInit();

@@ -4,7 +4,7 @@ import { Api, TelegramClient } from 'telegram';
 import Router from 'koa-router';
 import pool from '../utils/MySQL';
 import sessions from '../models/sessions';
-import emmiter from '../emitter';
+import emmiter from '../utils/emitter.js';
 import autoRespondClient from '../models/autoRespondClient';
 
 const router = new Router();
@@ -86,10 +86,8 @@ function generatePromise() {
 
 router.post('/users/api', async (ctx) => {
   const {
-    setupStep, answer,
+    setupStep, answer, code, phone_number,
   } = ctx.request.body;
-  const { phone_number } = ctx.request.body;
-  const obtainedCode = ctx.request.body.code;
   let { api_id, api_hash } = ctx.request.body;
   let stringSession = new StringSession('');
   let user_id = await autoRespondClient.getClientId(phone_number);
@@ -114,20 +112,14 @@ router.post('/users/api', async (ctx) => {
       await client.connect();
       client.floodSleepThreshold = 300;
 
-      if (await client.checkAuthorization()) {
-        await sessions.updateStatus(true, user_id);
-        emmiter.emit('newClient', client);
-        return;
-      }
-
       promises[user_id] = generatePromise();
 
       clientStartPromise[user_id] = client.start({
         phoneNumber: phone_number,
         phoneCode: async () => {
-          const code = await promises[user_id].promise;
+          const codeProm = await promises[user_id].promise;
           promises[user_id] = generatePromise();
-          return code;
+          return codeProm;
         },
         onError: () => {
           ctx.status = 500;
@@ -152,7 +144,7 @@ router.post('/users/api', async (ctx) => {
     }
   } else if (setupStep === 2) {
     try {
-      await promises[user_id].resolve(obtainedCode);
+      await promises[user_id].resolve(code);
 
       await clientStartPromise[user_id];
 
@@ -178,6 +170,7 @@ router.post('/users/api', async (ctx) => {
         message: 'Success',
       };
     } catch (err) {
+      console.log(err);
       ctx.status = 500;
       ctx.body = {
         message: 'Internal server error',
