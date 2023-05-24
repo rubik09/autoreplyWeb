@@ -1,0 +1,20 @@
+export const {
+  MYSQL_USER,
+  MYSQL_DATABASE,
+  MYSQL_ROOT_PASSWORD,
+  MYSQL_HOST,
+  MYSQL_PORT,
+} = process.env;
+
+export const actionTypes = {
+  REGISTRATION: 'register',
+  DEPOSIT: 'firstDep',
+};
+
+export const databaseOptions = {
+  host: MYSQL_HOST,
+  user: MYSQL_USER,
+  port: MYSQL_PORT,
+  password: MYSQL_ROOT_PASSWORD,
+  database: MYSQL_DATABASE,
+};
