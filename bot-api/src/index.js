@@ -8,6 +8,9 @@ import users from './app/users';
 import mariaDb from './mariaDb';
 import emmiter from './utils/emitter';
 import incomingMessages from './eventPrint';
+import checkConnect from "./utils/checkingConnect.js";
+
+await checkConnect();
 
 emmiter.on('newClient', async (client) => {
   client.addEventHandler(
