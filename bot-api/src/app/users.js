@@ -1,18 +1,18 @@
 import bcrypt from 'bcrypt';
 import { StringSession } from 'telegram/sessions';
-import { Api, TelegramClient } from 'telegram';
+import { TelegramClient } from 'telegram';
 import Router from 'koa-router';
-import pool from '../utils/MySQL';
 import sessions from '../models/sessions';
-import emmiter from '../utils/emitter.js';
+import emmiter from '../utils/emitter';
 import autoRespondClient from '../models/autoRespondClient';
+import Admins from '../models/admins';
 
 const router = new Router();
 
 router.post('/users/sessions', async (ctx) => {
-  const { phone, password } = ctx.request.body;
+  const { email, password } = ctx.request.body;
   try {
-    const result = await autoRespondClient.getClient(phone);
+    const result = await Admins.getClient(email);
     if (result.length === 0) {
       ctx.status = 401;
       ctx.body = {
@@ -42,34 +42,34 @@ router.post('/users/sessions', async (ctx) => {
   }
 });
 
-router.post('/users', async (ctx) => {
-  const {
-    phone, password, user_id, username,
-  } = ctx.request.body;
-  try {
-    const existingUser = await autoRespondClient.getClient(phone);
-    if (existingUser.length > 0) {
-      ctx.status = 401;
-      ctx.body = {
-        message: 'User with this phone already exists',
-      };
-      return;
-    }
-    const hash = await bcrypt.hash(password, 10);
-    await pool.query('INSERT INTO client_datas (phone_number, password, user_id, username) VALUES (?, ?, ?, ?)', [phone, hash, user_id, username]);
-    const user = await autoRespondClient.getClient(phone);
-    ctx.body = {
-      message: 'Success',
-      user: user[0],
-    };
-  } catch (err) {
-    console.log(err);
-    ctx.status = 500;
-    ctx.body = {
-      message: 'Internal server error',
-    };
-  }
-});
+// router.post('/users', async (ctx) => {
+//   const {
+//     email, password,
+//   } = ctx.request.body;
+//   try {
+//     const existingUser = await Admins.getClient(email);
+//     if (existingUser.length > 0) {
+//       ctx.status = 401;
+//       ctx.body = {
+//         message: 'User with this phone already exists',
+//       };
+//       return;
+//     }
+//     const hash = await bcrypt.hash(password, 10);
+//     await Admins.setMainInfo(email, hash);
+//     const user = await Admins.getClient(email);
+//     ctx.body = {
+//       message: 'Success',
+//       user: user[0],
+//     };
+//   } catch (err) {
+//     console.log(err);
+//     ctx.status = 500;
+//     ctx.body = {
+//       message: 'Internal server error',
+//     };
+//   }
+// });
 
 const clients = {};
 const promises = {};

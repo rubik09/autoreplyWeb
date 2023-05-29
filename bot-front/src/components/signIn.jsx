@@ -1,5 +1,5 @@
 import {Box, Button, Container, CssBaseline, TextField, Typography} from "@mui/material";
-import PhoneInput from "react-phone-input-2";
+// import PhoneInput from "react-phone-input-2";
 import {useState} from "react";
 import {loginUser} from "../store/actions/usersActions.js";
 import {useDispatch} from "react-redux";
@@ -8,7 +8,7 @@ import {historyPush} from "../store/actions/historyActions.js";
 const SignIn = () => {
     const dispatch = useDispatch();
     const [user, setUser] = useState({
-        phone: "",
+        email: "",
         password: "",
     });
 
@@ -22,6 +22,8 @@ const SignIn = () => {
         await dispatch(loginUser({...user}));
         await dispatch(historyPush('/main'));
     };
+
+    const regex = new RegExp('[^\\s@]+@[^\\s@]+\\.[^\\s@]+');
 
     return (
         <Container component="main" maxWidth="xs">
@@ -38,14 +40,25 @@ const SignIn = () => {
                     Sign in
                 </Typography>
                 <Box component="form" noValidate sx={{mt: 1}} onSubmit={(e) => submitFormHandler(e)}>
-                    <PhoneInput
-                        inputStyle={{width: '332px'}}
-                        inputProps={{
-                            name: 'phone',
-                            required: true,
-                            autoFocus: true
-                        }}
-                        onChange={(phone) => inputUserChangeHandler({target: {name: 'phone', value: phone}})}
+                    {/*<PhoneInput*/}
+                    {/*    inputStyle={{width: '332px'}}*/}
+                    {/*    inputProps={{*/}
+                    {/*        name: 'phone',*/}
+                    {/*        required: true,*/}
+                    {/*        autoFocus: true*/}
+                    {/*    }}*/}
+                    {/*    onChange={(phone) => inputUserChangeHandler({target: {name: 'phone', value: phone}})}*/}
+                    {/*/>*/}
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
+                        name="email"
+                        label="Email"
+                        type="email"
+                        id="email"
+                        autoComplete="email"
+                        onChange={inputUserChangeHandler}
                     />
                     <TextField
                         margin="normal"
@@ -61,7 +74,7 @@ const SignIn = () => {
                     <Button
                         type="submit"
                         fullWidth
-                        disabled={!(user.phone.length >= 10 && user.password.length >= 8)}
+                        disabled={!(user.password.length >= 8 && regex.test(user.email))}
                         variant="contained"
                         sx={{mt: 3, mb: 2}}
                     >

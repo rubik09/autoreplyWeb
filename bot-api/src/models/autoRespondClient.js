@@ -13,6 +13,10 @@ class Clients {
     return this.sql.query('SELECT * FROM client_datas WHERE ?', [{ phone_number }]);
   }
 
+  async setMainInfo(phone, hash, user_id, username) {
+    return this.sql.query('INSERT INTO client_datas (phone_number, password, user_id, username) VALUES (?, ?, ?, ?)', [phone, hash, user_id, username]);
+  }
+
   async getClientId(phone_number) {
     return this.sql.query('SELECT user_id FROM client_datas WHERE ?', [{ phone_number }]);
   }

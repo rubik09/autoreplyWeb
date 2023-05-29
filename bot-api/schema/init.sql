@@ -8,11 +8,21 @@ CREATE TABLE IF NOT EXISTS `client_datas`
     `user_id`      varchar(255) DEFAULT '',
     `username`     varchar(255) DEFAULT '' UNIQUE,
     `phone_number` varchar(255) DEFAULT '' UNIQUE,
-    `password`     varchar(255) DEFAULT '' UNIQUE,
     PRIMARY KEY (`id`),
     KEY            `user_id` (`user_id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 143
+  DEFAULT CHARSET = utf8mb4
+  COLLATE = utf8mb4_general_ci;
+
+CREATE TABLE IF NOT EXISTS `admins`
+(
+    `id`            int(11) NOT NULL AUTO_INCREMENT,
+    `email`       varchar(255) NOT NULL UNIQUE,
+    `password` varchar(255) NOT NULL,
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 91639
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
 

@@ -3,9 +3,9 @@ import {Container, Typography} from "@mui/material";
 
 const SuccessPage = () => {
     return (
-        <Container component="div" maxWidth="xl">
+        <Container component="div" maxWidth="xl" sx={{textAlign: 'center'}}>
             <Header/>
-            <Typography>
+            <Typography component="h1" variant="h4" sx={{mt: 5}}>
                 Bot successfully started!
             </Typography>
         </Container>
