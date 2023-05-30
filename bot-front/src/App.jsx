@@ -17,9 +17,9 @@ function App() {
                     <Route path='/list' element={<UsersList/>}/>
 
                     <Route path='/add' element={<MainInfoPage/>}/>
-                    <Route path='/api' element={<ApiPage/>}/>
-                    <Route path='/code' element={<CodePage/>}/>
-                    <Route path='/answer' element={<AnswerPage/>}/>
+                    <Route path='/api/:id' element={<ApiPage/>}/>
+                    <Route path='/code/:id' element={<CodePage/>}/>
+                    <Route path='/answer/:id' element={<AnswerPage/>}/>
                 </Routes>
                 :
                 <Routes>

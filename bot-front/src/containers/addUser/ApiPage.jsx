@@ -1,6 +1,6 @@
 import {Box, Button, Container, TextField, Typography} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import Header from "../../components/UI/Header.jsx";
 import {useEffect, useState} from "react";
 import {apiSuccessNull} from "../../store/slices/usersSlice.js";
@@ -8,7 +8,7 @@ import {sendApiInfo} from "../../store/actions/usersActions.js";
 
 const ApiPage = () => {
     const apiSuccess = useSelector(state => state.users.apiSuccess)
-    const userPhone = useSelector(state => state.users.user.phone_number);
+    const { id } = useParams()
     const push = useNavigate();
     const dispatch = useDispatch();
 
@@ -16,7 +16,7 @@ const ApiPage = () => {
         api_id: '',
         api_hash: '',
         setupStep: 1,
-        phone_number: userPhone,
+        user_id: id,
     });
 
     const inputApiChangeHandler = e => {
@@ -26,7 +26,7 @@ const ApiPage = () => {
 
     useEffect(() => {
         if (apiSuccess) {
-            push('/code');
+            push('/code/' + id);
             dispatch(apiSuccessNull());
         }
     }, [dispatch, apiSuccess]);

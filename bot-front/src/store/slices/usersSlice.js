@@ -18,6 +18,9 @@ export const initialState = {
     sendApiLoading: false,
     sendApiError: null,
     apiSuccess: false,
+    sendInfoLoading: false,
+    sendInfoError: null,
+    infoSuccess: false,
 };
 
 const usersSlice = createSlice({
@@ -75,6 +78,18 @@ const usersSlice = createSlice({
             state.sendApiLoading = false;
             state.sendApiError = action.payload;
         },
+        sendInfoRequest(state, action) {
+            state.sendInfoLoading = true;
+            state.sendInfoError = action.payload;
+        },
+        sendInfoSuccess(state) {
+            state.sendInfoLoading = false;
+            state.infoSuccess = true;
+        },
+        sendInfoFailure(state, action) {
+            state.sendInfoLoading = false;
+            state.sendInfoError = action.payload;
+        },
     },
 });
 
@@ -92,6 +107,9 @@ export const {
     sendApiSuccess,
     sendApiFailure,
     apiSuccessNull,
+    sendInfoRequest,
+    sendInfoSuccess,
+    sendInfoFailure,
 } = usersSlice.actions;
 
 export default usersSlice;

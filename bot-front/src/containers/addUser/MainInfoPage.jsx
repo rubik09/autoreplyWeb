@@ -7,11 +7,13 @@ import {
 import PhoneInput from "react-phone-input-2";
 import {useState} from "react";
 import {useDispatch} from "react-redux";
-import {historyPush} from "../../store/actions/historyActions.js";
 import Header from "../../components/UI/Header.jsx";
+import {sendUserInfo} from "../../store/actions/usersActions.js";
+import {useNavigate} from "react-router-dom";
 
 const MainInfoPage = () => {
     const dispatch = useDispatch();
+    const push = useNavigate();
     const [user, setUser] = useState({
         phone: "",
         user_id: "",
@@ -25,8 +27,8 @@ const MainInfoPage = () => {
 
     const submitFormHandler = async e => {
         e.preventDefault();
-        // await dispatch(sendUserInfo({...user}));
-        await dispatch(historyPush('/api'));
+        await dispatch(sendUserInfo({...user}));
+        push(`/api/${user.user_id}`);
     };
 
     return (

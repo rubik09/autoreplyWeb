@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {apiSuccessNull} from "../../store/slices/usersSlice.js";
 import {sendApiInfo} from "../../store/actions/usersActions.js";
 import {Box, Button, Container, TextField, Typography} from "@mui/material";
@@ -10,11 +10,11 @@ const AnswerPage = () => {
     const apiSuccess = useSelector(state => state.users.apiSuccess)
     const dispatch = useDispatch();
     const push = useNavigate();
-    const userPhone = useSelector(state => state.users.user.phone_number);
+    const { id } = useParams()
 
     const [api, setApi] = useState({
         answer: '',
-        phone_number: userPhone,
+        user_id: id,
         setupStep: 3,
     });
 

@@ -4,9 +4,11 @@ import {useState} from "react";
 import {loginUser} from "../store/actions/usersActions.js";
 import {useDispatch} from "react-redux";
 import {historyPush} from "../store/actions/historyActions.js";
+import {useNavigate} from "react-router-dom";
 
 const SignIn = () => {
     const dispatch = useDispatch();
+    const push = useNavigate();
     const [user, setUser] = useState({
         email: "",
         password: "",
@@ -20,7 +22,7 @@ const SignIn = () => {
     const submitFormHandler = async e => {
         e.preventDefault();
         await dispatch(loginUser({...user}));
-        await dispatch(historyPush('/list'));
+        push('/list');
     };
 
     const emailRegex = new RegExp('[^\\s@]+@[^\\s@]+\\.[^\\s@]+');

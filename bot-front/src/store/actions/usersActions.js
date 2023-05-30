@@ -8,7 +8,7 @@ import {
     logoutFailure,
     registerRequest,
     registerSuccess,
-    registerFailure, sendApiRequest, sendApiSuccess, sendApiFailure,
+    registerFailure, sendApiRequest, sendApiSuccess, sendApiFailure, sendInfoRequest, sendInfoSuccess, sendInfoFailure,
 } from '../slices/usersSlice';
 
 export const registerUser = (userData) => {
@@ -75,6 +75,20 @@ export const sendApiInfo = (data) => {
             dispatch(sendApiSuccess());
         } catch (e) {
             dispatch(sendApiFailure(e));
+        }
+    };
+};
+
+export const sendUserInfo = (data) => {
+    return async (dispatch) => {
+        try {
+            dispatch(sendInfoRequest());
+
+            console.log(await axiosApi.post('/users/add', data))
+
+            dispatch(sendInfoSuccess());
+        } catch (e) {
+            dispatch(sendInfoFailure(e));
         }
     };
 };

@@ -4,7 +4,6 @@ import { TelegramClient } from 'telegram';
 import Router from 'koa-router';
 import sessions from '../models/sessions';
 import emmiter from '../utils/emitter';
-import autoRespondClient from '../models/autoRespondClient';
 import Admins from '../models/admins';
 
 const router = new Router();
@@ -34,8 +33,26 @@ router.post('/users/sessions', async (ctx) => {
       message: 'Success',
       user,
     };
-  } catch (err) {
-    console.log(err);
+  } catch (e) {
+    console.log(e);
+    ctx.status = 500;
+    ctx.body = {
+      message: 'Internal server error',
+    };
+  }
+});
+
+// добавление новой лички
+router.post('/users/add', async (ctx) => {
+  const { phone, user_id, username } = ctx.request.body;
+  try {
+    await sessions.saveMainInfo(phone, user_id, username);
+
+    ctx.body = {
+      message: 'Success',
+    };
+  } catch (e) {
+    console.log(e);
     ctx.status = 500;
     ctx.body = {
       message: 'Internal server error',
@@ -59,12 +76,12 @@ function generatePromise() {
 // Подключение к тг
 router.post('/users/api', async (ctx) => {
   const {
-    setupStep, answer, code, phone_number,
+    setupStep, answer, code, user_id,
   } = ctx.request.body;
   let { api_id, api_hash } = ctx.request.body;
   let stringSession = new StringSession('');
-  let user_id = await autoRespondClient.getClientId(phone_number);
-  user_id = user_id[0].user_id;
+  let phone_number = await sessions.getPhoneById(user_id);
+  phone_number = phone_number[0].phone_number;
 
   if (!api_hash || !api_id) {
     const mainInfo = await sessions.getMainInfo(user_id);
@@ -90,6 +107,7 @@ router.post('/users/api', async (ctx) => {
       clientStartPromise[user_id] = client.start({
         phoneNumber: phone_number,
         phoneCode: async () => {
+          console.log('code');
           const codeProm = await promises[user_id].promise;
           promises[user_id] = generatePromise();
           return codeProm;
@@ -103,13 +121,13 @@ router.post('/users/api', async (ctx) => {
       });
 
       const session = client.session.save();
-      await sessions.updateSessionInfo(session, api_id, api_hash, user_id);
+      await sessions.updateSessionInfo(session, +api_id, api_hash, user_id);
 
       ctx.body = {
         message: 'Success',
       };
-    } catch (err) {
-      console.log(err);
+    } catch (e) {
+      console.log(e);
       ctx.status = 500;
       ctx.body = {
         message: 'Internal server error',
@@ -126,8 +144,8 @@ router.post('/users/api', async (ctx) => {
       ctx.body = {
         message: 'Success',
       };
-    } catch (err) {
-      console.log(err);
+    } catch (e) {
+      console.log(e);
       ctx.status = 500;
       ctx.body = {
         message: 'Internal server error',
@@ -142,8 +160,8 @@ router.post('/users/api', async (ctx) => {
       ctx.body = {
         message: 'Success',
       };
-    } catch (err) {
-      console.log(err);
+    } catch (e) {
+      console.log(e);
       ctx.status = 500;
       ctx.body = {
         message: 'Internal server error',
@@ -152,23 +170,68 @@ router.post('/users/api', async (ctx) => {
   }
 });
 
+// get all users
+router.get('/users', async (ctx) => {
+  try {
+    const users = await sessions.getSessions();
+
+    ctx.body = {
+      message: 'Success',
+      users,
+    };
+  } catch (e) {
+    console.log(e);
+    ctx.status = 500;
+    ctx.body = {
+      message: 'Internal server error',
+    };
+  }
+});
+
+// get user by id
+router.get('/users/:id', async (ctx) => {
+  try {
+    const user_id = ctx.request.query.id;
+    const user = await sessions.getSession(user_id);
+
+    ctx.body = {
+      message: 'Success',
+      user: user[0],
+    };
+  } catch (e) {
+    console.log(e);
+    ctx.status = 500;
+    ctx.body = {
+      message: 'Internal server error',
+    };
+  }
+});
+
 // logout
 router.delete('/users/sessions', async (ctx) => {
-  const { phone } = ctx.request.body;
+  try {
+    const { phone } = ctx.request.body;
 
-  const user = await autoRespondClient.getClient(phone);
+    const user = await sessions.getClient(phone);
 
-  if (!user) {
+    if (!user) {
+      ctx.status = 404;
+      ctx.body = {
+        message: 'user not exist',
+      };
+      return;
+    }
+
     ctx.body = {
       message: 'Success',
     };
-    return;
+  } catch (e) {
+    console.log(e);
+    ctx.status = 500;
+    ctx.body = {
+      message: 'Internal server error',
+    };
   }
-
-  ctx.body = {
-    message: 'Success',
-    user: user[0],
-  };
 });
 
 export default router;

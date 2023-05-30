@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS `sessions`
     `username`       varchar(255) DEFAULT '' UNIQUE,
     `phone_number`   varchar(255) DEFAULT '' UNIQUE,
     `status`         tinyint(1) DEFAULT 0,
-    PRIMARY KEY (`id`),
+    PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 76544
   DEFAULT CHARSET = utf8mb4
