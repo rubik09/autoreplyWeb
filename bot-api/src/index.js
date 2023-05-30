@@ -8,7 +8,7 @@ import users from './app/users';
 import mariaDb from './mariaDb';
 import emmiter from './utils/emitter';
 import incomingMessages from './eventPrint';
-import checkConnect from "./utils/checkingConnect.js";
+import checkConnect from './utils/checkingConnect';
 
 await checkConnect();
 

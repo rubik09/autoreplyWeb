@@ -1,11 +1,11 @@
 import {Route, Routes} from 'react-router-dom';
 import {useSelector} from "react-redux";
 import Auth from "./containers/Auth.jsx";
-import MainPage from "./containers/MainPage.jsx";
-import CodePage from "./containers/CodePage.jsx";
-import AnswerPage from "./containers/AnswerPage.jsx";
-import SuccessPage from "./containers/SuccessPage.jsx";
+import ApiPage from "./containers/addUser/ApiPage.jsx";
+import CodePage from "./containers/addUser/CodePage.jsx";
+import AnswerPage from "./containers/addUser/AnswerPage.jsx";
 import UsersList from "./containers/UsersList.jsx";
+import MainInfoPage from "./containers/addUser/MainInfoPage.jsx";
 
 function App() {
     const user = useSelector((state) => state.users.user);
@@ -15,10 +15,11 @@ function App() {
             {user ?
                 <Routes>
                     <Route path='/list' element={<UsersList/>}/>
-                    <Route path='/main' element={<MainPage/>}/>
+
+                    <Route path='/add' element={<MainInfoPage/>}/>
+                    <Route path='/api' element={<ApiPage/>}/>
                     <Route path='/code' element={<CodePage/>}/>
                     <Route path='/answer' element={<AnswerPage/>}/>
-                    <Route path='/success' element={<SuccessPage/>}/>
                 </Routes>
                 :
                 <Routes>

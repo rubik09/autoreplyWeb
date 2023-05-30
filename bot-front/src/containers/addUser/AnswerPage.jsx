@@ -1,10 +1,10 @@
 import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import {apiSuccessNull} from "../store/slices/usersSlice.js";
-import {sendApiInfo} from "../store/actions/usersActions.js";
+import {apiSuccessNull} from "../../store/slices/usersSlice.js";
+import {sendApiInfo} from "../../store/actions/usersActions.js";
 import {Box, Button, Container, TextField, Typography} from "@mui/material";
-import Header from "../components/UI/Header.jsx";
+import Header from "../../components/UI/Header.jsx";
 
 const AnswerPage = () => {
     const apiSuccess = useSelector(state => state.users.apiSuccess)
@@ -20,7 +20,7 @@ const AnswerPage = () => {
 
     useEffect(() => {
         if (apiSuccess) {
-            push('/success');
+            push('/list');
             dispatch(apiSuccessNull());
         }
     }, [dispatch, apiSuccess]);

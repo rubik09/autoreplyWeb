@@ -1,8 +1,8 @@
 import { StringSession } from 'telegram/sessions';
 import { TelegramClient } from 'telegram';
+import cron from 'node-cron';
 import sessions from '../models/sessions';
 import emmiter from './emitter';
-import cron from 'node-cron';
 
 async function checkConnect() {
   cron.schedule('0 0 * * *', async () => {

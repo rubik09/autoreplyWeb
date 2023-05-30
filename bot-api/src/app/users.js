@@ -9,6 +9,7 @@ import Admins from '../models/admins';
 
 const router = new Router();
 
+// Вход
 router.post('/users/sessions', async (ctx) => {
   const { email, password } = ctx.request.body;
   try {
@@ -42,35 +43,6 @@ router.post('/users/sessions', async (ctx) => {
   }
 });
 
-// router.post('/users', async (ctx) => {
-//   const {
-//     email, password,
-//   } = ctx.request.body;
-//   try {
-//     const existingUser = await Admins.getClient(email);
-//     if (existingUser.length > 0) {
-//       ctx.status = 401;
-//       ctx.body = {
-//         message: 'User with this phone already exists',
-//       };
-//       return;
-//     }
-//     const hash = await bcrypt.hash(password, 10);
-//     await Admins.setMainInfo(email, hash);
-//     const user = await Admins.getClient(email);
-//     ctx.body = {
-//       message: 'Success',
-//       user: user[0],
-//     };
-//   } catch (err) {
-//     console.log(err);
-//     ctx.status = 500;
-//     ctx.body = {
-//       message: 'Internal server error',
-//     };
-//   }
-// });
-
 const clients = {};
 const promises = {};
 const clientStartPromise = {};
@@ -84,6 +56,7 @@ function generatePromise() {
   return { resolve, reject, promise };
 }
 
+// Подключение к тг
 router.post('/users/api', async (ctx) => {
   const {
     setupStep, answer, code, phone_number,
@@ -179,6 +152,7 @@ router.post('/users/api', async (ctx) => {
   }
 });
 
+// logout
 router.delete('/users/sessions', async (ctx) => {
   const { phone } = ctx.request.body;
 

@@ -20,10 +20,10 @@ const SignIn = () => {
     const submitFormHandler = async e => {
         e.preventDefault();
         await dispatch(loginUser({...user}));
-        await dispatch(historyPush('/main'));
+        await dispatch(historyPush('/list'));
     };
 
-    const regex = new RegExp('[^\\s@]+@[^\\s@]+\\.[^\\s@]+');
+    const emailRegex = new RegExp('[^\\s@]+@[^\\s@]+\\.[^\\s@]+');
 
     return (
         <Container component="main" maxWidth="xs">
@@ -74,7 +74,7 @@ const SignIn = () => {
                     <Button
                         type="submit"
                         fullWidth
-                        disabled={!(user.password.length >= 8 && regex.test(user.email))}
+                        disabled={!(user.password.length >= 8 && emailRegex.test(user.email))}
                         variant="contained"
                         sx={{mt: 3, mb: 2}}
                     >
