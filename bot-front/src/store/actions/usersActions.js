@@ -8,7 +8,14 @@ import {
     logoutFailure,
     registerRequest,
     registerSuccess,
-    registerFailure, sendApiRequest, sendApiSuccess, sendApiFailure, sendInfoRequest, sendInfoSuccess, sendInfoFailure,
+    registerFailure,
+    sendApiRequest,
+    sendApiSuccess,
+    sendApiFailure,
+    sendInfoRequest,
+    sendInfoSuccess,
+    sendInfoFailure,
+    fetchUsersSuccess,
 } from '../slices/usersSlice';
 
 export const registerUser = (userData) => {
@@ -91,4 +98,17 @@ export const sendUserInfo = (data) => {
             dispatch(sendInfoFailure(e));
         }
     };
+};
+
+export const fetchUsers = () => {
+    return async (dispatch) => {
+        try {
+            const {data} = await axiosApi.get('/users');
+
+            dispatch(fetchUsersSuccess(data.users));
+        } catch (e) {
+            // toast.error("album cannot be fetch!");
+            console.log(e);
+        }
+    }
 };

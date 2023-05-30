@@ -4,6 +4,7 @@ const name = 'users';
 
 export const initialState = {
     user: null,
+    usersList: [],
     profile: null,
     loginLoading: false,
     loginError: null,
@@ -49,6 +50,9 @@ const usersSlice = createSlice({
         loginSuccess(state, action) {
             state.loginLoading = false;
             state.user = action.payload;
+        },
+        fetchUsersSuccess(state, action) {
+            state.usersList = action.payload;
         },
         loginFailure(state, action) {
             state.loginLoading = false;
@@ -110,6 +114,7 @@ export const {
     sendInfoRequest,
     sendInfoSuccess,
     sendInfoFailure,
+    fetchUsersSuccess,
 } = usersSlice.actions;
 
 export default usersSlice;

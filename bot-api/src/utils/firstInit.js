@@ -21,7 +21,6 @@ async function firstInit() {
 
     await client.connect();
     client.floodSleepThreshold = 300;
-    // await client.start({});
     emmiter.emit('newClient', client);
   }
 }

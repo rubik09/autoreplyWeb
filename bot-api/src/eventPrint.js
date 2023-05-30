@@ -14,6 +14,10 @@ async function incomingMessages(client, event) {
     const chatId = await user.getUserId(apiId, userId);
     const sender = await messageEvent.getSender();
 
+    // if (!status) {
+    //   return;
+    // }
+
     if (!chatId.length) {
       const answer = await sessions.getAnswersFromSession(apiId);
       const result = await JSON.parse(answer[0].answers);

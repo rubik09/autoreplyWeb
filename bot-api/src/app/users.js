@@ -107,7 +107,6 @@ router.post('/users/api', async (ctx) => {
       clientStartPromise[user_id] = client.start({
         phoneNumber: phone_number,
         phoneCode: async () => {
-          console.log('code');
           const codeProm = await promises[user_id].promise;
           promises[user_id] = generatePromise();
           return codeProm;
