@@ -104,7 +104,7 @@ export const fetchUsers = () => {
     return async (dispatch) => {
         try {
             const {data} = await axiosApi.get('/users');
-
+            console.log(data)
             dispatch(fetchUsersSuccess(data.users));
         } catch (e) {
             // toast.error("album cannot be fetch!");

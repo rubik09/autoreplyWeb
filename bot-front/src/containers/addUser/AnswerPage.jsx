@@ -69,6 +69,7 @@ const AnswerPage = () => {
                     <Button
                         type="submit"
                         fullWidth
+                        disabled={!api.answer}
                         variant="contained"
                         sx={{mt: 3, mb: 2}}
                     >
