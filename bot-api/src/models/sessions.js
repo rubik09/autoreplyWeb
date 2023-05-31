@@ -53,10 +53,8 @@ class Session {
     return this.sql.query('UPDATE sessions SET ? WHERE ?', [{ log_session }, { user_id }]);
   }
 
-  async updateSessionInfo(log_session, api_id, api_hash, user_id) {
-    return this.sql.query('UPDATE sessions SET ? WHERE ?', [{
-      log_session, api_id, api_hash,
-    }, { user_id }]);
+  async updateSessionInfo(api_id, api_hash, user_id) {
+    return this.sql.query('UPDATE sessions SET ? WHERE ?', [{ api_id, api_hash }, { user_id }]);
   }
 
   async updateAnswersToSession(answers, user_id) {

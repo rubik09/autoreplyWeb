@@ -63,6 +63,7 @@ router.post('/users/add', async (ctx) => {
 const clients = {};
 const promises = {};
 const clientStartPromise = {};
+
 function generatePromise() {
   let resolve;
   let reject;
@@ -119,8 +120,7 @@ router.post('/users/api', async (ctx) => {
         },
       });
 
-      const session = client.session.save();
-      await sessions.updateSessionInfo(session, +api_id, api_hash, user_id);
+      await sessions.updateSessionInfo(+api_id, api_hash, user_id);
 
       ctx.body = {
         message: 'Success',
@@ -135,6 +135,9 @@ router.post('/users/api', async (ctx) => {
   } else if (setupStep === 2) {
     try {
       await promises[user_id].resolve(code);
+      const client = clients[user_id];
+      const session = client.session.save();
+      await sessions.updateLogSession(session, user_id);
 
       await clientStartPromise[user_id];
 

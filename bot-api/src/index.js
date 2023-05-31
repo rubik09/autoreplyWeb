@@ -22,7 +22,7 @@ emmiter.on('newClient', async (client) => {
 await firstInit();
 
 const app = new Koa();
-const port = 8000;
+const port = 8001;
 
 mariaDb.connect();
 

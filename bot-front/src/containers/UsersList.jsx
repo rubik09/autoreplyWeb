@@ -20,7 +20,7 @@ const UsersList = () => {
                 {users?.map(user => (
                     <UserCard
                         key={user.id}
-                        id={user.id}
+                        id  ={user.id}
                         username={user.username}
                         phone={user.phone_number}
                         status={user.status}
