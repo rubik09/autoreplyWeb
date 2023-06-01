@@ -5,8 +5,8 @@ USE autoReply;
 CREATE TABLE IF NOT EXISTS `admins`
 (
     `id`            int(11) NOT NULL AUTO_INCREMENT,
-    `email`       varchar(255) NOT NULL UNIQUE,
-    `password` varchar(255) NOT NULL,
+    `email`         varchar(255) NOT NULL UNIQUE,
+    `password`      varchar(255) NOT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 91639
@@ -17,13 +17,14 @@ CREATE TABLE IF NOT EXISTS `sessions`
 (
     `id`             int(11) NOT NULL AUTO_INCREMENT,
     `log_session`    longtext     DEFAULT '',
+    `geo`            varchar(255) DEFAULT '',
+    `answers`        longtext     DEFAULT '',
+    `status`         tinyint(1)   DEFAULT 0,
     `api_id`         varchar(255) DEFAULT '' UNIQUE,
     `api_hash`       varchar(255) DEFAULT '' UNIQUE,
-    `answers`        longtext     DEFAULT '',
     `user_id`        varchar(255) DEFAULT '' UNIQUE,
     `username`       varchar(255) DEFAULT '' UNIQUE,
     `phone_number`   varchar(255) DEFAULT '' UNIQUE,
-    `status`         tinyint(1) DEFAULT 0,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 76544

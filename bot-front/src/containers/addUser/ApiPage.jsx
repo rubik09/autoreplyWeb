@@ -49,8 +49,11 @@ const ApiPage = () => {
                     justifyContent: 'center'
                 }} onSubmit={(e) => submitFormHandler(e)}>
                     <Typography>
-                        Please go to <a href='https://my.telegram.org/apps' style={{fontSize: '20px'}}>site</a> and
-                        register there and copy apiId and apiHash
+                        <ul>
+                            <li>Перейдите на  <a href='https://my.telegram.org/apps' style={{fontSize: '20px'}}>сайт</a></li>
+                            <li>Зарегистрируйтесь</li>
+                            <li>скопируйте apiId и apiHash</li>
+                        </ul>
                     </Typography>
                     <TextField
                         margin="normal"
@@ -79,7 +82,7 @@ const ApiPage = () => {
                         variant="contained"
                         sx={{mt: 3, mb: 2}}
                     >
-                        Send
+                        Далее
                     </Button>
                 </Box>
             </Box>

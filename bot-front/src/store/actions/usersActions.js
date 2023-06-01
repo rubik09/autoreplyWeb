@@ -91,7 +91,7 @@ export const sendUserInfo = (data) => {
         try {
             dispatch(sendInfoRequest());
 
-            console.log(await axiosApi.post('/users/add', data))
+            await axiosApi.post('/users/add', data)
 
             dispatch(sendInfoSuccess());
         } catch (e) {
@@ -104,8 +104,20 @@ export const fetchUsers = () => {
     return async (dispatch) => {
         try {
             const {data} = await axiosApi.get('/users');
-            console.log(data)
             dispatch(fetchUsersSuccess(data.users));
+        } catch (e) {
+            // toast.error("album cannot be fetch!");
+            console.log(e);
+        }
+    }
+};
+
+export const changeStatus = (data) => {
+    return async () => {
+        try {
+            await axiosApi.post('/users/status', {user_id: data});
+
+            // dispatch(fetchUsersSuccess());
         } catch (e) {
             // toast.error("album cannot be fetch!");
             console.log(e);

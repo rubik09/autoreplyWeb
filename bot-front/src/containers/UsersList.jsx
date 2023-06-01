@@ -2,41 +2,42 @@ import {Button, Container} from "@mui/material";
 import Header from "../components/UI/Header.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
-import {fetchUsers} from "../store/actions/usersActions.js";
+import {changeStatus, fetchUsers} from "../store/actions/usersActions.js";
 import {DataGrid} from '@mui/x-data-grid';
 
 const UsersList = () => {
     const dispatch = useDispatch(), users = useSelector(state => state.users.usersList);
 
-    console.log(users)
     useEffect(() => {
         dispatch(fetchUsers());
     }, [dispatch]);
 
     const columns = [
-        {field: 'user_id', headerName: 'User id', width: 150},
-        {field: 'username', headerName: 'User name', width: 200},
-        {field: 'phone_number', headerName: 'Phone number', width: 200},
-        {field: 'region', headerName: 'Region', width: 150},
-        {field: 'status', headerName: 'Status', type: 'boolean', width: 150 },
+        {field: 'user_id', headerName: 'User Id', width: 150},
+        {field: 'username', headerName: 'Username', width: 200},
+        {field: 'phone_number', headerName: 'Номер телефона', width: 200},
+        {field: 'region', headerName: 'Гео', width: 150},
+        {field: 'status', headerName: 'Статус', type: 'boolean', width: 150},
         {
-            field: '1',
+            field: 'Start/Stop button',
             headerName: '',
             width: 150,
             sortable: false,
             filterable: false,
             renderCell: (params) => (
-                <Button variant='outlined' sx={{ cursor: 'pointer', width: '100px' }}>{params.row.status ? 'Stop' : 'start'}</Button>
+                <Button variant='outlined' sx={{cursor: 'pointer', width: '100px'}} onClick={() => {
+                    dispatch(changeStatus(params.row.user_id))
+                }}>{params.row.status ? 'Стоп' : 'Старт'}</Button>
             )
         },
         {
-            field: '2',
+            field: 'edit button',
             headerName: '',
             width: 150,
             sortable: false,
             filterable: false,
             renderCell: (params) => (
-                <Button variant='outlined' sx={{ cursor: 'pointer', width: '100px' }}>Edit</Button>
+                <Button variant='outlined' sx={{cursor: 'pointer', width: '100px'}}>Изменить</Button>
             )
         },
     ];

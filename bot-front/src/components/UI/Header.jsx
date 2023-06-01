@@ -23,11 +23,11 @@ const Header = () => {
                 <Typography component="p">{user.email}</Typography>
                 {path !== '/add' && path !== '/api' && path !== '/code' && path !== '/answer' ? <Button variant='outlined' sx={{cursor: 'pointer'}} onClick={() => {
                     push('/add')
-                }}>Add user</Button> : null}
+                }}>Добавить Личку</Button> : null}
                 <Button variant='outlined' sx={{cursor: 'pointer'}} onClick={() => {
                     dispatch(logoutUser());
                     dispatch(historyPush('/'))
-                }}>logout</Button>
+                }}>Выйти</Button>
             </Box> : null}
 
         </Box>

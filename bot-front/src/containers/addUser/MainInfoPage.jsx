@@ -18,6 +18,7 @@ const MainInfoPage = () => {
         phone: "",
         user_id: "",
         username: "",
+        geo: "",
     });
 
     const inputUserChangeHandler = e => {
@@ -49,6 +50,7 @@ const MainInfoPage = () => {
                             inputStyle={{width: '332px'}}
                             inputProps={{
                                 name: 'phone',
+                                label: 'Номер телефона',
                                 required: true,
                                 autoFocus: true,
                             }}
@@ -76,14 +78,25 @@ const MainInfoPage = () => {
                             value={user.username}
                             onChange={inputUserChangeHandler}
                         />
+                        <TextField
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="geo"
+                            label="Гео"
+                            type="text"
+                            id="geo"
+                            value={user.geo}
+                            onChange={inputUserChangeHandler}
+                        />
                         <Button
                             type="submit"
-                            disabled={!(user.phone.length >= 10 && user.username.length >= 3 && user.user_id.length >= 6)}
+                            disabled={!(user.phone.length >= 10 && user.username.length >= 3 && user.user_id.length >= 6 && user.geo.length >= 3)}
                             fullWidth
                             variant="contained"
                             sx={{mt: 3, mb: 2}}
                         >
-                            Next step
+                            Далее
                         </Button>
                     </Box>
                 </Box>

@@ -44,9 +44,29 @@ router.post('/users/sessions', async (ctx) => {
 
 // добавление новой лички
 router.post('/users/add', async (ctx) => {
-  const { phone, user_id, username } = ctx.request.body;
+  const {
+    phone, user_id, username, geo,
+  } = ctx.request.body;
   try {
-    await sessions.saveMainInfo(phone, user_id, username);
+    await sessions.saveMainInfo(phone, user_id, username, geo);
+
+    ctx.body = {
+      message: 'Success',
+    };
+  } catch (e) {
+    console.log(e);
+    ctx.status = 500;
+    ctx.body = {
+      message: 'Internal server error',
+    };
+  }
+});
+
+// изменение статуса
+router.post('/users/status', async (ctx) => {
+  const { user_id } = ctx.request.body;
+  try {
+    await sessions.changeStatus(user_id);
 
     ctx.body = {
       message: 'Success',

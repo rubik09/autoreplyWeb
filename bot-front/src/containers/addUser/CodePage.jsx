@@ -48,14 +48,14 @@ const CodePage = () => {
                     justifyContent: 'center'
                 }} onSubmit={(e) => submitFormHandler(e)}>
                     <Typography>
-                        Input code from Telegram
+                        Введите код пришедший в телеграм.
                     </Typography>
                     <TextField
                         margin="normal"
                         required
                         fullWidth
                         name="code"
-                        label="Code"
+                        label="Код"
                         type="text"
                         id="code"
                         onChange={inputApiChangeHandler}
@@ -67,7 +67,7 @@ const CodePage = () => {
                         variant="contained"
                         sx={{mt: 3, mb: 2}}
                     >
-                        Send
+                        Далее
                     </Button>
                 </Box>
             </Box>

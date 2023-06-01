@@ -55,13 +55,13 @@ const AnswerPage = () => {
                     justifyContent: 'center'
                 }} onSubmit={(e) => submitFormHandler(e)}>
                     <Typography>
-                        Insert JSON file
+                        Вставьте JSON файл
                     </Typography>
                     <TextField
                         margin="normal"
                         required
                         fullWidth
-                        name="answer"
+                        name="Json file"
                         type="file"
                         id="answer"
                         onChange={fileChangeHandler}
@@ -73,7 +73,7 @@ const AnswerPage = () => {
                         variant="contained"
                         sx={{mt: 3, mb: 2}}
                     >
-                        Send
+                        Запустить
                     </Button>
                 </Box>
             </Box>

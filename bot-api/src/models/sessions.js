@@ -21,8 +21,10 @@ class Session {
     return this.sql.query('INSERT INTO sessions SET ?;', { log_session, user_id });
   }
 
-  async saveMainInfo(phone_number, user_id, username) {
-    return this.sql.query('INSERT INTO sessions SET ?;', { phone_number, user_id, username });
+  async saveMainInfo(phone_number, user_id, username, region) {
+    return this.sql.query('INSERT INTO sessions SET ?;', {
+      phone_number, user_id, username, region,
+    });
   }
 
   async updateApiId(api_id, user_id) {
@@ -59,6 +61,12 @@ class Session {
 
   async updateAnswersToSession(answers, user_id) {
     return this.sql.query('UPDATE sessions SET ? WHERE ?', [{ answers }, { user_id }]);
+  }
+
+  async changeStatus(user_id) {
+    const status = await this.sql.query('SELECT status FROM sessions WHERE ?', [{ user_id }]);
+    console.log(user_id, status[0].status);
+    return this.sql.query('UPDATE sessions SET ? WHERE ?', [{ status: !status[0].status }, { user_id }]);
   }
 
   async getAnswersFromSession(api_id) {
