@@ -66,10 +66,11 @@ router.post('/users/add', async (ctx) => {
 router.post('/users/status', async (ctx) => {
   const { user_id } = ctx.request.body;
   try {
-    await sessions.changeStatus(user_id);
+    const bool = await sessions.changeStatus(user_id);
 
     ctx.body = {
       message: 'Success',
+      bool,
     };
   } catch (e) {
     console.log(e);
@@ -213,12 +214,40 @@ router.get('/users', async (ctx) => {
 // get user by id
 router.get('/users/:id', async (ctx) => {
   try {
-    const user_id = ctx.request.query.id;
+    const user_id = ctx.params.id;
     const user = await sessions.getSession(user_id);
 
     ctx.body = {
       message: 'Success',
       user: user[0],
+    };
+  } catch (e) {
+    console.log(e);
+    ctx.status = 500;
+    ctx.body = {
+      message: 'Internal server error',
+    };
+  }
+});
+
+// удаление лички
+router.delete('/users/:id', async (ctx) => {
+  try {
+    const user_id = ctx.params.id;
+    const user = await sessions.getSession(user_id);
+
+    if (!user) {
+      ctx.status = 404;
+      ctx.body = {
+        message: 'user not exist',
+      };
+      return;
+    }
+
+    await sessions.deleteUser(user_id);
+
+    ctx.body = {
+      message: 'Success',
     };
   } catch (e) {
     console.log(e);

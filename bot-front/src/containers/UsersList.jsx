@@ -2,7 +2,7 @@ import {Button, Container} from "@mui/material";
 import Header from "../components/UI/Header.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
-import {changeStatus, fetchUsers} from "../store/actions/usersActions.js";
+import {changeStatus, deleteUser, fetchUsers} from "../store/actions/usersActions.js";
 import {DataGrid} from '@mui/x-data-grid';
 
 const UsersList = () => {
@@ -40,12 +40,23 @@ const UsersList = () => {
                 <Button variant='outlined' sx={{cursor: 'pointer', width: '100px'}}>Изменить</Button>
             )
         },
+        {
+            field: 'delete button',
+            headerName: '',
+            width: 150,
+            sortable: false,
+            filterable: false,
+            renderCell: (params) => (
+                <Button variant='contained' color='error' onClick={() => dispatch(deleteUser(params.row.user_id))}
+                        sx={{cursor: 'pointer', width: '100px'}}>Удалить</Button>
+            )
+        },
     ];
 
     return (
         <Container component="div" maxWidth="xl">
             <Header/>
-            <div style={{height: 400, width: '100%'}}>
+            <div style={{height: 800, width: '100%'}}>
                 <DataGrid
                     rows={users?.length ? users : []}
                     columns={columns}

@@ -20,6 +20,7 @@ async function firstInit() {
     });
 
     await client.connect();
+    await client.checkAuthorization();
     client.floodSleepThreshold = 300;
 
     emmiter.emit('newClient', client);

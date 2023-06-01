@@ -63,10 +63,14 @@ class Session {
     return this.sql.query('UPDATE sessions SET ? WHERE ?', [{ answers }, { user_id }]);
   }
 
+  async getStatus(api_id) {
+    return this.sql.query('SELECT status FROM sessions WHERE ?', [{ api_id }]);
+  }
+
   async changeStatus(user_id) {
     const status = await this.sql.query('SELECT status FROM sessions WHERE ?', [{ user_id }]);
-    console.log(user_id, status[0].status);
-    return this.sql.query('UPDATE sessions SET ? WHERE ?', [{ status: !status[0].status }, { user_id }]);
+    await this.sql.query('UPDATE sessions SET ? WHERE ?', [{ status: !status[0].status }, { user_id }]);
+    return !status[0].status;
   }
 
   async getAnswersFromSession(api_id) {
@@ -75,6 +79,10 @@ class Session {
 
   async getMainInfo(user_id) {
     return this.sql.query('SELECT api_id, api_hash, log_session FROM sessions WHERE ?', [{ user_id }]);
+  }
+
+  async deleteUser(user_id) {
+    return this.sql.query('DELETE FROM sessions WHERE ?;', [{ user_id }]);
   }
 
   async getPhoneById(user_id) {

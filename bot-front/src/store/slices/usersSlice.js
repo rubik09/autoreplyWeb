@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createSlice} from '@reduxjs/toolkit';
 
 const name = 'users';
 
@@ -94,6 +94,18 @@ const usersSlice = createSlice({
             state.sendInfoLoading = false;
             state.sendInfoError = action.payload;
         },
+        editStatusSuccess: (state, action) => {
+            const newArray = [...state.usersList];
+            const index = newArray.findIndex(user => user.user_id === action.payload.user_id);
+            newArray[index].status = action.payload.bool;
+
+            state.usersList = newArray;
+        },
+        deleteUserSuccess(state, action) {
+            state.usersList = [
+                ...state.usersList.filter((p) => p.user_id !== action.payload.user_id),
+            ];
+        },
     },
 });
 
@@ -115,6 +127,8 @@ export const {
     sendInfoSuccess,
     sendInfoFailure,
     fetchUsersSuccess,
+    editStatusSuccess,
+    deleteUserSuccess,
 } = usersSlice.actions;
 
 export default usersSlice;

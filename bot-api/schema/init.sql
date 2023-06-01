@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS `sessions`
 (
     `id`             int(11) NOT NULL AUTO_INCREMENT,
     `log_session`    longtext     DEFAULT '',
-    `geo`            varchar(255) DEFAULT '',
     `answers`        longtext     DEFAULT '',
+    `region`         varchar(255) DEFAULT '',
     `status`         tinyint(1)   DEFAULT 0,
     `api_id`         varchar(255) DEFAULT '' UNIQUE,
     `api_hash`       varchar(255) DEFAULT '' UNIQUE,

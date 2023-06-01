@@ -15,7 +15,7 @@ import {
     sendInfoRequest,
     sendInfoSuccess,
     sendInfoFailure,
-    fetchUsersSuccess,
+    fetchUsersSuccess, editStatusSuccess, deleteUserSuccess,
 } from '../slices/usersSlice';
 
 export const registerUser = (userData) => {
@@ -112,12 +112,25 @@ export const fetchUsers = () => {
     }
 };
 
-export const changeStatus = (data) => {
-    return async () => {
+export const changeStatus = (user_id) => {
+    return async (dispatch) => {
         try {
-            await axiosApi.post('/users/status', {user_id: data});
+            const {data} = await axiosApi.post('/users/status', {user_id});
 
-            // dispatch(fetchUsersSuccess());
+            dispatch(editStatusSuccess({user_id, bool: data.bool }));
+        } catch (e) {
+            // toast.error("album cannot be fetch!");
+            console.log(e);
+        }
+    }
+};
+
+export const deleteUser = (user_id) => {
+    return async (dispatch) => {
+        try {
+            await axiosApi.delete(`/users/${user_id}`);
+
+            dispatch(deleteUserSuccess({user_id}));
         } catch (e) {
             // toast.error("album cannot be fetch!");
             console.log(e);

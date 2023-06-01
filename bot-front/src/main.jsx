@@ -16,7 +16,7 @@ const app = (
         <BrowserRouter basename='/'>
             <App/>
         </BrowserRouter>
-        </ThemeProvider>;
+        </ThemeProvider>
     </Provider>
 );
 

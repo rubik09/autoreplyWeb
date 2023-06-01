@@ -42,7 +42,7 @@ const ApiPage = () => {
             <Box sx={{display: 'flex', justifyContent: 'center'}}>
                 <Box component="form" noValidate sx={{
                     mt: 1,
-                    maxWidth: 500,
+                    width: 400  ,
                     display: "flex",
                     flexDirection: 'column',
                     alignItems: 'center',

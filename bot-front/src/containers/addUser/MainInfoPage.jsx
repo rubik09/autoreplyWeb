@@ -91,7 +91,7 @@ const MainInfoPage = () => {
                         />
                         <Button
                             type="submit"
-                            disabled={!(user.phone.length >= 10 && user.username.length >= 3 && user.user_id.length >= 6 && user.geo.length >= 3)}
+                            disabled={!(user.phone.length >= 10 && user.username.length >= 3 && user.user_id.length >= 6 && user.geo.length >= 2)}
                             fullWidth
                             variant="contained"
                             sx={{mt: 3, mb: 2}}
