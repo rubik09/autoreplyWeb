@@ -5,17 +5,14 @@ import {
     loginSuccess,
     logoutRequest,
     logoutSuccess,
-    logoutFailure,
     registerRequest,
     registerSuccess,
     registerFailure,
     sendApiRequest,
     sendApiSuccess,
-    sendApiFailure,
     sendInfoRequest,
     sendInfoSuccess,
-    sendInfoFailure,
-    fetchUsersSuccess, editStatusSuccess, deleteUserSuccess,
+    fetchUsersSuccess, editStatusSuccess, deleteUserSuccess, fetchUserSuccess,
 } from '../slices/usersSlice';
 
 export const registerUser = (userData) => {
@@ -31,8 +28,7 @@ export const registerUser = (userData) => {
                 dispatch(registerFailure(e.response.data));
                 throw e;
             } else {
-                dispatch(registerFailure({global: 'error'}));
-                throw e;
+                // toast.error(e);
             }
         }
     };
@@ -51,8 +47,7 @@ export const loginUser = (userData) => {
                 dispatch(loginFailure(e.response.data));
                 throw e;
             } else {
-                dispatch(loginFailure({global: 'error'}));
-                throw e;
+                // toast.error(e);
             }
         }
     };
@@ -67,7 +62,7 @@ export const logoutUser = () => {
 
             dispatch(logoutSuccess());
         } catch (e) {
-            dispatch(logoutFailure(e));
+            // toast.error(e);
         }
     };
 };
@@ -81,7 +76,21 @@ export const sendApiInfo = (data) => {
 
             dispatch(sendApiSuccess());
         } catch (e) {
-            dispatch(sendApiFailure(e));
+            // toast.error(e);
+        }
+    };
+};
+
+export const updateClient = (data) => {
+    return async (dispatch) => {
+        try {
+            dispatch(sendApiRequest());
+
+            console.log(await axiosApi.patch('/user', data))
+
+            dispatch(sendApiSuccess());
+        } catch (e) {
+            // toast.error(e);
         }
     };
 };
@@ -95,7 +104,7 @@ export const sendUserInfo = (data) => {
 
             dispatch(sendInfoSuccess());
         } catch (e) {
-            dispatch(sendInfoFailure(e));
+            // toast.error(e);
         }
     };
 };
@@ -104,10 +113,22 @@ export const fetchUsers = () => {
     return async (dispatch) => {
         try {
             const {data} = await axiosApi.get('/users');
+
             dispatch(fetchUsersSuccess(data.users));
         } catch (e) {
-            // toast.error("album cannot be fetch!");
-            console.log(e);
+            // toast.error(e);
+        }
+    }
+};
+
+export const fetchUserById = (user_id) => {
+    return async (dispatch) => {
+        try {
+            const {data} = await axiosApi.get(`/user/${user_id}`);
+
+            dispatch(fetchUserSuccess(data.user));
+        } catch (e) {
+            // toast.error(e);
         }
     }
 };
@@ -119,8 +140,7 @@ export const changeStatus = (user_id) => {
 
             dispatch(editStatusSuccess({user_id, bool: data.bool }));
         } catch (e) {
-            // toast.error("album cannot be fetch!");
-            console.log(e);
+            // toast.error(e);
         }
     }
 };
@@ -132,8 +152,7 @@ export const deleteUser = (user_id) => {
 
             dispatch(deleteUserSuccess({user_id}));
         } catch (e) {
-            // toast.error("album cannot be fetch!");
-            console.log(e);
+            // toast.error(e);
         }
     }
 };

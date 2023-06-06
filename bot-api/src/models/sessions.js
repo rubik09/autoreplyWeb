@@ -9,7 +9,7 @@ class Session {
     return this.sql.query('UPDATE sessions SET ? WHERE ?', [{ status }, { user_id }]);
   }
 
-  async getStatus(user_id) {
+  async getStatusByUserId(user_id) {
     return this.sql.query('SELECT status FROM sessions WHERE ?', { user_id });
   }
 
@@ -68,7 +68,7 @@ class Session {
   }
 
   async changeStatus(user_id) {
-    const status = await this.sql.query('SELECT status FROM sessions WHERE ?', [{ user_id }]);
+    const status = await this.getStatusByUserId(user_id);
     await this.sql.query('UPDATE sessions SET ? WHERE ?', [{ status: !status[0].status }, { user_id }]);
     return !status[0].status;
   }
@@ -91,6 +91,14 @@ class Session {
 
   async getClient(phone_number) {
     return this.sql.query('SELECT * FROM sessions WHERE ?', [{ phone_number }]);
+  }
+
+  async getClientByUserId(user_id) {
+    return this.sql.query('SELECT * FROM sessions WHERE ?', [{ user_id }]);
+  }
+
+  async updateClientByUserId(answers, region, username, user_id) {
+    return this.sql.query('UPDATE sessions SET ? WHERE ?', [{ answers, region, username }, { user_id }]);
   }
 }
 

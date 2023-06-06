@@ -10,7 +10,7 @@ const CodePage = () => {
     const apiSuccess = useSelector(state => state.users.apiSuccess)
     const dispatch = useDispatch();
     const push = useNavigate();
-    const { id } = useParams()
+    const {id} = useParams()
 
     const [api, setApi] = useState({
         code: '',

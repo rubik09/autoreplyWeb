@@ -5,7 +5,7 @@ const name = 'users';
 export const initialState = {
     user: null,
     usersList: [],
-    profile: null,
+    editableUser: null,
     loginLoading: false,
     loginError: null,
     forgotLoading: false,
@@ -53,6 +53,9 @@ const usersSlice = createSlice({
         },
         fetchUsersSuccess(state, action) {
             state.usersList = action.payload;
+        },
+        fetchUserSuccess(state, action) {
+            state.editableUser = action.payload;
         },
         loginFailure(state, action) {
             state.loginLoading = false;
@@ -129,6 +132,7 @@ export const {
     fetchUsersSuccess,
     editStatusSuccess,
     deleteUserSuccess,
+    fetchUserSuccess,
 } = usersSlice.actions;
 
 export default usersSlice;

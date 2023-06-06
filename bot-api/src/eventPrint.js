@@ -11,7 +11,7 @@ async function incomingMessages(client, event) {
   if (className === 'UpdateShortMessage') {
     const messageEvent = event.message;
     const { userId, message } = event.originalUpdate;
-    const status = await sessions.getStatus(apiId);
+    const status = await sessions.getStatusByUserId(apiId);
     const chatId = await user.getUserId(apiId, userId);
     const sender = await messageEvent.getSender();
 

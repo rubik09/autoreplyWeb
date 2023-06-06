@@ -5,6 +5,7 @@ import {apiSuccessNull} from "../../store/slices/usersSlice.js";
 import {sendApiInfo} from "../../store/actions/usersActions.js";
 import {Box, Button, Container, TextField, Typography} from "@mui/material";
 import Header from "../../components/UI/Header.jsx";
+import ReactJson from "react-json-view";
 
 const AnswerPage = () => {
     const apiSuccess = useSelector(state => state.users.apiSuccess)
@@ -66,6 +67,33 @@ const AnswerPage = () => {
                         id="answer"
                         onChange={fileChangeHandler}
                     />
+                    <div style={{
+                        border: '1px solid grey',
+                        borderRadius: '4px',
+                        width: '445px',
+                    }}>
+                        <ReactJson
+                            style={{
+                                height: '600px',
+                                overflow: 'scroll',
+                                fontSize: '18px'
+                            }}
+                            src={api.answer ? JSON.parse(api.answer) : {}}
+                            collapsed={4} theme="rjv-default"
+                            onAdd={(edit) => setApi(prev => ({
+                                ...prev,
+                                answer: JSON.stringify(edit.updated_src)
+                            }))}
+                            onDelete={(edit) => setApi(prev => ({
+                                ...prev,
+                                answer: JSON.stringify(edit.updated_src)
+                            }))}
+                            onEdit={(edit) => setApi(prev => ({
+                                ...prev,
+                                answer: JSON.stringify(edit.updated_src)
+                            }))}
+                        />
+                    </div>
                     <Button
                         type="submit"
                         fullWidth

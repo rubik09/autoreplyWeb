@@ -193,6 +193,30 @@ router.post('/users/api', async (ctx) => {
   }
 });
 
+// update user
+router.patch('/user', async (ctx) => {
+  try {
+    const {
+      answers, region, username, user_id,
+    } = ctx.request.body;
+
+    await sessions.updateClientByUserId(answers, region, username, user_id);
+
+    const user = await sessions.getClientByUserId(user_id);
+
+    ctx.body = {
+      message: 'Success',
+      user,
+    };
+  } catch (e) {
+    console.log(e);
+    ctx.status = 500;
+    ctx.body = {
+      message: 'Internal server error',
+    };
+  }
+});
+
 // get all users
 router.get('/users', async (ctx) => {
   try {
@@ -212,10 +236,18 @@ router.get('/users', async (ctx) => {
 });
 
 // get user by id
-router.get('/users/:id', async (ctx) => {
+router.get('/user/:id', async (ctx) => {
   try {
     const user_id = ctx.params.id;
-    const user = await sessions.getSession(user_id);
+    const user = await sessions.getClientByUserId(user_id);
+
+    if (!user) {
+      ctx.status = 404;
+      ctx.body = {
+        message: 'user not exist',
+      };
+      return;
+    }
 
     ctx.body = {
       message: 'Success',

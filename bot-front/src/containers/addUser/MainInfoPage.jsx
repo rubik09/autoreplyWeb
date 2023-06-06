@@ -1,4 +1,5 @@
 import {
+    Autocomplete,
     Box,
     Button,
     Container,
@@ -10,6 +11,7 @@ import {useDispatch} from "react-redux";
 import Header from "../../components/UI/Header.jsx";
 import {sendUserInfo} from "../../store/actions/usersActions.js";
 import {useNavigate} from "react-router-dom";
+import {countries} from "../../config.js";
 
 const MainInfoPage = () => {
     const dispatch = useDispatch();
@@ -66,6 +68,7 @@ const MainInfoPage = () => {
                             id="user_id"
                             value={user.user_id}
                             onChange={inputUserChangeHandler}
+                            sx={{marginBottom: '0px'}}
                         />
                         <TextField
                             margin="normal"
@@ -78,16 +81,35 @@ const MainInfoPage = () => {
                             value={user.username}
                             onChange={inputUserChangeHandler}
                         />
-                        <TextField
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="geo"
-                            label="Гео"
-                            type="text"
-                            id="geo"
-                            value={user.geo}
-                            onChange={inputUserChangeHandler}
+                        <Autocomplete
+                            id="country-select-demo"
+                            sx={{width: 332}}
+                            options={countries}
+                            onChange={(e) => setUser(prev => ({...prev, geo: e.target.textContent}))}
+                            autoHighlight
+                            getOptionLabel={(option) => option.label}
+                            renderOption={(props, option) => (
+                                <Box component="li" sx={{'& > img': {mr: 2, flexShrink: 0}}} {...props}>
+                                    <img
+                                        width="20"
+                                        src={`https://flagcdn.com/w20/${option.code.toLowerCase()}.png`}
+                                        srcSet={`https://flagcdn.com/w40/${option.code.toLowerCase()}.png 2x`}
+                                        alt=""
+                                    />
+                                    {option.label} ({option.code}) +{option.phone}
+                                </Box>
+                            )}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    label="Choose a country"
+                                    name="region"
+                                    inputProps={{
+                                        ...params.inputProps,
+                                        autoComplete: 'new-password', // disable autocomplete and autofill
+                                    }}
+                                />
+                            )}
                         />
                         <Button
                             type="submit"

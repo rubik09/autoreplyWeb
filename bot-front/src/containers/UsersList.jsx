@@ -4,9 +4,11 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {changeStatus, deleteUser, fetchUsers} from "../store/actions/usersActions.js";
 import {DataGrid} from '@mui/x-data-grid';
+import {useNavigate} from "react-router-dom";
 
 const UsersList = () => {
     const dispatch = useDispatch(), users = useSelector(state => state.users.usersList);
+    const push = useNavigate();
 
     useEffect(() => {
         dispatch(fetchUsers());
@@ -16,7 +18,7 @@ const UsersList = () => {
         {field: 'user_id', headerName: 'User Id', width: 150},
         {field: 'username', headerName: 'Username', width: 200},
         {field: 'phone_number', headerName: 'Номер телефона', width: 200},
-        {field: 'region', headerName: 'Гео', width: 150},
+        {field: 'region', headerName: 'Гео', width: 200},
         {field: 'status', headerName: 'Статус', type: 'boolean', width: 150},
         {
             field: 'Start/Stop button',
@@ -37,7 +39,8 @@ const UsersList = () => {
             sortable: false,
             filterable: false,
             renderCell: (params) => (
-                <Button variant='outlined' sx={{cursor: 'pointer', width: '100px'}}>Изменить</Button>
+                <Button variant='outlined' onClick={() => push(`/edit/${params.row.user_id}`)}
+                        sx={{cursor: 'pointer', width: '100px'}}>Изменить</Button>
             )
         },
         {
