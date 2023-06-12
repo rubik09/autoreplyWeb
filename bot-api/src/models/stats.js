@@ -5,12 +5,21 @@ class Stats {
     this.sql = pool;
   }
 
-  async addStats(usersCount, registrationCount, firstDepositCount, apiId) {
+  async addStats(
+    users_count,
+    reg_count,
+    first_dep_count,
+    api_id_client,
+    incoming_messages_count,
+    average_incoming_messages,
+  ) {
     return this.sql.query('INSERT INTO stats SET ?', {
-      users_count: usersCount,
-      reg_count: registrationCount,
-      first_dep_count: firstDepositCount,
-      api_id_client: apiId,
+      users_count,
+      reg_count,
+      first_dep_count,
+      api_id_client,
+      incoming_messages_count,
+      average_incoming_messages,
     });
   }
 
@@ -30,8 +39,29 @@ class Stats {
     return this.sql.query('SELECT first_dep_count FROM stats WHERE ?', { api_id_client: apiId });
   }
 
-  async updateClientStats(users_count, reg_count, first_dep_count, api_id_client) {
-    return this.sql.query('UPDATE stats SET ? WHERE ?', [{ users_count, reg_count, first_dep_count }, { api_id_client }]);
+  async getIncomingMessagesStats(apiId) {
+    return this.sql.query('SELECT incoming_messages_count FROM stats WHERE ?', { api_id_client: apiId });
+  }
+
+  async getAverageMessagesStats(apiId) {
+    return this.sql.query('SELECT average_incoming_messages FROM stats WHERE ?', { api_id_client: apiId });
+  }
+
+  async updateClientStats(
+    users_count,
+    reg_count,
+    first_dep_count,
+    api_id_client,
+    incoming_messages_count,
+    average_incoming_messages,
+  ) {
+    return this.sql.query('UPDATE stats SET ? WHERE ?', [{
+      users_count,
+      reg_count,
+      first_dep_count,
+      incoming_messages_count,
+      average_incoming_messages,
+    }, { api_id_client }]);
   }
 }
 export default new Stats();

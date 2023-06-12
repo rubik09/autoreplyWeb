@@ -6,7 +6,7 @@ async function sendMessages(chatId, client, messages) {
   for (const item of messages) {
     await client.sendMessage(
       chatId,
-      { message: item.message, schedule: +item.schedule + (Date.now() / 1000) },
+      { message: item.message, schedule: +item.schedule + (Date.now() / 1000), linkPreview: false },
     );
   }
 

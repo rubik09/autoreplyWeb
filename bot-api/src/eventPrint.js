@@ -11,7 +11,7 @@ async function incomingMessages(client, event) {
   if (className === 'UpdateShortMessage') {
     const messageEvent = event.message;
     const { userId, message } = event.originalUpdate;
-    const status = await sessions.getStatusByUserId(apiId);
+    const status = await sessions.getStatus(apiId);
     const chatId = await user.getUserId(apiId, userId);
     const sender = await messageEvent.getSender();
 
@@ -25,10 +25,14 @@ async function incomingMessages(client, event) {
         await client.markAsRead(sender, messageEvent);
         await sendMessages(sender, client, messages);
       }
-      await user.addUser(userId, apiId, answer[0].answers);
+      await user.addUser(userId, apiId, answer[0].answers, 1);
     } else {
       const autoAnswers = await user.getAnswers(apiId, userId);
       const parsedAutoAnswers = await JSON.parse(autoAnswers[0].answers);
+      const incomingMessagesCount = await user.getIncomingMessagesUserCount(apiId, userId);
+
+      await user.updateIncomingMessagesCount(Number(incomingMessagesCount[0].imcoming_messages_count) + 1, userId, apiId);
+
       if (parsedAutoAnswers.stages.length > 1) {
         const msgLowerCase = message.toLowerCase();
         for (const [i, stage] of parsedAutoAnswers.stages.entries()) {

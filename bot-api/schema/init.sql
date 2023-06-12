@@ -37,21 +37,24 @@ CREATE TABLE IF NOT EXISTS `users`
     `user_id`       varchar(255) DEFAULT '' UNIQUE,
     `api_id_client` varchar(255) DEFAULT '',
     `answers`       longtext     DEFAULT '',
+    `incoming_messages_count` varchar(255) DEFAULT '',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 91639
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
 
-CREATE TABLE IF NOT EXISTS `stats`
-(
-    `id`              int(11) NOT NULL AUTO_INCREMENT,
-    `users_count`     varchar(255) DEFAULT '',
-    `reg_count`       varchar(255) DEFAULT '',
+
+CREATE TABLE `stats` (
+    `id` int(11) NOT NULL AUTO_INCREMENT,
+    `users_count` varchar(255) DEFAULT '',
+    `reg_count` varchar(255) DEFAULT '',
     `first_dep_count` varchar(255) DEFAULT '',
-    `api_id_client`   varchar(255) DEFAULT '',
+    `api_id_client` varchar(255) DEFAULT '',
+    `incoming_messages_count` varchar(255) DEFAULT '',
+    `average_incoming_messages` varchar(255) DEFAULT '',
     PRIMARY KEY (`id`)
-) ENGINE = InnoDB
-  AUTO_INCREMENT = 81311
-  DEFAULT CHARSET = utf8mb4
-  COLLATE = utf8mb4_general_ci;
+) ENGINE=InnoDB
+  AUTO_INCREMENT=81339
+  DEFAULT CHARSET=utf8mb4
+  COLLATE=utf8mb4_general_ci;

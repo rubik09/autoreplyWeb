@@ -4,6 +4,7 @@ import parser from 'koa-bodyparser';
 import cors from '@koa/cors';
 import Koa from 'koa';
 import firstInit from './utils/firstInit';
+import clients from './app/clients';
 import users from './app/users';
 import mariaDb from './mariaDb';
 import emmiter from './utils/emitter';
@@ -28,8 +29,8 @@ mariaDb.connect();
 
 app.use(parser())
   .use(cors())
+  .use(clients.routes())
   .use(users.routes())
-  // .use(clients.routes())
   .listen(port, () => {
     console.log(`🚀 Server listening http://127.0.0.1:${port}/ `);
   });
