@@ -5,8 +5,12 @@ class Admins {
     this.sql = pool;
   }
 
-  async getClient(email) {
+  async getAdmin(email) {
     return this.sql.query('SELECT * FROM admins WHERE ?', [{ email }]);
+  }
+
+  async getAdminByToken(token) {
+    return this.sql.query('SELECT * FROM admins WHERE ?', [{ token }]);
   }
 
   async setMainInfo(hash, email) {

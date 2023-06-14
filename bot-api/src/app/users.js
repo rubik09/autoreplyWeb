@@ -8,7 +8,7 @@ const router = new Router();
 router.post('/users/sessions', async (ctx) => {
   const { email, password } = ctx.request.body;
   try {
-    const result = await Admins.getClient(email);
+    const result = await Admins.getAdmin(email);
     if (result.length === 0) {
       ctx.status = 401;
       ctx.body = {
