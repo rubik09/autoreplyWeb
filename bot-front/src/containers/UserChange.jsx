@@ -30,7 +30,7 @@ const UserChange = () => {
     const submitFormHandler = async e => {
         e.preventDefault();
         await dispatch(updateClient({...userState}));
-        push('/list')
+        push('/')
     };
 
     const fileChangeHandler = (e) => {

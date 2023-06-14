@@ -17,7 +17,7 @@ const Header = () => {
             padding: '10px'
         }}>
             <Typography component="h1" variant="h4" sx={{cursor: 'pointer'}} onClick={() => {
-                push('/list')
+                push('/')
             }}>Auto Reply CRM</Typography>
             {user ? <Box sx={{display: 'flex', alignItems: 'center', gap: '10px'}}>
                 <Typography component="p">{user.email}</Typography>

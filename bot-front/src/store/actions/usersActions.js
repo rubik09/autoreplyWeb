@@ -19,7 +19,7 @@ export const registerUser = (userData) => {
         try {
             dispatch(registerRequest());
 
-            const response = await axiosApi.post('/users', userData);
+            const response = await axiosApi.post('api/users', userData);
 
             toast.success('Вы успешно зарегистрировались!');
 
@@ -35,7 +35,7 @@ export const loginUser = (userData) => {
         try {
             dispatch(loginRequest());
 
-            const response = await axiosApi.post('/users/sessions', userData);
+            const response = await axiosApi.post('api/users/sessions', userData);
 
             toast.success('Вы успешно вошли!');
 
@@ -51,7 +51,7 @@ export const logoutUser = (id) => {
         try {
             dispatch(logoutRequest());
 
-            await axiosApi.delete(`/admin/sessions/${id}`);
+            await axiosApi.delete(`/api/admin/sessions/${id}`);
 
             toast.success('Вы успешно вышли!');
 
@@ -67,7 +67,7 @@ export const sendApiInfo = (data) => {
         try {
             dispatch(sendApiRequest());
 
-            console.log(await axiosApi.post('/users/api', data))
+            console.log(await axiosApi.post('api/users/api', data))
 
             dispatch(sendApiSuccess());
         } catch (e) {
@@ -81,7 +81,7 @@ export const updateClient = (data) => {
         try {
             dispatch(sendApiRequest());
 
-            console.log(await axiosApi.patch('/user', data))
+            console.log(await axiosApi.patch('api/user', data))
 
             toast.success('Личка успешно обновлена!');
 
@@ -97,7 +97,7 @@ export const sendUserInfo = (data) => {
         try {
             dispatch(sendInfoRequest());
 
-            await axiosApi.post('/users/add', data)
+            await axiosApi.post('api/users/add', data)
 
             toast.success('Успешно!');
 
@@ -111,7 +111,7 @@ export const sendUserInfo = (data) => {
 export const fetchUsers = () => {
     return async (dispatch) => {
         try {
-            const {data} = await axiosApi.get('/users');
+            const {data} = await axiosApi.get('api/users');
 
             dispatch(fetchUsersSuccess(data.users));
         } catch (e) {
@@ -123,7 +123,7 @@ export const fetchUsers = () => {
 export const fetchUserById = (user_id) => {
     return async (dispatch) => {
         try {
-            const {data} = await axiosApi.get(`/user/${user_id}`);
+            const {data} = await axiosApi.get(`api/user/${user_id}`);
 
             dispatch(fetchUserSuccess(data.user));
         } catch (e) {
@@ -135,7 +135,7 @@ export const fetchUserById = (user_id) => {
 export const changeStatus = (user_id) => {
     return async (dispatch) => {
         try {
-            const {data} = await axiosApi.post('/users/status', {user_id});
+            const {data} = await axiosApi.post('api/users/status', {user_id});
 
             toast.success(`Вы успешно сменили статус на "${data.bool ? 'запущен' : 'остановлен'}"!`);
 
@@ -149,7 +149,7 @@ export const changeStatus = (user_id) => {
 export const deleteUser = (user_id) => {
     return async (dispatch) => {
         try {
-            await axiosApi.delete(`/users/${user_id}`);
+            await axiosApi.delete(`api/users/${user_id}`);
 
             toast.success('Личка успешно удалена!');
 

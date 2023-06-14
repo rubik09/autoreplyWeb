@@ -1,6 +1,6 @@
 import { verify } from 'jsonwebtoken';
-import Admins from '../models/admins';
-import { SECRET_KEY } from '../config';
+import Admins from '../../models/admins.js';
+import { SECRET_KEY } from '../../config.js';
 
 const auth = async (ctx, next) => {
   const token = ctx.request.headers.authorization;

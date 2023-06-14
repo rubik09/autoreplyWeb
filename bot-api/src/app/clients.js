@@ -3,7 +3,7 @@ import { TelegramClient } from 'telegram';
 import Router from 'koa-router';
 import sessions from '../models/sessions';
 import emmiter from '../utils/emitter';
-import auth from '../middlewares/auth';
+import auth from './middleware/auth';
 import Admins from '../models/admins';
 
 const router = new Router();
@@ -261,6 +261,8 @@ router.delete('/users/:id', auth, async (ctx) => {
 router.delete('/admin/sessions/:id', async (ctx) => {
   try {
     const { id } = ctx.params;
+
+    console.log(id);
 
     const user = await Admins.getAdminById(id);
 

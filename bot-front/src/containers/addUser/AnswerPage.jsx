@@ -21,7 +21,7 @@ const AnswerPage = () => {
 
     useEffect(() => {
         if (apiSuccess) {
-            push('/list');
+            push('/');
             dispatch(apiSuccessNull());
         }
     }, [dispatch, apiSuccess]);
