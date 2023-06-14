@@ -22,7 +22,6 @@ const SignIn = () => {
     const submitFormHandler = async e => {
         e.preventDefault();
         await dispatch(loginUser({...user}));
-        push('/list');
     };
 
     const emailRegex = new RegExp('[^\\s@]+@[^\\s@]+\\.[^\\s@]+');
