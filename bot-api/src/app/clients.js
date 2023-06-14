@@ -3,11 +3,13 @@ import { TelegramClient } from 'telegram';
 import Router from 'koa-router';
 import sessions from '../models/sessions';
 import emmiter from '../utils/emitter';
+import auth from '../middlewares/auth';
+import Admins from '../models/admins';
 
 const router = new Router();
 
 // добавление новой лички
-router.post('/users/add', async (ctx) => {
+router.post('/users/add', auth, async (ctx) => {
   const {
     phone, user_id, username, geo,
   } = ctx.request.body;
@@ -27,7 +29,7 @@ router.post('/users/add', async (ctx) => {
 });
 
 // изменение статуса
-router.post('/users/status', async (ctx) => {
+router.post('/users/status', auth, async (ctx) => {
   const { user_id } = ctx.request.body;
   try {
     const bool = await sessions.changeStatus(user_id);
@@ -60,7 +62,7 @@ function generatePromise() {
 }
 
 // Подключение к тг
-router.post('/users/api', async (ctx) => {
+router.post('/users/api', auth, async (ctx) => {
   const {
     setupStep, answer, code, user_id,
   } = ctx.request.body;
@@ -158,7 +160,7 @@ router.post('/users/api', async (ctx) => {
 });
 
 // update user
-router.patch('/user', async (ctx) => {
+router.patch('/user', auth, async (ctx) => {
   try {
     const {
       answers, region, username, user_id,
@@ -182,10 +184,11 @@ router.patch('/user', async (ctx) => {
 });
 
 // get all users
-router.get('/users', async (ctx) => {
+router.get('/users', auth, async (ctx) => {
   try {
     const users = await sessions.getSessions();
 
+    ctx.status = 200;
     ctx.body = {
       message: 'Success',
       users,
@@ -200,7 +203,7 @@ router.get('/users', async (ctx) => {
 });
 
 // get user by id
-router.get('/user/:id', async (ctx) => {
+router.get('/user/:id', auth, async (ctx) => {
   try {
     const user_id = ctx.params.id;
     const user = await sessions.getClientByUserId(user_id);
@@ -227,7 +230,7 @@ router.get('/user/:id', async (ctx) => {
 });
 
 // удаление лички
-router.delete('/users/:id', async (ctx) => {
+router.delete('/users/:id', auth, async (ctx) => {
   try {
     const user_id = ctx.params.id;
     const user = await sessions.getSession(user_id);
@@ -255,13 +258,13 @@ router.delete('/users/:id', async (ctx) => {
 });
 
 // logout
-router.delete('/users/sessions', async (ctx) => {
+router.delete('/admin/sessions/:id', async (ctx) => {
   try {
-    const { phone } = ctx.request.body;
+    const { id } = ctx.params;
 
-    const user = await sessions.getClient(phone);
+    const user = await Admins.getAdminById(id);
 
-    if (!user) {
+    if (!user.length) {
       ctx.status = 404;
       ctx.body = {
         message: 'user not exist',

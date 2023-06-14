@@ -25,7 +25,7 @@ const Header = () => {
                     push('/add')
                 }}>Добавить Личку</Button> : null}
                 <Button variant='outlined' sx={{cursor: 'pointer'}} onClick={() => {
-                    dispatch(logoutUser());
+                    dispatch(logoutUser(user.id));
                     dispatch(historyPush('/'))
                 }}>Выйти</Button>
             </Box> : null}

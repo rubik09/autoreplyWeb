@@ -9,8 +9,8 @@ class Admins {
     return this.sql.query('SELECT * FROM admins WHERE ?', [{ email }]);
   }
 
-  async getAdminByToken(token) {
-    return this.sql.query('SELECT * FROM admins WHERE ?', [{ token }]);
+  async getAdminById(id) {
+    return this.sql.query('SELECT * FROM admins WHERE ?', [{ id }]);
   }
 
   async setMainInfo(hash, email) {

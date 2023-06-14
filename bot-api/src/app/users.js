@@ -1,6 +1,8 @@
 import Router from 'koa-router';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 import Admins from '../models/admins';
+import { SECRET_KEY } from '../config';
 
 const router = new Router();
 
@@ -16,7 +18,7 @@ router.post('/users/sessions', async (ctx) => {
       };
       return;
     }
-    const user = result[0];
+    let user = result[0];
     const isValidPassword = await bcrypt.compare(password, user.password);
     if (!isValidPassword) {
       ctx.status = 401;
@@ -25,6 +27,13 @@ router.post('/users/sessions', async (ctx) => {
       };
       return;
     }
+
+    const token = jwt.sign({ id: user.id }, SECRET_KEY, {
+      expiresIn: 518400, // 6
+    });
+
+    user = { ...user, token };
+
     ctx.body = {
       message: 'Success',
       user,

@@ -46,12 +46,12 @@ export const loginUser = (userData) => {
     };
 };
 
-export const logoutUser = () => {
+export const logoutUser = (id) => {
     return async (dispatch) => {
         try {
             dispatch(logoutRequest());
 
-            await axiosApi.delete('/users/sessions');
+            await axiosApi.delete(`/admin/sessions/${id}`);
 
             toast.success('Вы успешно вышли!');
 

@@ -1,21 +1,33 @@
-const Admins = require('../models/admins');
+import { verify } from 'jsonwebtoken';
+import Admins from '../models/admins';
+import { SECRET_KEY } from '../config';
 
-const auth = async (req, res, next) => {
-  const token = req.get('Authorization');
+const auth = async (ctx, next) => {
+  const token = ctx.request.headers.authorization;
 
   if (!token) {
-    return res.status(401).send({ error: 'No token present!' });
+    ctx.status = 403;
+    ctx.body = {
+      message: 'No token provided!',
+    };
   }
 
-  const user = await Admins.getAdminByToken(token);
-
-  if (!user) {
-    return res.status(401).send({ error: 'Wrong token!' });
-  }
-
-  req.user = user;
-
-  next();
+  verify(token, SECRET_KEY, async (err, decoded) => {
+    if (err) {
+      ctx.status = 401;
+      ctx.body = {
+        message: 'Unauthorized!',
+      };
+      return;
+    }
+    const user = await Admins.getAdminById(decoded?.id);
+    ctx.status = 200;
+    ctx.body = {
+      message: 'success!',
+      user: user[0],
+    };
+  });
+  return next();
 };
 
-module.exports = auth;
+export default auth;
