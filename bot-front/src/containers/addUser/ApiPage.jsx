@@ -3,8 +3,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {useNavigate, useParams} from "react-router-dom";
 import Header from "../../components/UI/Header.jsx";
 import {useEffect, useState} from "react";
-import {apiSuccessNull} from "../../store/slices/usersSlice.js";
-import {sendApiInfo} from "../../store/actions/usersActions.js";
+import {apiSuccessNull} from "../../store/slices/usersSlice";
+import {sendApiInfo} from "../../store/actions/clientsActions";
 
 const ApiPage = () => {
     const apiSuccess = useSelector(state => state.users.apiSuccess)

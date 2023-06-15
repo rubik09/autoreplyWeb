@@ -3,8 +3,8 @@ import Header from "../../components/UI/Header.jsx";
 import {Box, Button, Container, TextField, Typography} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate, useParams} from "react-router-dom";
-import {apiSuccessNull} from "../../store/slices/usersSlice.js";
-import {sendApiInfo} from "../../store/actions/usersActions.js";
+import {apiSuccessNull} from "../../store/slices/usersSlice";
+import {sendApiInfo} from "../../store/actions/clientsActions";
 
 const CodePage = () => {
     const apiSuccess = useSelector(state => state.users.apiSuccess)

@@ -1,8 +1,8 @@
 import {Box, Button, Typography} from "@mui/material";
-import {logoutUser} from "../../store/actions/usersActions.js";
-import {historyPush} from "../../store/actions/historyActions.js";
+import {historyPush} from "../../store/actions/historyActions";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
+import {logoutUser} from "../../store/actions/adminsActions";
 
 const Header = () => {
     const push = useNavigate();

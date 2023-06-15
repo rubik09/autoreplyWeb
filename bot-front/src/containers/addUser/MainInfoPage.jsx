@@ -9,9 +9,9 @@ import PhoneInput from "react-phone-input-2";
 import {useState} from "react";
 import {useDispatch} from "react-redux";
 import Header from "../../components/UI/Header.jsx";
-import {sendUserInfo} from "../../store/actions/usersActions.js";
 import {useNavigate} from "react-router-dom";
-import {countries} from "../../config.js";
+import {countries} from "../../config";
+import {sendUserInfo} from "../../store/actions/clientsActions";
 
 const MainInfoPage = () => {
     const dispatch = useDispatch();
