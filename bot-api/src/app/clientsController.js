@@ -434,7 +434,7 @@ export const deleteClient = async (ctx) => {
       return;
     }
 
-    await sessions.deleteUser(user_id);
+    await sessions.deleteClient(user_id);
 
     ctx.body = {
       message: 'Success',
