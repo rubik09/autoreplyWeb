@@ -9,12 +9,12 @@ import {
 import axiosApi from "../../axiosApi";
 import {toast} from "react-toastify";
 
-export const registerUser = (userData) => {
+export const registerAdmin = (adminData) => {
     return async (dispatch) => {
         try {
             dispatch(registerRequest());
 
-            const response = await axiosApi.post('api/users', userData);
+            const response = await axiosApi.post('api/admin', adminData);
 
             toast.success('Вы успешно зарегистрировались!');
 
@@ -25,12 +25,12 @@ export const registerUser = (userData) => {
     };
 };
 
-export const loginUser = (userData) => {
+export const loginAdmin = (adminData) => {
     return async (dispatch) => {
         try {
             dispatch(loginRequest());
 
-            const response = await axiosApi.post('api/users/sessions', userData);
+            const response = await axiosApi.post('api/admin/sessions', adminData);
 
             toast.success('Вы успешно вошли!');
 
@@ -41,7 +41,7 @@ export const loginUser = (userData) => {
     };
 };
 
-export const logoutUser = (id) => {
+export const logoutAdmin = (id) => {
     return async (dispatch) => {
         try {
             dispatch(logoutRequest());

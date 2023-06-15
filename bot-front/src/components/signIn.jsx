@@ -2,7 +2,7 @@ import {Box, Button, Container, CssBaseline, TextField, Typography} from "@mui/m
 import {useState} from "react";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import {loginUser} from "../store/actions/adminsActions";
+import {loginAdmin} from "../store/actions/adminsActions";
 
 const SignIn = () => {
     const dispatch = useDispatch();
@@ -18,7 +18,7 @@ const SignIn = () => {
 
     const submitFormHandler = async e => {
         e.preventDefault();
-        await dispatch(loginUser({...user}));
+        await dispatch(loginAdmin({...user}));
     };
 
     const emailRegex = new RegExp('[^\\s@]+@[^\\s@]+\\.[^\\s@]+');

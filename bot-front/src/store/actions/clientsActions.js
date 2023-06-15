@@ -15,7 +15,7 @@ export const sendApiInfo = (data) => {
         try {
             dispatch(sendApiRequest());
 
-            console.log(await axiosApi.post('api/users/api', data))
+            console.log(await axiosApi.post('api/clients/connect', data))
 
             dispatch(sendApiSuccess());
         } catch (e) {
@@ -29,7 +29,7 @@ export const updateClient = (data) => {
         try {
             dispatch(sendApiRequest());
 
-            console.log(await axiosApi.patch('api/user', data))
+            console.log(await axiosApi.patch('api/clients', data))
 
             toast.success('Личка успешно обновлена!');
 
@@ -40,12 +40,12 @@ export const updateClient = (data) => {
     };
 };
 
-export const sendUserInfo = (data) => {
+export const sendClientInfo = (data) => {
     return async (dispatch) => {
         try {
             dispatch(sendInfoRequest());
 
-            await axiosApi.post('api/users/add', data)
+            await axiosApi.post('api/clients/add', data)
 
             toast.success('Успешно!');
 
@@ -56,10 +56,10 @@ export const sendUserInfo = (data) => {
     };
 };
 
-export const fetchUsers = () => {
+export const fetchClients = () => {
     return async (dispatch) => {
         try {
-            const {data} = await axiosApi.get('api/users');
+            const {data} = await axiosApi.get('api/clients');
 
             dispatch(fetchUsersSuccess(data.users));
         } catch (e) {
@@ -68,10 +68,10 @@ export const fetchUsers = () => {
     }
 };
 
-export const fetchUserById = (user_id) => {
+export const fetchClientById = (client_id) => {
     return async (dispatch) => {
         try {
-            const {data} = await axiosApi.get(`api/user/${user_id}`);
+            const {data} = await axiosApi.get(`api/clients/${client_id}`);
 
             dispatch(fetchUserSuccess(data.user));
         } catch (e) {
@@ -80,14 +80,14 @@ export const fetchUserById = (user_id) => {
     }
 };
 
-export const changeStatus = (user_id) => {
+export const changeStatus = (client_id) => {
     return async (dispatch) => {
         try {
-            const {data} = await axiosApi.post('api/users/status', {user_id});
+            const {data} = await axiosApi.post('api/clients/status', {client_id});
 
             toast.success(`Вы успешно сменили статус на "${data.bool ? 'запущен' : 'остановлен'}"!`);
 
-            dispatch(editStatusSuccess({user_id, bool: data.bool}));
+            dispatch(editStatusSuccess({client_id, bool: data.bool}));
         } catch (e) {
             toast.error(e);
         }
@@ -97,7 +97,7 @@ export const changeStatus = (user_id) => {
 export const deleteUser = (user_id) => {
     return async (dispatch) => {
         try {
-            await axiosApi.delete(`api/users/${user_id}`);
+            await axiosApi.delete(`api/clients/${user_id}`);
 
             toast.success('Личка успешно удалена!');
 

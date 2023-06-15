@@ -5,7 +5,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import ReactJson from "react-json-view";
 import {countries} from "../config";
-import {updateClient} from "../store/actions/clientsActions";
+import {fetchClientById, updateClient} from "../store/actions/clientsActions";
 
 const UserChange = () => {
     const dispatch = useDispatch();
@@ -44,7 +44,7 @@ const UserChange = () => {
     }
 
     useEffect(() => {
-        dispatch(fetchUserById(id));
+        dispatch(fetchClientById(id));
         if (user) {
             setUserState({
                 answers: user.answers,

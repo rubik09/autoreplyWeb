@@ -4,14 +4,14 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {DataGrid} from '@mui/x-data-grid';
 import {useNavigate} from "react-router-dom";
-import {changeStatus, deleteUser, fetchUsers} from "../store/actions/clientsActions";
+import {changeStatus, deleteUser, fetchClients} from "../store/actions/clientsActions";
 
 const UsersList = () => {
     const dispatch = useDispatch(), users = useSelector(state => state.users.usersList);
     const push = useNavigate();
 
     useEffect(() => {
-        dispatch(fetchUsers());
+        dispatch(fetchClients());
     }, [dispatch]);
 
     const columns = [

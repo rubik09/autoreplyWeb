@@ -37,7 +37,35 @@ export const login = async (ctx) => {
       message: 'Internal server error',
     };
   }
-}
+};
+
+export const logout = async (ctx) => {
+  try {
+    const { id } = ctx.params;
+
+    console.log(id);
+
+    const user = await Admins.getAdminById(id);
+
+    if (!user.length) {
+      ctx.status = 404;
+      ctx.body = {
+        message: 'user not exist',
+      };
+      return;
+    }
+
+    ctx.body = {
+      message: 'Success',
+    };
+  } catch (e) {
+    console.log(e);
+    ctx.status = 500;
+    ctx.body = {
+      message: 'Internal server error',
+    };
+  }
+};
 // router.post('/users/sessions', async (ctx) => {
 //   const { email, password } = ctx.request.body;
 //   try {

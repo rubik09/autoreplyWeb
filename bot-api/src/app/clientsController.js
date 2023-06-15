@@ -5,7 +5,7 @@ import emmiter from '../utils/emitter';
 import Admins from '../models/admins';
 
 // добавление новой лички
-export const addUser = async (ctx) => {
+export const addClient = async (ctx) => {
   const {
     phone, user_id, username, geo,
   } = ctx.request.body;
@@ -43,10 +43,10 @@ export const addUser = async (ctx) => {
 // });
 
 // изменение статуса
-export const changeUserStatus = async (ctx) => {
-  const { user_id } = ctx.request.body;
+export const changeClientStatus = async (ctx) => {
+  const { client_id } = ctx.request.body;
   try {
-    const bool = await sessions.changeStatus(user_id);
+    const bool = await sessions.changeStatus(client_id);
 
     ctx.body = {
       message: 'Success',
@@ -93,6 +93,8 @@ function generatePromise() {
 }
 
 export const connectToTelegram = async (ctx) => {
+  console.log('d')
+
   const {
     setupStep, answer, code, user_id,
   } = ctx.request.body;
@@ -287,7 +289,7 @@ export const connectToTelegram = async (ctx) => {
 // });
 
 // update user
-export const updateUser = async (ctx) => {
+export const updateClient = async (ctx) => {
   try {
     const {
       answers, region, username, user_id,
@@ -333,7 +335,7 @@ export const updateUser = async (ctx) => {
 // });
 
 // get all users
-export const getAllUsers = async (ctx) => {
+export const getAllClients = async (ctx) => {
   try {
     const users = await sessions.getSessions();
 
@@ -367,7 +369,7 @@ export const getAllUsers = async (ctx) => {
 // });
 
 // get user by id
-export const getUser = async (ctx) => {
+export const getClient = async (ctx) => {
   try {
     const user_id = ctx.params.id;
     const user = await sessions.getClientByUserId(user_id);
@@ -419,7 +421,7 @@ export const getUser = async (ctx) => {
 // });
 
 // удаление лички
-export const deleteUser = async (ctx) => {
+export const deleteClient = async (ctx) => {
   try {
     const user_id = ctx.params.id;
     const user = await sessions.getSession(user_id);
@@ -473,33 +475,7 @@ export const deleteUser = async (ctx) => {
 // });
 
 // logout
-export const logout = async (ctx) => {
-  try {
-    const { id } = ctx.params;
 
-    console.log(id);
-
-    const user = await Admins.getAdminById(id);
-
-    if (!user.length) {
-      ctx.status = 404;
-      ctx.body = {
-        message: 'user not exist',
-      };
-      return;
-    }
-
-    ctx.body = {
-      message: 'Success',
-    };
-  } catch (e) {
-    console.log(e);
-    ctx.status = 500;
-    ctx.body = {
-      message: 'Internal server error',
-    };
-  }
-};
 // router.delete('/users/sessions', async (ctx) => {
 //   try {
 //     const { phone } = ctx.request.body;
