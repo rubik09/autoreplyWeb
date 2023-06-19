@@ -8,9 +8,9 @@ import {
 } from "@mui/material";
 import PhoneInput from "react-phone-input-2";
 import {useState} from "react";
-import {registerUser} from "../store/actions/usersActions.js";
+import {registerUser} from "../store/actions/usersActions";
 import {useDispatch} from "react-redux";
-import {historyPush} from "../store/actions/historyActions.js";
+import {historyPush} from "../store/actions/historyActions";
 
 const SignUp = () => {
     const dispatch = useDispatch();

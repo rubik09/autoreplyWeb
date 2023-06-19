@@ -9,9 +9,9 @@ import PhoneInput from "react-phone-input-2";
 import {useState} from "react";
 import {useDispatch} from "react-redux";
 import Header from "../../components/UI/Header.jsx";
-import {sendUserInfo} from "../../store/actions/usersActions.js";
 import {useNavigate} from "react-router-dom";
-import {countries} from "../../config.js";
+import {countries} from "../../config";
+import {sendClientInfo} from "../../store/actions/clientsActions";
 
 const MainInfoPage = () => {
     const dispatch = useDispatch();
@@ -30,7 +30,7 @@ const MainInfoPage = () => {
 
     const submitFormHandler = async e => {
         e.preventDefault();
-        await dispatch(sendUserInfo({...user}));
+        await dispatch(sendClientInfo({...user}));
         push(`/api/${user.user_id}`);
     };
 

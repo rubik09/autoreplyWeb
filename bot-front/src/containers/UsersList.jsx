@@ -1,17 +1,17 @@
 import {Button, Container} from "@mui/material";
-import Header from "../components/UI/Header.jsx";
+import Header from "../components/UI/Header";
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
-import {changeStatus, deleteUser, fetchUsers} from "../store/actions/usersActions.js";
 import {DataGrid} from '@mui/x-data-grid';
 import {useNavigate} from "react-router-dom";
+import {changeStatus, deleteUser, fetchClients} from "../store/actions/clientsActions";
 
 const UsersList = () => {
     const dispatch = useDispatch(), users = useSelector(state => state.users.usersList);
     const push = useNavigate();
 
     useEffect(() => {
-        dispatch(fetchUsers());
+        dispatch(fetchClients());
     }, [dispatch]);
 
     const columns = [

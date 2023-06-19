@@ -15,7 +15,7 @@ function App() {
         <div>
             {user ?
                 <Routes>
-                    <Route path='/list' element={<UsersList/>}/>
+                    <Route path='/' element={<UsersList/>}/>
                     <Route path='/add' element={<MainInfoPage/>}/>
                     <Route path='/edit/:id' element={<UserChange/>}/>
                     <Route path='/api/:id' element={<ApiPage/>}/>

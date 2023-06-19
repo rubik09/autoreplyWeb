@@ -1,8 +1,8 @@
 import {Box, Button, Typography} from "@mui/material";
-import {logoutUser} from "../../store/actions/usersActions.js";
-import {historyPush} from "../../store/actions/historyActions.js";
+import {historyPush} from "../../store/actions/historyActions";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
+import {logoutAdmin} from "../../store/actions/adminsActions";
 
 const Header = () => {
     const push = useNavigate();
@@ -17,7 +17,7 @@ const Header = () => {
             padding: '10px'
         }}>
             <Typography component="h1" variant="h4" sx={{cursor: 'pointer'}} onClick={() => {
-                push('/list')
+                push('/')
             }}>Auto Reply CRM</Typography>
             {user ? <Box sx={{display: 'flex', alignItems: 'center', gap: '10px'}}>
                 <Typography component="p">{user.email}</Typography>
@@ -25,7 +25,7 @@ const Header = () => {
                     push('/add')
                 }}>Добавить Личку</Button> : null}
                 <Button variant='outlined' sx={{cursor: 'pointer'}} onClick={() => {
-                    dispatch(logoutUser());
+                    dispatch(logoutAdmin(user.id));
                     dispatch(historyPush('/'))
                 }}>Выйти</Button>
             </Box> : null}

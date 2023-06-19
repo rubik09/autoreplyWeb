@@ -1,11 +1,11 @@
 import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate, useParams} from "react-router-dom";
-import {apiSuccessNull} from "../../store/slices/usersSlice.js";
-import {sendApiInfo} from "../../store/actions/usersActions.js";
+import {apiSuccessNull} from "../../store/slices/usersSlice";
 import {Box, Button, Container, TextField, Typography} from "@mui/material";
 import Header from "../../components/UI/Header.jsx";
 import ReactJson from "react-json-view";
+import {sendApiInfo} from "../../store/actions/clientsActions";
 
 const AnswerPage = () => {
     const apiSuccess = useSelector(state => state.users.apiSuccess)
@@ -21,7 +21,7 @@ const AnswerPage = () => {
 
     useEffect(() => {
         if (apiSuccess) {
-            push('/list');
+            push('/');
             dispatch(apiSuccessNull());
         }
     }, [dispatch, apiSuccess]);

@@ -1,14 +1,11 @@
 import {Box, Button, Container, CssBaseline, TextField, Typography} from "@mui/material";
-// import PhoneInput from "react-phone-input-2";
 import {useState} from "react";
-import {loginUser} from "../store/actions/usersActions.js";
 import {useDispatch} from "react-redux";
-import {historyPush} from "../store/actions/historyActions.js";
 import {useNavigate} from "react-router-dom";
+import {loginAdmin} from "../store/actions/adminsActions";
 
 const SignIn = () => {
     const dispatch = useDispatch();
-    const push = useNavigate();
     const [user, setUser] = useState({
         email: "",
         password: "",
@@ -21,8 +18,7 @@ const SignIn = () => {
 
     const submitFormHandler = async e => {
         e.preventDefault();
-        await dispatch(loginUser({...user}));
-        push('/list');
+        await dispatch(loginAdmin({...user}));
     };
 
     const emailRegex = new RegExp('[^\\s@]+@[^\\s@]+\\.[^\\s@]+');

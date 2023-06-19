@@ -4,6 +4,7 @@ export const {
   MYSQL_ROOT_PASSWORD,
   MYSQL_HOST,
   MYSQL_PORT,
+  SECRET_KEY,
 } = process.env;
 
 export const actionTypes = {

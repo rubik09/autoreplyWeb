@@ -3,17 +3,15 @@ import {Autocomplete, Box, Button, Container, TextField,} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import {fetchUserById, updateClient} from "../store/actions/usersActions.js";
 import ReactJson from "react-json-view";
 import {countries} from "../config";
+import {fetchClientById, updateClient} from "../store/actions/clientsActions";
 
 const UserChange = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.users.editableUser);
     const push = useNavigate();
     const {id} = useParams();
-
-    console.log(id, 'd')
 
     const [userState, setUserState] = useState({
         answers: '',
@@ -30,7 +28,7 @@ const UserChange = () => {
     const submitFormHandler = async e => {
         e.preventDefault();
         await dispatch(updateClient({...userState}));
-        push('/list')
+        push('/')
     };
 
     const fileChangeHandler = (e) => {
@@ -46,7 +44,7 @@ const UserChange = () => {
     }
 
     useEffect(() => {
-        dispatch(fetchUserById(id));
+        dispatch(fetchClientById(id));
         if (user) {
             setUserState({
                 answers: user.answers,

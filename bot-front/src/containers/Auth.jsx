@@ -1,6 +1,6 @@
 import 'react-phone-input-2/lib/material.css'
 import SignIn from "../components/signIn.jsx";
-// import SignUp from "../components/signUp.jsx";
+// import SignUp from "../components/signUp";
 // import {Button, Grid} from "@mui/material";
 // import {useState} from "react";
 
