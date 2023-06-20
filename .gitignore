@@ -3,3 +3,4 @@
 /bot-front/.idea
 /bot-api/.idea
 .idea
+/bot-api/.env

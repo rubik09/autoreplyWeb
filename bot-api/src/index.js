@@ -8,8 +8,8 @@ import emmiter from './utils/emitter';
 import incomingMessages from './eventPrint';
 import checkConnect from './utils/checkingConnect';
 import router from './routes/mainRoute';
-import { errorHandler } from './app/middleware/errorHandling';
-import { logger } from './app/middleware/logger';
+import errorHandler from './app/middleware/errorHandling';
+import logger from './app/middleware/logger';
 
 await checkConnect();
 
@@ -24,7 +24,6 @@ await firstInit();
 
 const app = new Koa();
 const port = 8000;
-
 
 app.use(parser())
   .use(cors())

@@ -19,8 +19,8 @@ router.post('/users/add', auth, async (ctx) => {
     ctx.body = {
       message: 'Success',
     };
-  } catch (e) {
-    console.log(e);
+  } catch (err) {
+    console.log(err);
     ctx.status = 500;
     ctx.body = {
       message: 'Internal server error',
@@ -38,8 +38,8 @@ router.post('/users/status', auth, async (ctx) => {
       message: 'Success',
       bool,
     };
-  } catch (e) {
-    console.log(e);
+  } catch (err) {
+    console.log(err);
     ctx.status = 500;
     ctx.body = {
       message: 'Internal server error',

@@ -3,11 +3,10 @@ import clientsRoute from '../app/clientsRoute';
 import usersRoute from '../app/usersRoute';
 
 const router = new Router({
-    prefix: '/api',
+  prefix: '/api',
 });
 
 router.use(clientsRoute);
 router.use(usersRoute);
-
 
 export default router;

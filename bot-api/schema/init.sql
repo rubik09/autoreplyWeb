@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `sessions`
 CREATE TABLE IF NOT EXISTS `users`
 (
     `id`            int(11) NOT NULL AUTO_INCREMENT,
-    `user_id`       varchar(255) DEFAULT '' UNIQUE,
+    `user_id`       varchar(255) DEFAULT '',
     `api_id_client` varchar(255) DEFAULT '',
     `answers`       longtext     DEFAULT '',
     `incoming_messages_count` varchar(255) DEFAULT '',

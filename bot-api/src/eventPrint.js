@@ -31,7 +31,11 @@ async function incomingMessages(client, event) {
       const parsedAutoAnswers = await JSON.parse(autoAnswers[0].answers);
       const incomingMessagesCount = await user.getIncomingMessagesUserCount(apiId, userId);
 
-      await user.updateIncomingMessagesCount(Number(incomingMessagesCount[0].imcoming_messages_count) + 1, userId, apiId);
+      await user.updateIncomingMessagesCount(
+        Number(incomingMessagesCount[0].imcoming_messages_count) + 1,
+        userId,
+        apiId,
+      );
 
       if (parsedAutoAnswers.stages.length > 1) {
         const msgLowerCase = message.toLowerCase();

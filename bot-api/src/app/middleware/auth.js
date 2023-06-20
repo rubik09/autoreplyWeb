@@ -1,6 +1,6 @@
 import { verify } from 'jsonwebtoken';
-import Admins from '../../models/admins/users/:id';
-import { SECRET_KEY } from '../../config/users/:id';
+import admins from '../../models/admins';
+import { SECRET_KEY } from '../../config';
 
 const auth = async (ctx, next) => {
   const token = ctx.request.headers.authorization;
@@ -20,7 +20,7 @@ const auth = async (ctx, next) => {
       };
       return;
     }
-    const user = await Admins.getAdminById(decoded?.id);
+    const user = await admins.getAdminById(decoded?.id);
     ctx.status = 200;
     ctx.body = {
       message: 'success!',
