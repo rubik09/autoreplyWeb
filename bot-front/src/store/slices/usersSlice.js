@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, current} from '@reduxjs/toolkit';
 
 const name = 'users';
 
@@ -99,14 +99,14 @@ const usersSlice = createSlice({
         },
         editStatusSuccess: (state, action) => {
             const newArray = [...state.usersList];
-            const index = newArray.findIndex(user => user.user_id === action.payload.user_id);
-            newArray[index].status = action.payload.bool;
+            const index = newArray.findIndex(user => user.user_id === action.payload.client_id);
+            newArray[index].status = action.payload.bool
 
             state.usersList = newArray;
         },
         deleteUserSuccess(state, action) {
             state.usersList = [
-                ...state.usersList.filter((p) => p.user_id !== action.payload.user_id),
+                ...state.usersList.filter((p) => p.client_id !== action.payload.client_id),
             ];
         },
     },

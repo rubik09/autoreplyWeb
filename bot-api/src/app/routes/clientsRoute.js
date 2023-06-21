@@ -2,7 +2,7 @@ import Router from 'koa-router';
 import {
   addClient, changeClientStatus, connectToTelegram,
   deleteClient, getAllClients, getClient, updateClient,
-} from './clientsController';
+} from '../controllers/clientsController.js';
 
 const router = new Router();
 

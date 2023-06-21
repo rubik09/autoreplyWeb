@@ -94,14 +94,14 @@ export const changeStatus = (client_id) => {
     }
 };
 
-export const deleteUser = (user_id) => {
+export const deleteClient = (client_id) => {
     return async (dispatch) => {
         try {
-            await axiosApi.delete(`api/clients/${user_id}`);
+            await axiosApi.delete(`api/clients/${client_id}`);
 
             toast.success('Личка успешно удалена!');
 
-            dispatch(deleteUserSuccess({user_id}));
+            dispatch(deleteUserSuccess({client_id}));
         } catch (e) {
             toast.error(e);
         }

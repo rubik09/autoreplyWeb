@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {DataGrid} from '@mui/x-data-grid';
 import {useNavigate} from "react-router-dom";
-import {changeStatus, deleteUser, fetchClients} from "../store/actions/clientsActions";
+import {changeStatus, deleteClient, fetchClients} from "../store/actions/clientsActions";
 
 const UsersList = () => {
     const dispatch = useDispatch(), users = useSelector(state => state.users.usersList);
@@ -50,7 +50,7 @@ const UsersList = () => {
             sortable: false,
             filterable: false,
             renderCell: (params) => (
-                <Button variant='contained' color='error' onClick={() => dispatch(deleteUser(params.row.user_id))}
+                <Button variant='contained' color='error' onClick={() => dispatch(deleteClient(params.row.user_id))}
                         sx={{cursor: 'pointer', width: '100px'}}>Удалить</Button>
             )
         },
