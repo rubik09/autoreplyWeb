@@ -1,16 +1,16 @@
 import util from 'util';
 import mysql from 'mysql';
 import {
-  MYSQL_USER, MYSQL_DATABASE, MYSQL_ROOT_PASSWORD,
-  MYSQL_HOST, MYSQL_PORT,
+  MARIADB_USER, MARIADB_DATABASE, MARIADB_ROOT_PASSWORD,
+  MARIADB_HOST, MARIADB_PORT,
 } from '../config';
 
 const pool = mysql.createPool({
-  host: MYSQL_HOST,
-  port: MYSQL_PORT,
-  user: MYSQL_USER,
-  password: MYSQL_ROOT_PASSWORD,
-  database: MYSQL_DATABASE,
+  host: MARIADB_HOST,
+  port: MARIADB_PORT,
+  user: MARIADB_USER,
+  password: MARIADB_ROOT_PASSWORD,
+  database: MARIADB_DATABASE,
   charset: 'utf8mb4',
 });
 

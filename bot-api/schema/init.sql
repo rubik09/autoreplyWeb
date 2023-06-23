@@ -1,7 +1,3 @@
-CREATE DATABASE IF NOT EXISTS autoReply;
-
-USE autoReply;
-
 CREATE TABLE IF NOT EXISTS `admins`
 (
     `id`            int(11) NOT NULL AUTO_INCREMENT,

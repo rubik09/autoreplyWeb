@@ -1,0 +1,33 @@
+version: '3'
+services:
+  api:
+    build:
+      context: ./bot-api
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    env_file:
+      ./bot-api/.env
+    restart: always
+
+  db:
+    image: mariadb:latest
+    restart: on-failure
+    env_file:
+      .env
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./bot-api/docker/mysql/data:/var/lib/mysql:rw
+      - ./bot-api/schema/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+  frontend:
+    build:
+      context: ./bot-front
+    depends_on:
+      - api
+    restart: always
+    ports:
+      - "8090:80"
+    volumes:
+      - ./nginx/conf/:/etc/nginx/conf.d/:ro

@@ -1,9 +1,9 @@
 export const {
-  MYSQL_USER,
-  MYSQL_DATABASE,
-  MYSQL_ROOT_PASSWORD,
-  MYSQL_HOST,
-  MYSQL_PORT,
+  MARIADB_USER,
+  MARIADB_DATABASE,
+  MARIADB_ROOT_PASSWORD,
+  MARIADB_HOST,
+  MARIADB_PORT,
   SECRET_KEY,
 } = process.env;
 
@@ -13,9 +13,9 @@ export const actionTypes = {
 };
 
 export const databaseOptions = {
-  host: MYSQL_HOST,
-  user: MYSQL_USER,
-  port: MYSQL_PORT,
-  password: MYSQL_ROOT_PASSWORD,
-  database: MYSQL_DATABASE,
+  host: MARIADB_HOST,
+  user: MARIADB_USER,
+  port: MARIADB_PORT,
+  password: MARIADB_ROOT_PASSWORD,
+  database: MARIADB_DATABASE,
 };
