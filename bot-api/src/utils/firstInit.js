@@ -2,6 +2,7 @@ import { StringSession } from 'telegram/sessions';
 import { TelegramClient } from 'telegram';
 import sessions from '../models/sessions';
 import emmiter from './emitter';
+import NewLogger from './newLogger';
 
 async function firstInit() {
   const allSessions = await sessions.getSessions();
@@ -17,6 +18,7 @@ async function firstInit() {
     const client = new TelegramClient(stringSession, +api_id, api_hash, {
       connectionRetries: 5,
       sequentialUpdates: true,
+      baseLogger: new NewLogger(),
     });
 
     await client.connect();

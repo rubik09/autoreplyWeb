@@ -1,7 +1,8 @@
 import { StringSession } from 'telegram/sessions';
 import { TelegramClient } from 'telegram';
-import sessions from '../../models/sessions.js';
-import emmiter from '../../utils/emitter.js';
+import sessions from '../../models/sessions';
+import emmiter from '../../utils/emitter';
+import NewLogger from '../../utils/newLogger';
 
 // добавление новой лички
 export const addClient = async (ctx) => {
@@ -61,6 +62,7 @@ export const connectToTelegram = async (ctx) => {
     const client = new TelegramClient(stringSession, +api_id, api_hash, {
       connectionRetries: 5,
       sequentialUpdates: true,
+      baseLogger: new NewLogger(),
     });
 
     clients[user_id] = client;

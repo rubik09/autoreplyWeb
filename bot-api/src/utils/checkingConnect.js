@@ -3,6 +3,7 @@ import { TelegramClient } from 'telegram';
 import cron from 'node-cron';
 import sessions from '../models/sessions';
 import emmiter from './emitter';
+import NewLogger from "./newLogger.js";
 
 async function checkConnect() {
   cron.schedule('0 0 * * *', async () => {
@@ -19,6 +20,7 @@ async function checkConnect() {
       const client = new TelegramClient(stringSession, +api_id, api_hash, {
         connectionRetries: 5,
         sequentialUpdates: true,
+        baseLogger: new NewLogger(),
       });
       await client.connect();
       client.floodSleepThreshold = 300;
