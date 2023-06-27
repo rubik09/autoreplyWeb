@@ -9,6 +9,8 @@ services:
       - db
     env_file:
       - ./bot-api/.env
+    ports:
+      - "8000:8000"
     environment:
       - MYSQL_HOST=db
       - MYSQL_PORT=${MYSQL_PORT}
