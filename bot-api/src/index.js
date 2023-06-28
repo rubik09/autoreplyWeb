@@ -26,7 +26,9 @@ const app = new Koa();
 const port = 8000;
 
 app.use(parser())
-  .use(cors())
+  .use(cors({
+    origin: 'http://13.50.162.152'
+  }))
   .use(logger)
   .use(errorHandler)
   .use(router.routes())
