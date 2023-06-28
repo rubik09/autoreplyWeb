@@ -32,7 +32,7 @@ async function incomingMessages(client, event) {
       const incomingMessagesCount = await user.getIncomingMessagesUserCount(apiId, userId);
 
       await user.updateIncomingMessagesCount(
-        Number(incomingMessagesCount[0].imcoming_messages_count) + 1,
+        Number(incomingMessagesCount[0].incoming_messages_count) + 1,
         userId,
         apiId,
       );
