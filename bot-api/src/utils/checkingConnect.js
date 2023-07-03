@@ -1,8 +1,6 @@
-import { StringSession } from 'telegram/sessions';
-import { TelegramClient } from 'telegram';
 import cron from 'node-cron';
 import sessions from '../models/sessions';
-import emmiter from './emitter';
+import telegramInit from '../telegramInit';
 
 async function checkConnect() {
   cron.schedule('0 0 * * *', async () => {
@@ -10,20 +8,12 @@ async function checkConnect() {
 
     for (const session of allSessions) {
       const {
-        log_session, status, api_id, api_hash,
+        log_session, status, api_id, api_hash, user_id,
       } = session;
 
       if (!status) continue;
 
-      const stringSession = new StringSession(log_session);
-      const client = new TelegramClient(stringSession, +api_id, api_hash, {
-        connectionRetries: 5,
-        sequentialUpdates: true,
-      });
-      await client.connect();
-      client.floodSleepThreshold = 300;
-
-      emmiter.emit('newClient', client);
+      await telegramInit(log_session, api_id, api_hash, user_id);
     }
   });
 }

@@ -1,5 +1,5 @@
 import bcrypt from 'bcrypt';
-import Admins from '../../models/admins.js';
+import Admins from '../../models/admins';
 
 // const router = new Router({
 //   prefix: '/api',

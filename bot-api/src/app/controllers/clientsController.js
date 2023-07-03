@@ -1,7 +1,9 @@
 import { StringSession } from 'telegram/sessions';
 import { TelegramClient } from 'telegram';
-import sessions from '../../models/sessions.js';
-import emmiter from '../../utils/emitter.js';
+import sessions from '../../models/sessions';
+import emmiter from '../../utils/emitter';
+import { clientsTelegram } from '../../index';
+import telegramInit from '../../telegramInit';
 
 // добавление новой лички
 export const addClient = async (ctx) => {
@@ -19,7 +21,19 @@ export const addClient = async (ctx) => {
 export const changeClientStatus = async (ctx) => {
   const { client_id } = ctx.request.body;
   const bool = await sessions.changeStatus(client_id);
-
+  const status = await sessions.getStatusByUserId(client_id);
+  const session = await sessions.getMainInfo(client_id);
+  const { log_session, api_hash, api_id } = session[0];
+  if (status[0].status) {
+    await telegramInit(log_session, api_id, api_hash, client_id);
+  }
+  if (!status[0].status) {
+    const client = clientsTelegram[client_id];
+    if (client) {
+      client.destroy();
+      delete clientsTelegram[client_id];
+    }
+  }
   ctx.body = {
     message: 'Success',
     bool,
