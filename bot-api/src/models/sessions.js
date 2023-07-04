@@ -13,6 +13,21 @@ class Session {
     return this.sql.query('SELECT status FROM sessions WHERE ?', { user_id });
   }
 
+  async checkByPhone(phone_number) {
+    const arr = await this.sql.query('SELECT * FROM sessions WHERE ?', { phone_number });
+    return !!arr.length;
+  }
+
+  async checkByUserId(user_id) {
+    const arr = await this.sql.query('SELECT * FROM sessions WHERE ?', { user_id });
+    return !!arr.length;
+  }
+
+  async checkByUsername(username) {
+    const arr = await this.sql.query('SELECT * FROM sessions WHERE ?', { username });
+    return !!arr.length;
+  }
+
   async getSessions() {
     return this.sql.query('SELECT * FROM sessions');
   }
