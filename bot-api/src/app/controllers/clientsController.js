@@ -2,8 +2,7 @@ import { StringSession } from 'telegram/sessions';
 import { TelegramClient } from 'telegram';
 import sessions from '../../models/sessions';
 import emmiter from '../../utils/emitter';
-import { clientsTelegram } from '../../index';
-import telegramInit from '../../telegramInit';
+import telegramInit, { clientsTelegram } from '../../telegramInit';
 
 // добавление новой лички
 export const addClient = async (ctx) => {

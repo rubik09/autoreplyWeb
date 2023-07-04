@@ -12,7 +12,6 @@ import router from './routes/mainRoute';
 import errorHandler from './app/middleware/errorHandling';
 import logger from './app/middleware/logger';
 
-export const clientsTelegram = {};
 await checkConnect();
 
 emmiter.on('newClient', async (client) => {
@@ -33,7 +32,7 @@ const port = 8000;
 
 app.use(parser())
   .use(cors({
-    origin: 'http://13.50.162.152'
+    origin: 'http://13.50.162.152',
   }))
   .use(logger)
   .use(errorHandler)

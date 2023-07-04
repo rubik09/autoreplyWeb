@@ -1,7 +1,9 @@
 import { StringSession } from 'telegram/sessions';
 import { TelegramClient } from 'telegram';
 import emmiter from './utils/emitter';
-import { clientsTelegram } from './index';
+// import { clientsTelegram } from './index';
+
+export const clientsTelegram = {};
 
 async function telegramInit(log_session, api_id, api_hash, client_id) {
   const stringSession = new StringSession(log_session);
