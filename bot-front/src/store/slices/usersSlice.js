@@ -93,6 +93,9 @@ const usersSlice = createSlice({
             state.sendInfoLoading = false;
             state.infoSuccess = true;
         },
+        infoSuccessNull(state) {
+            state.infoSuccess = false;
+        },
         sendInfoFailure(state, action) {
             state.sendInfoLoading = false;
             state.sendInfoError = action.payload;
@@ -128,6 +131,7 @@ export const {
     apiSuccessNull,
     sendInfoRequest,
     sendInfoSuccess,
+    infoSuccessNull,
     sendInfoFailure,
     fetchUsersSuccess,
     editStatusSuccess,

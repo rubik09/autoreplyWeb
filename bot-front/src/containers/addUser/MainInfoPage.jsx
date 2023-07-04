@@ -6,14 +6,18 @@ import {
     TextField,
 } from "@mui/material";
 import PhoneInput from "react-phone-input-2";
-import {useState} from "react";
-import {useDispatch} from "react-redux";
+import {useEffect, useState} from "react";
+import {useDispatch, useSelector} from "react-redux";
 import Header from "../../components/UI/Header.jsx";
 import {useNavigate} from "react-router-dom";
 import {countries} from "../../config";
 import {sendClientInfo} from "../../store/actions/clientsActions";
+import {infoSuccessNull} from "../../store/slices/usersSlice.js";
+import {toast} from "react-toastify";
 
 const MainInfoPage = () => {
+    const infoSuccess = useSelector(state => state.users.infoSuccess)
+    const sendInfoError = useSelector(state => state.users.sendInfoError)
     const dispatch = useDispatch();
     const push = useNavigate();
     const [user, setUser] = useState({
@@ -28,11 +32,19 @@ const MainInfoPage = () => {
         setUser(prev => ({...prev, [name]: value}));
     };
 
+    useEffect(() => {
+        if (infoSuccess) {
+            push(`/api/${user.user_id}`);
+            dispatch(infoSuccessNull());
+        }
+    }, [dispatch, infoSuccess]);
+
     const submitFormHandler = async e => {
         e.preventDefault();
         await dispatch(sendClientInfo({...user}));
-        push(`/api/${user.user_id}`);
     };
+
+    if(sendInfoError?.phone) toast.error(sendInfoError?.phone);
 
     return (
         <Container component="div" maxWidth="xl">
@@ -67,6 +79,8 @@ const MainInfoPage = () => {
                             type="text"
                             id="user_id"
                             value={user.user_id}
+                            error={!!sendInfoError?.user_id}
+                            helperText={sendInfoError?.user_id}
                             onChange={inputUserChangeHandler}
                             sx={{marginBottom: '0px'}}
                         />
@@ -78,6 +92,8 @@ const MainInfoPage = () => {
                             label="Username"
                             type="text"
                             id="username"
+                            error={!!sendInfoError?.username}
+                            helperText={sendInfoError?.username}
                             value={user.username}
                             onChange={inputUserChangeHandler}
                         />
