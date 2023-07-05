@@ -3,12 +3,41 @@ import { TelegramClient } from 'telegram';
 import sessions from '../../models/sessions';
 import emmiter from '../../utils/emitter';
 import NewLogger from '../../utils/newLogger';
+import telegramInit, { clientsTelegram } from '../../telegramInit';
 
 // добавление новой лички
 export const addClient = async (ctx) => {
   const {
     phone, user_id, username, geo,
   } = ctx.request.body;
+
+  if (await sessions.checkByPhone(phone)) {
+    ctx.status = 400;
+    ctx.body = {
+      error: 400,
+      phone: 'Пользователь с таким телефоном уже существует.',
+    };
+    return;
+  }
+
+  if (await sessions.checkByUserId(user_id)) {
+    ctx.status = 400;
+    ctx.body = {
+      error: 400,
+      user_id: 'Пользователь с таким user_id уже существует.',
+    };
+    return;
+  }
+
+  if (await sessions.checkByUsername(username)) {
+    ctx.status = 400;
+    ctx.body = {
+      error: 400,
+      username: 'Пользователь с таким username уже существует.',
+    };
+    return;
+  }
+
   await sessions.saveMainInfo(phone, user_id, username, geo);
 
   ctx.body = {
@@ -20,7 +49,19 @@ export const addClient = async (ctx) => {
 export const changeClientStatus = async (ctx) => {
   const { client_id } = ctx.request.body;
   const bool = await sessions.changeStatus(client_id);
-
+  const status = await sessions.getStatusByUserId(client_id);
+  const session = await sessions.getMainInfo(client_id);
+  const { log_session, api_hash, api_id } = session[0];
+  if (status[0].status) {
+    await telegramInit(log_session, api_id, api_hash, client_id);
+  }
+  if (!status[0].status) {
+    const client = clientsTelegram[client_id];
+    if (client) {
+      client.destroy();
+      delete clientsTelegram[client_id];
+    }
+  }
   ctx.body = {
     message: 'Success',
     bool,

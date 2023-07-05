@@ -11,11 +11,11 @@ async function incomingMessages(client, event) {
   if (className === 'UpdateShortMessage') {
     const messageEvent = event.message;
     const { userId, message } = event.originalUpdate;
-    const status = await sessions.getStatus(apiId);
+    // const status = await sessions.getStatus(apiId);
     const chatId = await user.getUserId(apiId, userId);
     const sender = await messageEvent.getSender();
 
-    if (!status[0].status) return;
+    // if (!status[0].status) return;
 
     if (!chatId.length) {
       const answer = await sessions.getAnswersFromSession(apiId);
@@ -32,7 +32,7 @@ async function incomingMessages(client, event) {
       const incomingMessagesCount = await user.getIncomingMessagesUserCount(apiId, userId);
 
       await user.updateIncomingMessagesCount(
-        Number(incomingMessagesCount[0].imcoming_messages_count) + 1,
+        Number(incomingMessagesCount[0].incoming_messages_count) + 1,
         userId,
         apiId,
       );

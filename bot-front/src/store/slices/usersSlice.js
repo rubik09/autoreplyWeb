@@ -57,6 +57,9 @@ const usersSlice = createSlice({
         fetchUserSuccess(state, action) {
             state.editableUser = action.payload;
         },
+        fetchUserNull(state) {
+            state.editableUser = null;
+        },
         loginFailure(state, action) {
             state.loginLoading = false;
             state.loginError = action.payload;
@@ -93,6 +96,9 @@ const usersSlice = createSlice({
             state.sendInfoLoading = false;
             state.infoSuccess = true;
         },
+        infoSuccessNull(state) {
+            state.infoSuccess = false;
+        },
         sendInfoFailure(state, action) {
             state.sendInfoLoading = false;
             state.sendInfoError = action.payload;
@@ -128,11 +134,13 @@ export const {
     apiSuccessNull,
     sendInfoRequest,
     sendInfoSuccess,
+    infoSuccessNull,
     sendInfoFailure,
     fetchUsersSuccess,
     editStatusSuccess,
     deleteUserSuccess,
     fetchUserSuccess,
+    fetchUserNull,
 } = usersSlice.actions;
 
 export default usersSlice;

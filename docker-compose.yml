@@ -1,4 +1,5 @@
-version: '3'
+version: "3.7"
+
 services:
   api:
     build:
@@ -7,23 +8,21 @@ services:
     depends_on:
       - db
     env_file:
-      ./bot-api/.env
-    restart: always
-
-  db:
-    image: mariadb:latest
-    restart: on-failure
-    env_file:
-      .env
+      - ./bot-api/.env
     ports:
-      - "3306:3306"
-    volumes:
-      - ./bot-api/docker/mysql/data:/var/lib/mysql:rw
-      - ./bot-api/schema/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - "8000:8000"
+    environment:
+      - MYSQL_HOST=db
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+    restart: always
 
   frontend:
     build:
       context: ./bot-front
+      dockerfile: Dockerfile
     depends_on:
       - api
     restart: always
@@ -31,3 +30,14 @@ services:
       - "8090:80"
     volumes:
       - ./nginx/conf/:/etc/nginx/conf.d/:ro
+
+  db:
+    image: mariadb:latest
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./docker/mysql/data:/var/lib/mysql:rw
+      - ./bot-api/schema/init.sql:/docker-entrypoint-initdb.d/init.sql:ro

@@ -1,31 +1,17 @@
-import { StringSession } from 'telegram/sessions';
-import { TelegramClient } from 'telegram';
 import sessions from '../models/sessions';
-import emmiter from './emitter';
-import NewLogger from './newLogger';
+import telegramInit from '../telegramInit';
 
 async function firstInit() {
   const allSessions = await sessions.getSessions();
 
   for (const session of allSessions) {
     const {
-      log_session, status, api_id, api_hash,
+      log_session, status, api_id, api_hash, user_id,
     } = session;
 
     if (!status) continue;
 
-    const stringSession = new StringSession(log_session);
-    const client = new TelegramClient(stringSession, +api_id, api_hash, {
-      connectionRetries: 5,
-      sequentialUpdates: true,
-      baseLogger: new NewLogger(),
-    });
-
-    await client.connect();
-    await client.checkAuthorization();
-    client.floodSleepThreshold = 300;
-
-    emmiter.emit('newClient', client);
+    await telegramInit(log_session, api_id, api_hash, user_id);
   }
 }
 
