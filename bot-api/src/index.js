@@ -7,12 +7,9 @@ import firstInit from './utils/firstInit';
 import emmiter from './utils/emitter';
 import incomingMessages from './eventPrint';
 import outGoingMessages from './outGoing';
-import checkConnect from './utils/checkingConnect';
 import router from './routes/mainRoute';
 import errorHandler from './app/middleware/errorHandling';
 import logger from './app/middleware/logger';
-
-await checkConnect();
 
 emmiter.on('newClient', async (client) => {
   client.addEventHandler(
