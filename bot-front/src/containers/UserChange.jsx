@@ -6,6 +6,7 @@ import {useEffect, useState} from "react";
 import ReactJson from "react-json-view";
 import {countries} from "../config";
 import {fetchClientById, updateClient} from "../store/actions/clientsActions";
+import {fetchUserNull} from "../store/slices/usersSlice.js";
 
 const UserChange = () => {
     const dispatch = useDispatch();
@@ -54,6 +55,10 @@ const UserChange = () => {
             });
         }
     }, [dispatch, id, !!user]);
+
+    useEffect(() => {
+        dispatch(fetchUserNull())
+    }, [])
 
     return (
         <Container component="div" maxWidth="xl">

@@ -3,7 +3,7 @@ import {
     editStatusSuccess,
     fetchUsersSuccess, fetchUserSuccess,
     sendApiRequest,
-    sendApiSuccess,
+    sendApiSuccess, sendInfoFailure,
     sendInfoRequest,
     sendInfoSuccess
 } from "../slices/usersSlice";
@@ -45,13 +45,14 @@ export const sendClientInfo = (data) => {
         try {
             dispatch(sendInfoRequest());
 
-            await axiosApi.post('api/clients/add', data)
+            await axiosApi.post('api/clients/add', data);
 
             toast.success('Успешно!');
 
             dispatch(sendInfoSuccess());
         } catch (e) {
-            toast.error(e);
+            dispatch(sendInfoFailure(e.response.data));
+            // toast.error(e);
         }
     };
 };

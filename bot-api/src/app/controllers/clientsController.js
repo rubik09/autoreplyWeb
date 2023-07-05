@@ -9,6 +9,34 @@ export const addClient = async (ctx) => {
   const {
     phone, user_id, username, geo,
   } = ctx.request.body;
+
+  if (await sessions.checkByPhone(phone)) {
+    ctx.status = 400;
+    ctx.body = {
+      error: 400,
+      phone: 'Пользователь с таким телефоном уже существует.',
+    };
+    return;
+  }
+
+  if (await sessions.checkByUserId(user_id)) {
+    ctx.status = 400;
+    ctx.body = {
+      error: 400,
+      user_id: 'Пользователь с таким user_id уже существует.',
+    };
+    return;
+  }
+
+  if (await sessions.checkByUsername(username)) {
+    ctx.status = 400;
+    ctx.body = {
+      error: 400,
+      username: 'Пользователь с таким username уже существует.',
+    };
+    return;
+  }
+
   await sessions.saveMainInfo(phone, user_id, username, geo);
 
   ctx.body = {
