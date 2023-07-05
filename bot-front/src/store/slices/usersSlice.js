@@ -57,6 +57,9 @@ const usersSlice = createSlice({
         fetchUserSuccess(state, action) {
             state.editableUser = action.payload;
         },
+        fetchUserNull(state) {
+            state.editableUser = null;
+        },
         loginFailure(state, action) {
             state.loginLoading = false;
             state.loginError = action.payload;
@@ -137,6 +140,7 @@ export const {
     editStatusSuccess,
     deleteUserSuccess,
     fetchUserSuccess,
+    fetchUserNull,
 } = usersSlice.actions;
 
 export default usersSlice;
