@@ -1,11 +1,12 @@
 import {Box, Button, Container, CssBaseline, TextField, Typography} from "@mui/material";
 import {useState} from "react";
-import {useDispatch} from "react-redux";
-import {useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 import {loginAdmin} from "../store/actions/adminsActions";
+import {toast} from "react-toastify";
 
 const SignIn = () => {
     const dispatch = useDispatch();
+    const loginError = useSelector(state => state.users.loginError)
     const [user, setUser] = useState({
         email: "",
         password: "",
@@ -22,6 +23,8 @@ const SignIn = () => {
     };
 
     const emailRegex = new RegExp('[^\\s@]+@[^\\s@]+\\.[^\\s@]+');
+
+    if(loginError?.passwordErr) toast.error(loginError?.passwordErr);
 
     return (
         <Container component="main" maxWidth="xs">
@@ -66,6 +69,8 @@ const SignIn = () => {
                         label="Password"
                         type="password"
                         id="password"
+                        error={!!loginError?.passwordErr}
+                        helperText={loginError?.passwordErr}
                         autoComplete="current-password"
                         onChange={inputUserChangeHandler}
                     />

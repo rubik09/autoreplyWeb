@@ -19,9 +19,10 @@ export const login = async (ctx) => {
   const user = result[0];
   const isValidPassword = await bcrypt.compare(password, user.password);
   if (!isValidPassword) {
-    ctx.status = 401;
+    ctx.status = 400;
     ctx.body = {
-      message: 'invalid email or password',
+      error: 400,
+      passwordErr: 'Пароль неверный.',
     };
     return;
   }
