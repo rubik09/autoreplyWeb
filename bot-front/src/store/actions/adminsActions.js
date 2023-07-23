@@ -1,10 +1,11 @@
 import {
+    loginFailure,
     loginRequest,
     loginSuccess,
     logoutRequest,
     logoutSuccess,
     registerRequest,
-    registerSuccess
+    registerSuccess,
 } from "../slices/usersSlice";
 import axiosApi from "../../axiosApi";
 import {toast} from "react-toastify";
@@ -36,7 +37,7 @@ export const loginAdmin = (adminData) => {
 
             dispatch(loginSuccess(response.data.user));
         } catch (e) {
-            toast.error(e);
+            dispatch(loginFailure(e.response.data));
         }
     };
 };
