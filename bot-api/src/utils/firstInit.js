@@ -6,7 +6,7 @@ async function firstInit() {
 
   for (const session of allSessions) {
     const {
-      log_session, status, api_id, api_hash, user_id,
+      log_session, status, api_id, api_hash, user_id
     } = session;
 
     if (!status) continue;

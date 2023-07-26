@@ -11,7 +11,7 @@ async function telegramInit(log_session, api_id, api_hash, client_id) {
     connectionRetries: 5,
     sequentialUpdates: true,
     baseLogger: new NewLogger(),
-});
+  });
 
   await client.connect();
   await client.checkAuthorization();
