@@ -10,6 +10,7 @@ import outGoingMessages from './outGoing';
 import router from './routes/mainRoute';
 import errorHandler from './app/middleware/errorHandling';
 import logger from './app/middleware/logger';
+import {ADDRESS, PORT} from './config';
 
 emmiter.on('newClient', async (client) => {
   client.addEventHandler(
@@ -25,18 +26,17 @@ emmiter.on('newClient', async (client) => {
 await firstInit();
 
 const app = new Koa();
-const port = 8000;
 
 app.use(parser())
   .use(cors({
-    origin: 'http://13.50.162.152',
+    origin: `http://${ADDRESS}`,
   }))
   .use(logger)
   .use(errorHandler)
   .use(router.routes())
   .use(router.allowedMethods())
-  .listen(port, () => {
-    console.log(`🚀 Server listening http://127.0.0.1:${port}/ `);
+  .listen(PORT, () => {
+    console.log(`🚀 Server listening http://${ADDRESS}:${PORT}/ `);
   });
 
 export default emmiter;

@@ -4,38 +4,33 @@ import sessions from '../../models/sessions';
 import emmiter from '../../utils/emitter';
 import NewLogger from '../../utils/newLogger';
 import telegramInit, { clientsTelegram } from '../../telegramInit';
+import { setupSteps } from '../../config';
 
-// добавление новой лички
+//add new tgUser
 export const addClient = async (ctx) => {
   const {
     phone, user_id, username, geo,
   } = ctx.request.body;
 
-  if (await sessions.checkByPhone(phone)) {
-    ctx.status = 400;
-    ctx.body = {
-      error: 400,
-      phone: 'Пользователь с таким телефоном уже существует.',
-    };
-    return;
+  const validPone = await sessions.checkByPhone(phone);
+  if (validPone.length) {
+    const err = new Error('phone already exist');
+    err.status = 400;
+    throw err;
   }
 
-  if (await sessions.checkByUserId(user_id)) {
-    ctx.status = 400;
-    ctx.body = {
-      error: 400,
-      user_id: 'Пользователь с таким user_id уже существует.',
-    };
-    return;
+  const validUserId = await sessions.checkByUserId(user_id);
+  if (validUserId.length) {
+    const err = new Error('user_id already exist');
+    err.status = 400;
+    throw err;
   }
 
-  if (await sessions.checkByUsername(username)) {
-    ctx.status = 400;
-    ctx.body = {
-      error: 400,
-      username: 'Пользователь с таким username уже существует.',
-    };
-    return;
+  const validUsername = await sessions.checkByUsername(username);
+  if (validUsername) {
+    const err = new Error('username already exist');
+    err.status = 400;
+    throw err;
   }
 
   await sessions.saveMainInfo(phone, user_id, username, geo);
@@ -45,26 +40,18 @@ export const addClient = async (ctx) => {
   };
 };
 
-// изменение статуса
+// change status
 export const changeClientStatus = async (ctx) => {
   const { client_id } = ctx.request.body;
-  const bool = await sessions.changeStatus(client_id);
   const status = await sessions.getStatusByUserId(client_id);
+  await sessions.changeStatus(client_id, !status[0].status);
   const session = await sessions.getMainInfo(client_id);
   const { log_session, api_hash, api_id } = session[0];
-  if (status[0].status) {
-    await telegramInit(log_session, api_id, api_hash, client_id);
-  }
-  if (!status[0].status) {
-    const client = clientsTelegram[client_id];
-    if (client) {
-      client.destroy();
-      delete clientsTelegram[client_id];
-    }
-  }
+  !status[0].status ? await telegramInit(log_session, api_id, api_hash, client_id) : (clientsTelegram[client_id]?.destroy(), delete clientsTelegram[client_id]);
+
   ctx.body = {
     message: 'Success',
-    bool,
+    bool: !status[0].status
   };
 };
 
@@ -99,7 +86,7 @@ export const connectToTelegram = async (ctx) => {
     stringSession = new StringSession(mainInfo[0].log_session);
   }
 
-  if (setupStep === 1) {
+  if (setupStep === setupSteps.firstStep) {
     const client = new TelegramClient(stringSession, +api_id, api_hash, {
       connectionRetries: 5,
       sequentialUpdates: true,
@@ -132,7 +119,7 @@ export const connectToTelegram = async (ctx) => {
     ctx.body = {
       message: 'Success',
     };
-  } else if (setupStep === 2) {
+  } else if (setupStep === setupSteps.secondStep) {
     await promises[user_id].resolve(code);
     const client = clients[user_id];
     const session = client.session.save();
@@ -145,7 +132,7 @@ export const connectToTelegram = async (ctx) => {
     ctx.body = {
       message: 'Success',
     };
-  } else if (setupStep === 3) {
+  } else if (setupStep === setupSteps.thirdStep) {
     await sessions.updateAnswersToSession(answer, user_id);
     const client = clients[user_id];
     emmiter.emit('newClient', client);
@@ -175,46 +162,51 @@ export const updateClient = async (ctx) => {
 // get all users
 export const getAllClients = async (ctx) => {
   const users = await sessions.getSessions();
-
+  
+  const usersToSend = users.map(user => {
+    const { region, status, username, id } = user;
+    return { region, status, username, id };
+  });
   ctx.body = {
     message: 'Success',
-    users,
+    usersToSend,
   };
 };
 
 // get user by id
 export const getClient = async (ctx) => {
-  const user_id = ctx.params.id;
-  const user = await sessions.getClientByUserId(user_id);
-
-  if (!user) {
-    ctx.status = 404;
-    ctx.body = {
-      message: 'user not exist',
-    };
-    return;
+  const id = ctx.params.id;
+  const user = await sessions.getClientByUserId(id);
+  if (!user.length) {
+    const err = new Error('user not exist');
+    err.status = 404;
+    throw err;
   }
+  const {user_id, phone_number, region, username} = user[0];
+
+  
 
   ctx.body = {
     message: 'Success',
-    user: user[0],
+    user: {
+      id, user_id, phone_number, region, username
+    },
   };
 };
 
 // удаление лички
 export const deleteClient = async (ctx) => {
-  const user_id = ctx.params.id;
-  const user = await sessions.getSession(user_id);
+  const id = ctx.params.id;
+  const user = await sessions.getClientByUserId(id);
+  console.log(user)
 
-  if (!user) {
-    ctx.status = 404;
-    ctx.body = {
-      message: 'user not exist',
-    };
-    return;
+  if (!user.length) {
+    const err = new Error('user not exist');
+    err.status = 404;
+    throw err;
   }
 
-  await sessions.deleteClient(user_id);
+  await sessions.deleteClient(id);
 
   ctx.body = {
     message: 'Success',

@@ -10,22 +10,20 @@ class Session {
   }
 
   async getStatusByUserId(user_id) {
+    console.log(user_id)
     return this.sql.query('SELECT status FROM sessions WHERE ?', { user_id });
   }
 
   async checkByPhone(phone_number) {
-    const arr = await this.sql.query('SELECT * FROM sessions WHERE ?', { phone_number });
-    return !!arr.length;
+    return this.sql.query('SELECT * FROM sessions WHERE ?', { phone_number });
   }
 
   async checkByUserId(user_id) {
-    const arr = await this.sql.query('SELECT * FROM sessions WHERE ?', { user_id });
-    return !!arr.length;
+    return this.sql.query('SELECT * FROM sessions WHERE ?', { user_id });
   }
 
   async checkByUsername(username) {
-    const arr = await this.sql.query('SELECT * FROM sessions WHERE ?', { username });
-    return !!arr.length;
+    return this.sql.query('SELECT * FROM sessions WHERE ?', { username });
   }
 
   async getSessions() {
@@ -58,10 +56,8 @@ class Session {
     return this.sql.query('SELECT status FROM sessions WHERE ?', [{ api_id }]);
   }
 
-  async changeStatus(user_id) {
-    const status = await this.getStatusByUserId(user_id);
-    await this.sql.query('UPDATE sessions SET ? WHERE ?', [{ status: !status[0].status }, { user_id }]);
-    return !status[0].status;
+  async changeStatus(user_id, status) {
+    return this.sql.query('UPDATE sessions SET ? WHERE ?', [{ status }, { user_id }]);
   }
 
   async getAnswersFromSession(api_id) {
@@ -72,16 +68,16 @@ class Session {
     return this.sql.query('SELECT api_id, api_hash, log_session FROM sessions WHERE ?', [{ user_id }]);
   }
 
-  async deleteClient(user_id) {
-    return this.sql.query('DELETE FROM sessions WHERE ?;', [{ user_id }]);
+  async deleteClient(id) {
+    return this.sql.query('DELETE FROM sessions WHERE ?;', [{ id }]);
   }
 
   async getPhoneById(user_id) {
     return this.sql.query('SELECT phone_number FROM sessions WHERE ?', [{ user_id }]);
   }
 
-  async getClientByUserId(user_id) {
-    return this.sql.query('SELECT * FROM sessions WHERE ?', [{ user_id }]);
+  async getClientByUserId(id) {
+    return this.sql.query('SELECT * FROM sessions WHERE ?', [{ id }]);
   }
 
   async updateClientByUserId(answers, region, username, user_id) {
