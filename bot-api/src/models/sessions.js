@@ -9,9 +9,8 @@ class Session {
     return this.sql.query('UPDATE sessions SET ? WHERE ?', [{ status }, { user_id }]);
   }
 
-  async getStatusByUserId(user_id) {
-    console.log(user_id)
-    return this.sql.query('SELECT status FROM sessions WHERE ?', { user_id });
+  async getStatusByUserId(id) {
+    return this.sql.query('SELECT status FROM sessions WHERE ?', { id });
   }
 
   async checkByPhone(phone_number) {
@@ -56,8 +55,8 @@ class Session {
     return this.sql.query('SELECT status FROM sessions WHERE ?', [{ api_id }]);
   }
 
-  async changeStatus(user_id, status) {
-    return this.sql.query('UPDATE sessions SET ? WHERE ?', [{ status }, { user_id }]);
+  async changeStatus(id, status) {
+    return this.sql.query('UPDATE sessions SET ? WHERE ?', [{ status }, { id }]);
   }
 
   async getAnswersFromSession(api_id) {

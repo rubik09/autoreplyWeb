@@ -14,7 +14,6 @@ export const addClient = async (ctx) => {
   } = ctx.request.body;
 
   const validPone = await sessions.checkByPhone(phone);
-  console.log(validPone)
   if (validPone.length) {
     throwError('phone already exist', 400);
   }
@@ -38,9 +37,9 @@ export const addClient = async (ctx) => {
 
 // change status
 export const changeClientStatus = async (ctx) => {
-  const { client_id } = ctx.request.body;
-  const status = await sessions.getStatusByUserId(client_id);
-  await sessions.changeStatus(client_id, !status[0].status);
+  const { id } = ctx.request.body;
+  const status = await sessions.getStatusByUserId(id);
+  await sessions.changeStatus(id, !status[0].status);
   const session = await sessions.getMainInfo(client_id);
   const { log_session, api_hash, api_id } = session[0];
   !status[0].status ? await telegramInit(log_session, api_id, api_hash, client_id) : (clientsTelegram[client_id]?.destroy(), delete clientsTelegram[client_id]);
