@@ -5,6 +5,7 @@ import emmiter from '../../utils/emitter';
 import NewLogger from '../../utils/newLogger';
 import telegramInit, { clientsTelegram } from '../../telegramInit';
 import { setupSteps } from '../../config';
+import throwError from '../../utils/throwError';
 
 //add new tgUser
 export const addClient = async (ctx) => {
@@ -13,24 +14,19 @@ export const addClient = async (ctx) => {
   } = ctx.request.body;
 
   const validPone = await sessions.checkByPhone(phone);
+  console.log(validPone)
   if (validPone.length) {
-    const err = new Error('phone already exist');
-    err.status = 400;
-    throw err;
+    throwError('phone already exist', 400);
   }
 
   const validUserId = await sessions.checkByUserId(user_id);
   if (validUserId.length) {
-    const err = new Error('user_id already exist');
-    err.status = 400;
-    throw err;
+    throwError('user_id already exist', 400);
   }
 
   const validUsername = await sessions.checkByUsername(username);
   if (validUsername) {
-    const err = new Error('username already exist');
-    err.status = 400;
-    throw err;
+    throwError('username already exist', 400);
   }
 
   await sessions.saveMainInfo(phone, user_id, username, geo);
@@ -178,11 +174,9 @@ export const getClient = async (ctx) => {
   const id = ctx.params.id;
   const user = await sessions.getClientByUserId(id);
   if (!user.length) {
-    const err = new Error('user not exist');
-    err.status = 404;
-    throw err;
+    throwError('user not exist', 404);
   }
-  const {user_id, phone_number, region, username} = user[0];
+  const { user_id, phone_number, region, username } = user[0];
 
   
 
@@ -198,12 +192,9 @@ export const getClient = async (ctx) => {
 export const deleteClient = async (ctx) => {
   const id = ctx.params.id;
   const user = await sessions.getClientByUserId(id);
-  console.log(user)
 
   if (!user.length) {
-    const err = new Error('user not exist');
-    err.status = 404;
-    throw err;
+    throwError('user not exist', 404);
   }
 
   await sessions.deleteClient(id);
