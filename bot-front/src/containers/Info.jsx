@@ -1,15 +1,16 @@
 import React, {useEffect} from 'react';
-import {Container, Box} from "@mui/material";
+import {Container, Box, Button} from "@mui/material";
 import Header from "../components/UI/Header.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchClientById} from "../store/actions/clientsActions.js";
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import ReactJson from "react-json-view";
 
 const Info = () => {
     const dispatch = useDispatch();
     const {id} = useParams();
     const user = useSelector(state => state.users.editableUser)
+    const push = useNavigate();
 
     useEffect(() => {
         dispatch(fetchClientById(id));
@@ -50,6 +51,14 @@ const Info = () => {
                             collapsed={4} theme="rjv-default"
                         />
                     </div>
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        sx={{mt: 3, mb: 2}}
+                        onClick={() => push('/')}
+                    >
+                        На главную
+                    </Button>
                 </Box>
             </Box>
         </Container>

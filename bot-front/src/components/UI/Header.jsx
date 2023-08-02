@@ -21,13 +21,16 @@ const Header = () => {
             }}>Auto Reply CRM</Typography>
             {user ? <Box sx={{display: 'flex', alignItems: 'center', gap: '10px'}}>
                 <Typography component="p">{user.email}</Typography>
-                {path !== '/add' && path !== '/api' && path !== '/code' && path !== '/answer' ? <Button variant='outlined' sx={{cursor: 'pointer'}} onClick={() => {
+                {path === '/' ?    <Button variant='outlined' sx={{cursor: 'pointer'}} onClick={() => {
                     push('/add')
-                }}>Добавить Личку</Button> : null}
-                <Button variant='outlined' sx={{cursor: 'pointer'}} onClick={() => {
+                }}>
+                    Добавить Личку
+                </Button> : null}
+                {path === '/' ?     <Button variant='outlined' sx={{cursor: 'pointer'}} onClick={() => {
                     dispatch(logoutAdmin(user.id));
                     dispatch(historyPush('/'))
-                }}>Выйти</Button>
+                }}>Выйти</Button> : null}
+
             </Box> : null}
 
         </Box>
