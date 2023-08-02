@@ -18,7 +18,7 @@ const UserChange = () => {
         answers: '',
         region: '',
         username: '',
-        user_id: id,
+        id: id,
     });
 
     const inputChangeHandler = e => {
@@ -51,7 +51,7 @@ const UserChange = () => {
                 answers: user.answers,
                 region: user.region,
                 username: user.username,
-                user_id: id,
+                id: id,
             });
         }
     }, [dispatch, id, !!user]);

@@ -15,9 +15,7 @@ const UsersList = () => {
     }, [dispatch]);
 
     const columns = [
-        {field: 'user_id', headerName: 'User Id', width: 150},
         {field: 'username', headerName: 'Username', width: 200},
-        {field: 'phone_number', headerName: 'Номер телефона', width: 200},
         {field: 'region', headerName: 'Гео', width: 200},
         {field: 'status', headerName: 'Статус', type: 'boolean', width: 150},
         {
@@ -28,7 +26,7 @@ const UsersList = () => {
             filterable: false,
             renderCell: (params) => (
                 <Button variant='outlined' sx={{cursor: 'pointer', width: '100px'}} onClick={() => {
-                    dispatch(changeStatus(params.row.user_id))
+                    dispatch(changeStatus(params.row.id))
                 }}>{params.row.status ? 'Стоп' : 'Старт'}</Button>
             )
         },
@@ -39,8 +37,19 @@ const UsersList = () => {
             sortable: false,
             filterable: false,
             renderCell: (params) => (
-                <Button variant='outlined' onClick={() => push(`/edit/${params.row.user_id}`)}
+                <Button variant='outlined' onClick={() => push(`/edit/${params.row.id}`)}
                         sx={{cursor: 'pointer', width: '100px'}}>Изменить</Button>
+            )
+        },
+        {
+            field: 'info button',
+            headerName: '',
+            width: 150,
+            sortable: false,
+            filterable: false,
+            renderCell: (params) => (
+                <Button variant='outlined' onClick={() => push(`/info/${params.row.id}`)}
+                        sx={{cursor: 'pointer', width: '100px'}}>Инфо</Button>
             )
         },
         {
@@ -50,7 +59,7 @@ const UsersList = () => {
             sortable: false,
             filterable: false,
             renderCell: (params) => (
-                <Button variant='contained' color='error' onClick={() => dispatch(deleteClient(params.row.user_id))}
+                <Button variant='contained' color='error' onClick={() => dispatch(deleteClient(params.row.id))}
                         sx={{cursor: 'pointer', width: '100px'}}>Удалить</Button>
             )
         },

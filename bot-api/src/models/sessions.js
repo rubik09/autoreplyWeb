@@ -9,7 +9,7 @@ class Session {
     return this.sql.query('UPDATE sessions SET ? WHERE ?', [{ status }, { user_id }]);
   }
 
-  async getStatusByUserId(id) {
+  async getStatusById(id) {
     return this.sql.query('SELECT status FROM sessions WHERE ?', { id });
   }
 
@@ -63,8 +63,12 @@ class Session {
     return this.sql.query('SELECT answers FROM sessions WHERE ?', [{ api_id }]);
   }
 
-  async getMainInfo(user_id) {
-    return this.sql.query('SELECT api_id, api_hash, log_session FROM sessions WHERE ?', [{ user_id }]);
+  async getMainInfo(id) {
+    return this.sql.query('SELECT api_id, api_hash, log_session, user_id FROM sessions WHERE ?', [{ id }]);
+  }
+
+  async getMainInfoByUserId(user_id) {
+    return this.sql.query('SELECT api_id, api_hash, log_session, user_id FROM sessions WHERE ?', [{ user_id }]);
   }
 
   async deleteClient(id) {
@@ -75,12 +79,12 @@ class Session {
     return this.sql.query('SELECT phone_number FROM sessions WHERE ?', [{ user_id }]);
   }
 
-  async getClientByUserId(id) {
+  async getClientById(id) {
     return this.sql.query('SELECT * FROM sessions WHERE ?', [{ id }]);
   }
 
-  async updateClientByUserId(answers, region, username, user_id) {
-    return this.sql.query('UPDATE sessions SET ? WHERE ?', [{ answers, region, username }, { user_id }]);
+  async updateClientById(answers, region, username, id) {
+    return this.sql.query('UPDATE sessions SET ? WHERE ?', [{ answers, region, username }, { id }]);
   }
 }
 

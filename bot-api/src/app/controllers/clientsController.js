@@ -7,7 +7,7 @@ import telegramInit, { clientsTelegram } from '../../telegramInit';
 import { setupSteps } from '../../config';
 import throwError from '../../utils/throwError';
 
-//add new tgUser
+// add new tgUser
 export const addClient = async (ctx) => {
   const {
     phone, user_id, username, geo,
@@ -24,7 +24,8 @@ export const addClient = async (ctx) => {
   }
 
   const validUsername = await sessions.checkByUsername(username);
-  if (validUsername) {
+  console.log(validUsername)
+  if (validUsername.length) {
     throwError('username already exist', 400);
   }
 
@@ -38,15 +39,17 @@ export const addClient = async (ctx) => {
 // change status
 export const changeClientStatus = async (ctx) => {
   const { id } = ctx.request.body;
-  const status = await sessions.getStatusByUserId(id);
+  const status = await sessions.getStatusById(id);
   await sessions.changeStatus(id, !status[0].status);
-  const session = await sessions.getMainInfo(client_id);
-  const { log_session, api_hash, api_id } = session[0];
-  !status[0].status ? await telegramInit(log_session, api_id, api_hash, client_id) : (clientsTelegram[client_id]?.destroy(), delete clientsTelegram[client_id]);
+  const session = await sessions.getMainInfo(id);
+  const {
+    log_session, api_hash, api_id, user_id,
+  } = session[0];
+  !status[0].status ? await telegramInit(log_session, api_id, api_hash, user_id) : (clientsTelegram[user_id]?.destroy(), delete clientsTelegram[user_id]);
 
   ctx.body = {
     message: 'Success',
-    bool: !status[0].status
+    bool: !status[0].status,
   };
 };
 
@@ -74,7 +77,7 @@ export const connectToTelegram = async (ctx) => {
   phone_number = phone_number[0].phone_number;
 
   if (!api_hash || !api_id) {
-    const mainInfo = await sessions.getMainInfo(user_id);
+    const mainInfo = await sessions.getMainInfoByUserId(user_id);
 
     api_id = mainInfo[0].api_id;
     api_hash = mainInfo[0].api_hash;
@@ -141,12 +144,12 @@ export const connectToTelegram = async (ctx) => {
 // update user
 export const updateClient = async (ctx) => {
   const {
-    answers, region, username, user_id,
+    answers, region, username, id,
   } = ctx.request.body;
 
-  await sessions.updateClientByUserId(answers, region, username, user_id);
+  await sessions.updateClientById(answers, region, username, id);
 
-  const user = await sessions.getClientByUserId(user_id);
+  const user = await sessions.getClientById(id);
 
   ctx.body = {
     message: 'Success',
@@ -157,11 +160,16 @@ export const updateClient = async (ctx) => {
 // get all users
 export const getAllClients = async (ctx) => {
   const users = await sessions.getSessions();
-  
-  const usersToSend = users.map(user => {
-    const { region, status, username, id } = user;
-    return { region, status, username, id };
+
+  const usersToSend = users.map((user) => {
+    const {
+      region, status, username, id,
+    } = user;
+    return {
+      region, status, username, id,
+    };
   });
+
   ctx.body = {
     message: 'Success',
     usersToSend,
@@ -170,27 +178,27 @@ export const getAllClients = async (ctx) => {
 
 // get user by id
 export const getClient = async (ctx) => {
-  const id = ctx.params.id;
-  const user = await sessions.getClientByUserId(id);
+  const { id } = ctx.params;
+  const user = await sessions.getClientById(id);
   if (!user.length) {
     throwError('user not exist', 404);
   }
-  const { user_id, phone_number, region, username } = user[0];
-
-  
+  const {
+    user_id, phone_number, region, username, answers,
+  } = user[0];
 
   ctx.body = {
     message: 'Success',
     user: {
-      id, user_id, phone_number, region, username
+      id, user_id, phone_number, region, username, answers,
     },
   };
 };
 
 // удаление лички
 export const deleteClient = async (ctx) => {
-  const id = ctx.params.id;
-  const user = await sessions.getClientByUserId(id);
+  const { id } = ctx.params;
+  const user = await sessions.getClientById(id);
 
   if (!user.length) {
     throwError('user not exist', 404);

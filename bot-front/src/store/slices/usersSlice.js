@@ -105,14 +105,14 @@ const usersSlice = createSlice({
         },
         editStatusSuccess: (state, action) => {
             const newArray = [...state.usersList];
-            const index = newArray.findIndex(user => user.user_id === action.payload.client_id);
+            const index = newArray.findIndex(user => user.id === action.payload.id);
             newArray[index].status = action.payload.bool
 
             state.usersList = newArray;
         },
         deleteUserSuccess(state, action) {
             state.usersList = [
-                ...state.usersList.filter((p) => p.client_id !== action.payload.client_id),
+                ...state.usersList.filter((p) => p.id !== action.payload.id),
             ];
         },
     },

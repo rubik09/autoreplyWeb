@@ -62,17 +62,19 @@ export const fetchClients = () => {
         try {
             const {data} = await axiosApi.get('api/clients');
 
-            dispatch(fetchUsersSuccess(data.users));
+            console.log(data)
+
+            dispatch(fetchUsersSuccess(data.usersToSend));
         } catch (e) {
             toast.error(e);
         }
     }
 };
 
-export const fetchClientById = (client_id) => {
+export const fetchClientById = (id) => {
     return async (dispatch) => {
         try {
-            const {data} = await axiosApi.get(`api/clients/${client_id}`);
+            const {data} = await axiosApi.get(`api/clients/${id}`);
 
             dispatch(fetchUserSuccess(data.user));
         } catch (e) {
@@ -81,28 +83,28 @@ export const fetchClientById = (client_id) => {
     }
 };
 
-export const changeStatus = (client_id) => {
+export const changeStatus = (id) => {
     return async (dispatch) => {
         try {
-            const {data} = await axiosApi.post('api/clients/status', {client_id});
+            const {data} = await axiosApi.post('api/clients/status', {id});
 
             toast.success(`Вы успешно сменили статус на "${data.bool ? 'запущен' : 'остановлен'}"!`);
 
-            dispatch(editStatusSuccess({client_id, bool: data.bool}));
+            dispatch(editStatusSuccess({id, bool: data.bool}));
         } catch (e) {
             toast.error(e);
         }
     }
 };
 
-export const deleteClient = (client_id) => {
+export const deleteClient = (id) => {
     return async (dispatch) => {
         try {
-            await axiosApi.delete(`api/clients/${client_id}`);
+            await axiosApi.delete(`api/clients/${id}`);
 
             toast.success('Личка успешно удалена!');
 
-            dispatch(deleteUserSuccess({client_id}));
+            dispatch(deleteUserSuccess({id}));
         } catch (e) {
             toast.error(e);
         }

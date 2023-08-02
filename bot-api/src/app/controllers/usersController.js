@@ -10,6 +10,7 @@ export const login = async (ctx) => {
     throwError('user not exist', 401);
   }
   const adminPassword = result[0].password;
+  const user = result[0];
   const isValidPassword = await bcrypt.compare(password, adminPassword);
   if (!isValidPassword) {
     throwError('password is not valid', 400);

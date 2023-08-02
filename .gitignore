@@ -2,5 +2,6 @@
 /bot-api/node_modules
 /bot-front/.idea
 /bot-api/.idea
-.idea
+/bot-front/src/.env
 /bot-api/.env
+.idea
