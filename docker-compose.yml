@@ -19,7 +19,7 @@ services:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - PORT=${PORT}
-      - ADDRESS=${ADDRESS_PROD}
+      - ADDRESS=${ADDRESS}
     restart: always
 
   frontend:
