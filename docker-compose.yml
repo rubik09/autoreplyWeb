@@ -13,13 +13,13 @@ services:
       - "8000:8000"
     environment:
       - SECRET_KEY=${SECRET_KEY}
-      - MYSQL_HOST_PROD=${MYSQL_HOST_PROD}
-      - MYSQL_PORT_PROD=${MYSQL_PORT_PROD}
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_PORT=${MYSQL_PORT}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE_PROD=${MYSQL_DATABASE_PROD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
       - PORT=${PORT}
-      - ADDRESS_PROD=${ADDRESS_PROD}
+      - ADDRESS=${ADDRESS_PROD}
     restart: always
 
   frontend:
@@ -37,7 +37,7 @@ services:
   db:
     image: mariadb:latest
     environment:
-      - MYSQL_DATABASE_PROD=${MYSQL_DATABASE_PROD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     ports:
       - "3306:3306"
