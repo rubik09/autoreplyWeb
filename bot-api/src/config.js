@@ -10,7 +10,7 @@
 
 export const {
   MYSQL_USER, MYSQL_ROOT_PASSWORD,
-  SECRET_KEY,MYSQL_HOST, MYSQL_PORT,MYSQL_DATABASE, ADDRESS
+  SECRET_KEY,MYSQL_HOST, MYSQL_PORT,MYSQL_DATABASE
 } = process.env;
 
 export const actionTypes = {
@@ -26,7 +26,7 @@ export const databaseOptions = {
   database: MYSQL_DATABASE,
 };
 
-export const {PORT} = process.env;
+export const {PORT, ADDRESS} = process.env;
 
 export const setupSteps = {
   firstStep: 1,
