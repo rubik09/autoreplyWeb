@@ -12,11 +12,14 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - MYSQL_HOST=db
-      - MYSQL_PORT=${MYSQL_PORT}
+      - SECRET_KEY=${SECRET_KEY}
+      - MYSQL_HOST_PROD=${MYSQL_HOST_PROD}
+      - MYSQL_PORT_PROD=${MYSQL_PORT_PROD}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_DATABASE_PROD=${MYSQL_DATABASE_PROD}
+      - PORT=${PORT}
+      - ADDRESS_PROD=${ADDRESS_PROD}
     restart: always
 
   frontend:
