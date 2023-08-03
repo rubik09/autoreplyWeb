@@ -31,7 +31,7 @@ async function outGoingMessages(client, event) {
         }
 
         parsedAutoAnswers.stages[i].stageMode = true;
-        await user.updateStageStatus(JSON.stringify(parsedAutoAnswers), userId);
+        await user.updateStageStatus(JSON.stringify(parsedAutoAnswers), userId, apiId);
       }
     }
   }

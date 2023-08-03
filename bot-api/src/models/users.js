@@ -27,8 +27,8 @@ class User {
     return this.sql.query('SELECT answers FROM users WHERE ?', [{ api_id_client }]);
   }
 
-  async updateStageStatus(answers, user_id) {
-    return this.sql.query('UPDATE users SET ? WHERE ?', [{ answers }, { user_id }]);
+  async updateStageStatus(answers, user_id, api_id_client) {
+    return this.sql.query('UPDATE users SET ? WHERE ? AND ?', [{ answers }, { user_id }, { api_id_client }]);
   }
 
   async getCountUsers(api_id_client) {
