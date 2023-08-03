@@ -37,7 +37,7 @@ services:
   db:
     image: mariadb:latest
     environment:
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_DATABASE_PROD=${MYSQL_DATABASE_PROD}
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
     ports:
       - "3306:3306"
