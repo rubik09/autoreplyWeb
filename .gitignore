@@ -5,3 +5,4 @@
 /bot-front/src/.env
 /bot-api/.env
 .idea
+.env
