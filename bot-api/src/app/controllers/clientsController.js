@@ -149,26 +149,15 @@ export const updateClient = async (ctx) => {
 
   await sessions.updateClientById(answers, region, username, id);
 
-  const user = await sessions.getClientById(id);
-
   ctx.body = {
     message: 'Success',
-    user,
   };
 };
 
 // get all users
 export const getAllClients = async (ctx) => {
   const users = await sessions.getSessions();
-
-  const usersToSend = users.map((user) => {
-    const {
-      region, status, username, id,
-    } = user;
-    return {
-      region, status, username, id,
-    };
-  });
+  const usersToSend = users.map(({ region, status, username, id }) => ({ region, status, username, id }));
 
   ctx.body = {
     message: 'Success',
