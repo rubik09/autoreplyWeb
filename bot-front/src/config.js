@@ -4,7 +4,7 @@ export let apiUrl;
 //     apiUrl = process.env.REACT_APP_API_URL;
 // } else {
 // apiUrl = 'http://localhost:8000';
-apiUrl = 'http://16.16.211.243:8000';
+apiUrl = 'http://13.50.98.77:8000';
 // }
 
 export const countries = [
