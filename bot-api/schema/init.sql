@@ -22,9 +22,9 @@ CREATE TABLE IF NOT EXISTS `sessions`
     `user_id`                   varchar(255) DEFAULT '' UNIQUE,
     `username`                  varchar(255) DEFAULT '' UNIQUE,
     `phone_number`              varchar(255) DEFAULT '' UNIQUE,
-    `users_count`               varchar(255) DEFAULT '',
-    `incoming_messages_count`   varchar(255) DEFAULT '',
-    `average_incoming_messages` varchar(255) DEFAULT '',
+    `users_count`               int(11) DEFAULT 0,
+    `incoming_messages_count`   int(11) DEFAULT 0,
+    `average_incoming_messages` int(11) DEFAULT 0,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 76544
@@ -36,9 +36,9 @@ CREATE TABLE `stats`
     `id`                        int(11) NOT NULL AUTO_INCREMENT,
     `api_id_client`             varchar(255) DEFAULT '',
     `keywords`                  longtext,
-    `users_count`               varchar(255) DEFAULT '',
-    `incoming_messages_count`   varchar(255) DEFAULT '',
-    `average_incoming_messages` varchar(255) DEFAULT '',
+    `users_count`               int(11) DEFAULT 0,
+    `incoming_messages_count`   int(11) DEFAULT 0,
+    `average_incoming_messages` int(11) DEFAULT 0,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 81339

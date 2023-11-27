@@ -3,7 +3,6 @@ import googleSheets from "./utils/googleClient.js";
 
 const StatsSending = async (username, incomingMessagesStats, newUsersCount, averageMessagesCount, keywordsDiffArr) => {
         try {
-            await new Promise((resolve) => setTimeout(resolve, 3000));
             const currentDate = new Date();
             currentDate.setHours(currentDate.getHours() - 3);
             const formattedDate = currentDate.toISOString().split('T')[0].replace(/-/g, '.');

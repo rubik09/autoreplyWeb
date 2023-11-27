@@ -5,6 +5,7 @@ import Header from "../../components/UI/Header.jsx";
 import {useEffect, useState} from "react";
 import {apiSuccessNull} from "../../store/slices/usersSlice";
 import {sendApiInfo} from "../../store/actions/clientsActions";
+import {toast} from "react-toastify";
 
 const ApiPage = () => {
     const apiSuccess = useSelector(state => state.users.apiSuccess)
@@ -50,7 +51,7 @@ const ApiPage = () => {
                 }} onSubmit={(e) => submitFormHandler(e)}>
                     <Typography>
                         <ul>
-                            <li>Перейдите на  <a href='https://my.telegram.org/apps' style={{fontSize: '20px'}}>сайт</a></li>
+                            <li>Перейдите на  <a href='' onClick={(e) => {e.preventDefault(); navigator.clipboard.writeText('https://my.telegram.org/apps'); toast.success('Ссылка успешно скопирована!');}} style={{fontSize: '20px'}}>сайт</a> в режиме инкогнито</li>
                             <li>Зарегистрируйтесь</li>
                             <li>скопируйте apiId и apiHash</li>
                         </ul>
