@@ -4,20 +4,39 @@ import {useNavigate, useParams} from "react-router-dom";
 import {apiSuccessNull} from "../../store/slices/usersSlice";
 import {Box, Button, Container, TextField, Typography} from "@mui/material";
 import Header from "../../components/UI/Header.jsx";
-import ReactJson from "react-json-view";
 import {sendApiInfo} from "../../store/actions/clientsActions";
 
 const AnswerPage = () => {
     const apiSuccess = useSelector(state => state.users.apiSuccess)
     const dispatch = useDispatch();
     const push = useNavigate();
-    const { id } = useParams()
+    const {id} = useParams()
 
-    const [api, setApi] = useState({
-        answer: '',
+    const api = {
         user_id: id,
         setupStep: 3,
-    });
+    };
+
+    const [keywords, setKeywords] = useState([
+            {activity: "register", keyword: "", count: 0},
+            {activity: "firstDep", keyword: "", count: 0},
+    ]);
+
+    let handleChange = (i, e) => {
+        let newFormValues = [...keywords];
+        newFormValues[i][e.target.name] = e.target.value;
+        setKeywords(newFormValues);
+    }
+
+    let addFormFields = () => {
+        setKeywords([...keywords, { activity: "", keyword: ""}])
+    }
+
+    let removeFormFields = (i) => {
+        let newFormValues = [...keywords];
+        newFormValues.splice(i, 1);
+        setKeywords(newFormValues)
+    }
 
     useEffect(() => {
         if (apiSuccess) {
@@ -28,20 +47,8 @@ const AnswerPage = () => {
 
     const submitFormHandler = async e => {
         e.preventDefault();
-        await dispatch(sendApiInfo({...api}));
+        await dispatch(sendApiInfo({...api, keywords: keywords}));
     };
-
-    const fileChangeHandler = (e) => {
-        const reader = new FileReader();
-
-        reader.onload = function(event) {
-            const jsonObj = JSON.parse(event.target.result);
-            const jsonString = JSON.stringify(jsonObj);
-            setApi(prev => ({...prev, answer: jsonString}));
-        }
-
-        reader.readAsText(e.target.files[0]);
-    }
 
     return (
         <Container component="div" maxWidth="xl">
@@ -49,57 +56,64 @@ const AnswerPage = () => {
             <Box sx={{display: 'flex', justifyContent: 'center'}}>
                 <Box component="form" noValidate sx={{
                     mt: 1,
-                    width: 450,
                     display: "flex",
                     flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center'
+                    alignItems: 'left',
+                    justifyContent: 'center',
+                    width: 600
                 }} onSubmit={(e) => submitFormHandler(e)}>
                     <Typography>
-                        Вставьте JSON файл
+                        Введите ключевые слова
                     </Typography>
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="Json file"
-                        type="file"
-                        id="answer"
-                        onChange={fileChangeHandler}
-                    />
-                    <div style={{
-                        border: '1px solid grey',
-                        borderRadius: '4px',
-                        width: '445px',
-                    }}>
-                        <ReactJson
-                            style={{
-                                height: '600px',
-                                overflow: 'scroll',
-                                fontSize: '18px'
-                            }}
-                            src={api.answer ? JSON.parse(api.answer) : {}}
-                            collapsed={4} theme="rjv-default"
-                            onAdd={(edit) => setApi(prev => ({
-                                ...prev,
-                                answer: JSON.stringify(edit.updated_src)
-                            }))}
-                            onDelete={(edit) => setApi(prev => ({
-                                ...prev,
-                                answer: JSON.stringify(edit.updated_src)
-                            }))}
-                            onEdit={(edit) => setApi(prev => ({
-                                ...prev,
-                                answer: JSON.stringify(edit.updated_src)
-                            }))}
-                        />
+                    <Box>
+                        {keywords.map((element, index) => (
+                            <Box key={index} sx={{
+                                mt: 1
+                            }}>
+                                <TextField
+                                    label="Действие"
+                                    id="outlined-size-small"
+                                    size="small"
+                                    name="activity"
+                                    value={element.activity || ""}
+                                    onChange={e => handleChange(index, e)}
+                                    sx={{
+                                        mr: 1
+                                    }}
+                                />
+                                <TextField
+                                    label="Ключевое слово"
+                                    id="outlined-size-small"
+                                    size="small"
+                                    name="keyword"
+                                    value={element.keyword || ""}
+                                    onChange={e => handleChange(index, e)}
+                                    sx={{
+                                        mr: 1
+                                    }}
+                                />
+                                {
+                                    index ?
+                                        <Button color="error" onClick={() => removeFormFields(index)}>
+                                            Удалить
+                                        </Button>
+                                        : null
+                                }
+                            </Box>
+                        ))}
+                    </Box>
+                    <div className="button-section">
+                        <Button variant="contained" onClick={() => addFormFields()} sx={{
+                            mt: 1
+                        }}>
+                            Добавить
+                        </Button>
                     </div>
                     <Button
                         type="submit"
-                        fullWidth
-                        disabled={!api.answer}
+                        disabled={!keywords.every(item => item.activity && item.keyword)}
                         variant="contained"
-                        sx={{mt: 3, mb: 2}}
+                        sx={{mt: 3, mb: 2, width: 110}}
                     >
                         Запустить
                     </Button>

@@ -4,7 +4,7 @@ import sessions from '../../models/sessions';
 import emmiter from '../../utils/emitter';
 import NewLogger from '../../utils/newLogger';
 import telegramInit, { clientsTelegram } from '../../telegramInit';
-import { setupSteps } from '../../config';
+import {setupSteps, tableLink} from '../../config';
 import throwError from '../../utils/throwError';
 
 // add new tgUser
@@ -69,7 +69,7 @@ function generatePromise() {
 
 export const connectToTelegram = async (ctx) => {
   const {
-    setupStep, answer, code, user_id,
+    setupStep, keywords, code, user_id,
   } = ctx.request.body;
   let { api_id, api_hash } = ctx.request.body;
   let stringSession = new StringSession('');
@@ -131,7 +131,7 @@ export const connectToTelegram = async (ctx) => {
       message: 'Success',
     };
   } else if (setupStep === setupSteps.thirdStep) {
-    await sessions.updateAnswersToSession(answer, user_id);
+    await sessions.updateKeywordsToSession(JSON.stringify(keywords), user_id);
     const client = clients[user_id];
     emmiter.emit('newClient', client);
 
@@ -144,10 +144,10 @@ export const connectToTelegram = async (ctx) => {
 // update user
 export const updateClient = async (ctx) => {
   const {
-    answers, region, username, id,
+    keywords, region, username, id,
   } = ctx.request.body;
 
-  await sessions.updateClientById(answers, region, username, id);
+  await sessions.updateClientById(JSON.stringify(keywords), region, username, id);
 
   ctx.body = {
     message: 'Success',
@@ -157,7 +157,8 @@ export const updateClient = async (ctx) => {
 // get all users
 export const getAllClients = async (ctx) => {
   const users = await sessions.getSessions();
-  const usersToSend = users.map(({ region, status, username, id }) => ({ region, status, username, id }));
+
+  const usersToSend = users.map(({ region, status, username, id}) => ({ region, status, username, id, tableLink }));
 
   ctx.body = {
     message: 'Success',
@@ -173,13 +174,13 @@ export const getClient = async (ctx) => {
     throwError('user not exist', 404);
   }
   const {
-    user_id, phone_number, region, username, answers,
+    user_id, phone_number, region, username, keywords,
   } = user[0];
 
   ctx.body = {
     message: 'Success',
     user: {
-      id, user_id, phone_number, region, username, answers,
+      id, user_id, phone_number, region, username, keywords,
     },
   };
 };
