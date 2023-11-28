@@ -1,11 +1,6 @@
 export let apiUrl;
 
-// if (process.env.REACT_APP_API_URL) {
-//     apiUrl = process.env.REACT_APP_API_URL;
-// } else {
-// apiUrl = 'http://localhost:8000';
-apiUrl = 'http://13.50.162.152:8000';
-// }
+apiUrl = process.env.REACT_APP_API_URL;
 
 export const countries = [
     {code: 'AD', label: 'Andorra', phone: '376'},
