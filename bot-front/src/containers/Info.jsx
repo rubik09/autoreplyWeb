@@ -1,11 +1,9 @@
 import React, {useEffect} from 'react';
-import {Container, Box, Button} from "@mui/material";
+import {Container, Box, Button, TextField} from "@mui/material";
 import Header from "../components/UI/Header.jsx";
 import {useDispatch, useSelector} from "react-redux";
 import {fetchClientById} from "../store/actions/clientsActions.js";
 import {useNavigate, useParams} from "react-router-dom";
-import ReactJson from "react-json-view";
-
 const Info = () => {
     const dispatch = useDispatch();
     const {id} = useParams();
@@ -23,7 +21,7 @@ const Info = () => {
             <Box sx={{display: 'flex', justifyContent: 'center'}}>
                 <Box noValidate sx={{
                     mt: 1,
-                    width: 450,
+                    width: 500,
                     display: "flex",
                     flexDirection: 'column',
                     alignItems: 'left',
@@ -35,22 +33,39 @@ const Info = () => {
                     <div style={infoStyle}><span style={{color: 'grey'}}>User id:</span> {user?.user_id}</div>
                     <div style={infoStyle}><span style={{color: 'grey'}}>Phone number:</span> {user?.phone_number}</div>
                     <div style={infoStyle}><span style={{color: 'grey'}}>Region:</span> {user?.region}</div>
-                    <div style={{
-                        border: '1px solid grey',
-                        borderRadius: '4px',
-                        width: '445px',
-                        marginTop: '30px',
-                    }}>
-                        <ReactJson
-                            style={{
-                                height: '600px',
-                                overflow: 'scroll',
-                                fontSize: '18px',
-                            }}
-                            src={user?.answers ? JSON.parse(user?.answers) : {}}
-                            collapsed={4} theme="rjv-default"
-                        />
-                    </div>
+                    {JSON.parse(user?.keywords).map((element, index) => (
+                        <Box key={index} sx={{
+                            mt: 1
+                        }}>
+                            <TextField
+                                label="Действие"
+                                id="outlined-size-small"
+                                size="small"
+                                name="activity"
+                                defaultValue={element.activity || ""}
+                                onChange={e => handleChange(index, e)}
+                                sx={{
+                                    mr: 1
+                                }}
+                                InputProps={{
+                                    readOnly: true,
+                                }}
+                            />
+                            <TextField
+                                label="Ключевое слово"
+                                id="outlined-size-small"
+                                size="small"
+                                name="keyword"
+                                defaultValue={element.keyword || ""}
+                                sx={{
+                                    mr: 1
+                                }}
+                                InputProps={{
+                                    readOnly: true,
+                                }}
+                            />
+                        </Box>
+                    ))}
                     <Button
                         fullWidth
                         variant="contained"

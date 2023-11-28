@@ -1,9 +1,8 @@
 import Header from "../components/UI/Header.jsx";
-import {Autocomplete, Box, Button, Container, TextField,} from "@mui/material";
+import {Autocomplete, Box, Button, Container, TextField, Typography,} from "@mui/material";
 import {useDispatch, useSelector} from "react-redux";
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
-import ReactJson from "react-json-view";
 import {countries} from "../config";
 import {fetchClientById, updateClient} from "../store/actions/clientsActions";
 import {fetchUserNull} from "../store/slices/usersSlice.js";
@@ -15,44 +14,50 @@ const UserChange = () => {
     const {id} = useParams();
 
     const [userState, setUserState] = useState({
-        answers: '',
         region: '',
         username: '',
         id: id,
     });
+
+    const [keywords, setKeywords] = useState([]);
 
     const inputChangeHandler = e => {
         const {name, value} = e.target;
         setUserState(prev => ({...prev, [name]: value}));
     };
 
+    let handleChange = (i, e) => {
+        let newFormValues = [...keywords];
+        newFormValues[i][e.target.name] = e.target.value;
+        setKeywords(newFormValues);
+    }
+
+    let addFormFields = () => {
+        setKeywords([...keywords, { activity: "", keyword: "", count: 0}])
+    }
+
+    let removeFormFields = (i) => {
+        let newFormValues = [...keywords];
+        newFormValues.splice(i, 1);
+        setKeywords(newFormValues)
+    }
+
     const submitFormHandler = async e => {
         e.preventDefault();
-        await dispatch(updateClient({...userState}));
+        await dispatch(updateClient({...userState, keywords: keywords}));
         push('/')
     };
-
-    const fileChangeHandler = (e) => {
-        const reader = new FileReader();
-
-        reader.onload = function (event) {
-            const jsonObj = JSON.parse(event.target.result);
-            const jsonString = JSON.stringify(jsonObj);
-            setUserState(prev => ({...prev, answers: jsonString}));
-        }
-
-        reader.readAsText(e.target.files[0]);
-    }
 
     useEffect(() => {
         dispatch(fetchClientById(id));
         if (user) {
             setUserState({
-                answers: user.answers,
                 region: user.region,
                 username: user.username,
                 id: id,
             });
+            setKeywords(JSON.parse(user.keywords));
+            console.log(user, keywords)
         }
     }, [dispatch, id, !!user]);
 
@@ -66,7 +71,7 @@ const UserChange = () => {
             <Box sx={{display: 'flex', justifyContent: 'center'}}>
                 <Box component="form" noValidate sx={{
                     mt: 1,
-                    width: 450,
+                    width: 600,
                     display: "flex",
                     flexDirection: 'column',
                     alignItems: 'center',
@@ -74,7 +79,7 @@ const UserChange = () => {
                 }} onSubmit={(e) => submitFormHandler(e)}>
                     <Autocomplete
                         id="country-select-demo"
-                        sx={{width: 450}}
+                        sx={{width: 600}}
                         options={countries}
                         onChange={(e) => setUserState(prev => ({...prev, region: e.target.textContent}))}
                         autoHighlight
@@ -114,43 +119,64 @@ const UserChange = () => {
                         onChange={inputChangeHandler}
                         sx={{marginBottom: '0px'}}
                     />
-                    <TextField
-                        margin="normal"
-                        required
-                        fullWidth
-                        name="Json file"
-                        type="file"
-                        id="answer"
-                        onChange={fileChangeHandler}
-                    />
-                    <div style={{
-                        border: '1px solid grey',
-                        borderRadius: '4px',
-                        width: '445px',
-
-                    }}>
-                        <ReactJson
-                            style={{
-                                height: '600px',
-                                overflow: 'scroll',
-                                fontSize: '18px'
-                            }}
-                            src={userState.answers ? JSON.parse(userState.answers) : {}}
-                            collapsed={4} theme="rjv-default"
-                            onDelete={(edit) => setUserState(prev => ({
-                                ...prev,
-                                answers: JSON.stringify(edit.updated_src)
-                            }))}
-                            onAdd={(edit) => setUserState(prev => ({
-                                ...prev,
-                                answers: JSON.stringify(edit.updated_src)
-                            }))}
-                            onEdit={(edit) => setUserState(prev => ({
-                                ...prev,
-                                answers: JSON.stringify(edit.updated_src)
-                            }))}/>
-                    </div>
-
+                    <Box noValidate sx={{
+                        mt: 1,
+                        display: "flex",
+                        flexDirection: 'column',
+                        alignItems: 'left',
+                        justifyContent: 'center',
+                        width: 600
+                    }} onSubmit={(e) => submitFormHandler(e)}>
+                        <Typography>
+                            Введите ключевые слова
+                        </Typography>
+                        <Box>
+                            {keywords.map((element, index) => (
+                                <Box key={index} sx={{
+                                    mt: 1
+                                }}>
+                                    <TextField
+                                        label="Действие"
+                                        id="outlined-size-small"
+                                        defaultValue="Small"
+                                        size="small"
+                                        name="activity"
+                                        value={element.activity || ""}
+                                        onChange={e => handleChange(index, e)}
+                                        sx={{
+                                            mr: 1
+                                        }}
+                                    />
+                                    <TextField
+                                        label="Ключевое слово"
+                                        id="outlined-size-small"
+                                        defaultValue="Small"
+                                        size="small"
+                                        name="keyword"
+                                        value={element.keyword || ""}
+                                        onChange={e => handleChange(index, e)}
+                                        sx={{
+                                            mr: 1
+                                        }}
+                                    />
+                                    {
+                                        index ?
+                                            <Button color="error" onClick={() => removeFormFields(index)}>
+                                                Удалить
+                                            </Button>
+                                            : null
+                                    }
+                                </Box>
+                            ))}
+                        </Box>
+                        <div className="button-section">
+                            <Button variant="contained" onClick={() => addFormFields()} sx={{
+                                mt: 1
+                            }}>
+                                Добавить
+                            </Button>
+                        </div>
+                        </Box>
                     <Button
                         type="submit"
                         fullWidth

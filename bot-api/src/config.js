@@ -24,3 +24,7 @@ export const setupSteps = {
   secondStep: 2,
   thirdStep: 3
 }
+
+export const tableLink = 'https://docs.google.com/spreadsheets/d/1edqh1hgFOf2DseMYI4aZftW3MVrifxkIyK_iXU-1Swc/edit?hl=ru#gid=0';
+export const spreadsheetId = '1edqh1hgFOf2DseMYI4aZftW3MVrifxkIyK_iXU-1Swc';
+export const sheetId = 0;

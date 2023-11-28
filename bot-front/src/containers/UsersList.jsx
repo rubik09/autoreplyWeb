@@ -21,7 +21,7 @@ const UsersList = () => {
         {
             field: 'Start/Stop button',
             headerName: '',
-            width: 150,
+            width: 125,
             sortable: false,
             filterable: false,
             renderCell: (params) => (
@@ -33,7 +33,7 @@ const UsersList = () => {
         {
             field: 'edit button',
             headerName: '',
-            width: 150,
+            width: 125,
             sortable: false,
             filterable: false,
             renderCell: (params) => (
@@ -44,7 +44,7 @@ const UsersList = () => {
         {
             field: 'info button',
             headerName: '',
-            width: 150,
+            width: 125,
             sortable: false,
             filterable: false,
             renderCell: (params) => (
@@ -53,9 +53,19 @@ const UsersList = () => {
             )
         },
         {
+            field: 'stats button',
+            headerName: '',
+            width: 125,
+            sortable: false,
+            filterable: false,
+            renderCell: (params) => (
+                <Button variant='outlined' sx={{cursor: 'pointer', width: '100px'}} onClick={() => window.open(params.row.tableLink, '_blank')}>Статистика</Button>
+            )
+        },
+        {
             field: 'delete button',
             headerName: '',
-            width: 150,
+            width: 125,
             sortable: false,
             filterable: false,
             renderCell: (params) => (
