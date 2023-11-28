@@ -1,4 +1,4 @@
-import {sheetId, spreadsheetId} from "./config.js";
+import {SHEET_ID, SPREADSHEET_ID} from "./config.js";
 import googleSheets from "./utils/googleClient.js";
 
 const StatsSending = async (username, incomingMessagesStats, newUsersCount, averageMessagesCount, keywordsDiffArr) => {
@@ -25,17 +25,17 @@ const StatsSending = async (username, incomingMessagesStats, newUsersCount, aver
 
 
             const res = await googleSheets.spreadsheets.values.get({
-                spreadsheetId,
+                SPREADSHEET_ID,
                 range: 'A1:P',
             });
             const lastFilledCell = res.data.values.length
             await googleSheets.spreadsheets.batchUpdate({
-                    spreadsheetId,
+                    SPREADSHEET_ID,
                     requestBody: {
                         requests: [{
                             updateCells: {
                                 range: {
-                                    sheetId,
+                                    SHEET_ID,
                                     startRowIndex: lastFilledCell,
                                     endRowIndex: lastFilledCell + 2,
                                     startColumnIndex: 0,

@@ -4,7 +4,7 @@ import sessions from '../../models/sessions';
 import emmiter from '../../utils/emitter';
 import NewLogger from '../../utils/newLogger';
 import telegramInit, { clientsTelegram } from '../../telegramInit';
-import {setupSteps, tableLink} from '../../config';
+import {setupSteps, TABLE_LINK} from '../../config';
 import throwError from '../../utils/throwError';
 
 // add new tgUser
@@ -158,7 +158,7 @@ export const updateClient = async (ctx) => {
 export const getAllClients = async (ctx) => {
   const users = await sessions.getSessions();
 
-  const usersToSend = users.map(({ region, status, username, id}) => ({ region, status, username, id, tableLink }));
+  const usersToSend = users.map(({ region, status, username, id}) => ({ region, status, username, id, TABLE_LINK }));
 
   ctx.body = {
     message: 'Success',
