@@ -1,3 +1,7 @@
+create database if not exists autoReply;
+
+use autoReply;
+
 CREATE TABLE IF NOT EXISTS `admins`
 (
     `id`       int(11)      NOT NULL AUTO_INCREMENT,
@@ -22,9 +26,9 @@ CREATE TABLE IF NOT EXISTS `sessions`
     `user_id`                   varchar(255) DEFAULT '' UNIQUE,
     `username`                  varchar(255) DEFAULT '' UNIQUE,
     `phone_number`              varchar(255) DEFAULT '' UNIQUE,
-    `users_count`               int(11) DEFAULT 0,
-    `incoming_messages_count`   int(11) DEFAULT 0,
-    `average_incoming_messages` int(11) DEFAULT 0,
+    `users_count`               int(11)      DEFAULT 0,
+    `incoming_messages_count`   int(11)      DEFAULT 0,
+    `average_incoming_messages` int(11)      DEFAULT 0,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 76544
@@ -36,9 +40,9 @@ CREATE TABLE `stats`
     `id`                        int(11) NOT NULL AUTO_INCREMENT,
     `api_id_client`             varchar(255) DEFAULT '',
     `keywords`                  longtext,
-    `users_count`               int(11) DEFAULT 0,
-    `incoming_messages_count`   int(11) DEFAULT 0,
-    `average_incoming_messages` int(11) DEFAULT 0,
+    `users_count`               int(11)      DEFAULT 0,
+    `incoming_messages_count`   int(11)      DEFAULT 0,
+    `average_incoming_messages` int(11)      DEFAULT 0,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 81339
@@ -55,3 +59,6 @@ CREATE TABLE IF NOT EXISTS `users`
   AUTO_INCREMENT = 91639
   DEFAULT CHARSET = utf8mb4
   COLLATE = utf8mb4_general_ci;
+
+insert into autoReply.admins (id, email, password)
+values (1223, 'admin@gmail.com', '$2a$10$DkZhAnFQfsyVZydoN.h3Keq1FDgl2t23jG0woWtSKEcZ6Kv/fx6VW');

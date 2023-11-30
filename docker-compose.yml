@@ -23,7 +23,7 @@ services:
       - .env
     restart: always
     ports:
-      - "0.0.0.0:8090:80"
+      - "0.0.0.0:80:80"
     volumes:
       - ./nginx/conf/:/etc/nginx/conf.d/:ro
 
@@ -34,5 +34,5 @@ services:
     ports:
       - "3306:3306"
     volumes:
-#      - ./docker/mysql/data:/var/lib/mysql:rw
+      - ./docker/mysql/data:/var/lib/mysql:rw
       - ./bot-api/schema/init.sql:/docker-entrypoint-initdb.d/init.sql:ro

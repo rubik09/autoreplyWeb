@@ -25,17 +25,17 @@ const StatsSending = async (username, incomingMessagesStats, newUsersCount, aver
 
 
             const res = await googleSheets.spreadsheets.values.get({
-                SPREADSHEET_ID,
+                spreadsheetId: SPREADSHEET_ID,
                 range: 'A1:P',
             });
             const lastFilledCell = res.data.values.length
             await googleSheets.spreadsheets.batchUpdate({
-                    SPREADSHEET_ID,
+                spreadsheetId: SPREADSHEET_ID,
                     requestBody: {
                         requests: [{
                             updateCells: {
                                 range: {
-                                    SHEET_ID,
+                                    sheetId: SHEET_ID,
                                     startRowIndex: lastFilledCell,
                                     endRowIndex: lastFilledCell + 2,
                                     startColumnIndex: 0,
