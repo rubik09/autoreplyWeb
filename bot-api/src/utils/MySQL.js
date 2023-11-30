@@ -1,10 +1,11 @@
 import util from 'util';
 import mysql from 'mysql';
 import {
-  MYSQL_USER, MYSQL_DATABASE, MYSQL_ROOT_PASSWORD, MYSQL_PORT,
+  MYSQL_USER, MYSQL_DATABASE, MYSQL_ROOT_PASSWORD, MYSQL_PORT, DB_HOST,
 } from '../config';
 
 const pool = mysql.createPool({
+  host: DB_HOST,
   port: MYSQL_PORT,
   user: MYSQL_USER,
   password: MYSQL_ROOT_PASSWORD,

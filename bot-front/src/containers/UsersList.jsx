@@ -59,7 +59,7 @@ const UsersList = () => {
             sortable: false,
             filterable: false,
             renderCell: (params) => (
-                <Button variant='outlined' sx={{cursor: 'pointer', width: '100px'}} onClick={() => window.open(params.row.tableLink, '_blank')}>Статистика</Button>
+                <Button variant='outlined' sx={{cursor: 'pointer', width: '100px'}} onClick={() => window.open(params.row.TABLE_LINK, '_blank')}>Статистика</Button>
             )
         },
         {

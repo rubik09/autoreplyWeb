@@ -59,6 +59,7 @@ const incomingMessages = async (client, event) => {
 
             await statsSending(username, incomingMessages, count, averageMessagesCount, newParsedKeywords);
             await stats.addStats(count, newKeywords[0].keywords, api_id, incomingMessages, averageMessagesCount);
+            return;
         } else {
             const oldKeywords = await stats.getKeywordsFromStats(api_id);
             const oldParsedKeywords = await JSON.parse(oldKeywords[0].keywords);

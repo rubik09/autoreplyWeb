@@ -1,6 +1,4 @@
-export let apiUrl;
-
-apiUrl = process.env.REACT_APP_API_URL;
+export const apiUrl = process.env.REACT_APP_API_URL;
 
 export const countries = [
     {code: 'AD', label: 'Andorra', phone: '376'},

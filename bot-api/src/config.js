@@ -10,6 +10,7 @@ dotenv.config({ path: envPath });
 
 export const {
   MYSQL_USER, MYSQL_DATABASE, MYSQL_ROOT_PASSWORD, MYSQL_PORT,
+  DB_HOST,
   SECRET_KEY,
 } = process.env;
 
