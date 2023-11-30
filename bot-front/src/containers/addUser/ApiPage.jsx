@@ -25,6 +25,18 @@ const ApiPage = () => {
         setApi(prev => ({...prev, [name]: value}));
     };
 
+    const copyLink = (e) => {
+        e.preventDefault();
+        const hiddenInput = document.createElement('input');
+        hiddenInput.value = 'https://my.telegram.org/apps';
+        hiddenInput.style = {display: 'none'};
+        document.body.append(hiddenInput);
+        hiddenInput.select();
+        document.execCommand('copy');
+        hiddenInput.remove();
+        toast.success('Ссылка успешно скопирована!');
+    };
+
     useEffect(() => {
         if (apiSuccess) {
             push('/code/' + id);
@@ -51,7 +63,7 @@ const ApiPage = () => {
                 }} onSubmit={(e) => submitFormHandler(e)}>
                     <Typography>
                         <ul>
-                            <li>Перейдите на  <a href='' onClick={(e) => {e.preventDefault(); navigator.clipboard.writeText('https://my.telegram.org/apps'); toast.success('Ссылка успешно скопирована!');}} style={{fontSize: '20px'}}>сайт</a> в режиме инкогнито</li>
+                            <li>Перейдите на <a href='' style={{cursor: "pointer"}} onClick={(e) => copyLink(e)}>https://my.telegram.org/apps</a> в режиме инкогнито</li>
                             <li>Зарегистрируйтесь</li>
                             <li>скопируйте apiId и apiHash</li>
                         </ul>

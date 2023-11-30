@@ -57,7 +57,6 @@ const UserChange = () => {
                 id: id,
             });
             setKeywords(JSON.parse(user.keywords));
-            console.log(user, keywords)
         }
     }, [dispatch, id, !!user]);
 
@@ -131,7 +130,7 @@ const UserChange = () => {
                             Введите ключевые слова
                         </Typography>
                         <Box>
-                            {keywords.map((element, index) => (
+                            {!!keywords && keywords.map((element, index) => (
                                 <Box key={index} sx={{
                                     mt: 1
                                 }}>

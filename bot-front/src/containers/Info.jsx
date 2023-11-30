@@ -12,7 +12,7 @@ const Info = () => {
 
     useEffect(() => {
         dispatch(fetchClientById(id));
-    }, []);
+    }, [dispatch]);
 
     const infoStyle = {display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid lightgray'};
     return (
@@ -33,7 +33,7 @@ const Info = () => {
                     <div style={infoStyle}><span style={{color: 'grey'}}>User id:</span> {user?.user_id}</div>
                     <div style={infoStyle}><span style={{color: 'grey'}}>Phone number:</span> {user?.phone_number}</div>
                     <div style={infoStyle}><span style={{color: 'grey'}}>Region:</span> {user?.region}</div>
-                    {JSON.parse(user?.keywords).map((element, index) => (
+                    {!!user && JSON.parse(user?.keywords).map((element, index) => (
                         <Box key={index} sx={{
                             mt: 1
                         }}>

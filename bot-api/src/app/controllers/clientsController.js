@@ -24,7 +24,6 @@ export const addClient = async (ctx) => {
   }
 
   const validUsername = await sessions.checkByUsername(username);
-  console.log(validUsername)
   if (validUsername.length) {
     throwError('username already exist', 400);
   }
