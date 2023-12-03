@@ -5,39 +5,29 @@ class Stats {
         this.sql = pool;
     }
 
-    async addStats(users_count, keywords, api_id_client, incoming_messages_count, average_incoming_messages) {
+    async addStats(incoming_messages_count, api_id_client) {
         return this.sql.query('INSERT INTO stats SET ?', {
-            users_count,
-            keywords,
             api_id_client,
             incoming_messages_count,
-            average_incoming_messages
         });
     }
 
-    async updateClientStats(users_count, keywords, api_id_client, incoming_messages_count, average_incoming_messages) {
+    async updateClientStats(incoming_messages_count, api_id_client) {
         return this.sql.query('UPDATE stats SET ? WHERE ?', [{
-            users_count,
-            keywords,
             incoming_messages_count,
-            average_incoming_messages
         }, {api_id_client}]);
     }
 
-    async getClientStats(apiId) {
-        return this.sql.query('SELECT * FROM stats WHERE ?', {api_id_client: apiId});
+    async updateIncomingMessagesCountToSessionByApiId(api_id_client) {
+        return this.sql.query('UPDATE stats SET incoming_messages_count = incoming_messages_count + 1 WHERE ?', [{api_id_client}]);
     }
 
-    async getCountStats(apiId) {
-        return this.sql.query('SELECT users_count FROM stats WHERE ?', {api_id_client: apiId});
+    async getStatsByApiId(api_id_client) {
+        return this.sql.query('SELECT * FROM stats WHERE ?', [{api_id_client}]);
     }
 
-    async getIncomingMessagesStats(apiId) {
-        return this.sql.query('SELECT incoming_messages_count FROM stats WHERE ?', {api_id_client: apiId});
-    }
-
-    async getKeywordsFromStats(apiId) {
-        return this.sql.query('SELECT keywords FROM stats WHERE ?', [{api_id_client: apiId}]);
+    async getClientStats(api_id_client) {
+        return this.sql.query('SELECT * FROM stats WHERE ?', [{ api_id_client }]);
     }
 }
 

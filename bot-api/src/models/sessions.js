@@ -51,20 +51,16 @@ class Session {
         return this.sql.query('UPDATE sessions SET ? WHERE ?', [{keywords}, {api_id}]);
     }
 
-    async updateIncomingMessagesCountToSessionByApiId(api_id) {
-        return this.sql.query('UPDATE sessions SET incoming_messages_count = incoming_messages_count + 1 WHERE ?', [{api_id}]);
-    }
-
-    async getIncomingMessagesCountToSessionByApiId(api_id) {
-        return this.sql.query('SELECT incoming_messages_count FROM sessions WHERE ?', [{api_id}]);
-    }
-
     async changeStatus(id, status) {
         return this.sql.query('UPDATE sessions SET ? WHERE ?', [{status}, {id}]);
     }
 
     async getKeywordsFromSession(api_id) {
         return this.sql.query('SELECT keywords FROM sessions WHERE ?', [{api_id}]);
+    }
+
+    async getUsernameFromSession(api_id) {
+        return this.sql.query('SELECT username FROM sessions WHERE ?', [{api_id}]);
     }
 
     async getMainInfo(id) {
@@ -89,10 +85,6 @@ class Session {
 
     async updateClientById(keywords, region, username, id) {
         return this.sql.query('UPDATE sessions SET ? WHERE ?', [{keywords, region, username}, {id}]);
-    }
-
-    async getUsername(api_id) {
-        return this.sql.query('SELECT username FROM sessions WHERE ?;', [{api_id}])
     }
 
     async getStatus() {
