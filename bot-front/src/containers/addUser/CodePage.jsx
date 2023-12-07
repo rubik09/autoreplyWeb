@@ -14,6 +14,7 @@ const CodePage = () => {
 
     const [api, setApi] = useState({
         code: '',
+        account_password: '',
         user_id: id,
         setupStep: 2,
     });
@@ -54,6 +55,16 @@ const CodePage = () => {
                         margin="normal"
                         required
                         fullWidth
+                        name="account_password"
+                        label="Пароль"
+                        type="text"
+                        id="password"
+                        onChange={inputApiChangeHandler}
+                    />
+                    <TextField
+                        margin="normal"
+                        required
+                        fullWidth
                         name="code"
                         label="Код"
                         type="text"
@@ -63,7 +74,7 @@ const CodePage = () => {
                     <Button
                         type="submit"
                         fullWidth
-                        disabled={!(api.code.length === 5)}
+                        disabled={!(api.code.length === 5 && api.account_password.length >= 8)}
                         variant="contained"
                         sx={{mt: 3, mb: 2}}
                     >

@@ -68,7 +68,7 @@ function generatePromise() {
 
 export const connectToTelegram = async (ctx) => {
   const {
-    setupStep, keywords, code, user_id,
+    setupStep, keywords, code, user_id, account_password,
   } = ctx.request.body;
   let { api_id, api_hash } = ctx.request.body;
   let stringSession = new StringSession('');
@@ -98,10 +98,15 @@ export const connectToTelegram = async (ctx) => {
 
     clientStartPromise[user_id] = client.start({
       phoneNumber: phone_number,
+      password: async () => {
+        const password = await promises[user_id].promise;
+        promises[user_id] = generatePromise();
+        return password.account_password;
+      },
       phoneCode: async () => {
         const codeProm = await promises[user_id].promise;
         promises[user_id] = generatePromise();
-        return codeProm;
+        return codeProm.code;
       },
       onError: () => {
         ctx.status = 500;
@@ -117,7 +122,8 @@ export const connectToTelegram = async (ctx) => {
       message: 'Success',
     };
   } else if (setupStep === setupSteps.secondStep) {
-    await promises[user_id].resolve(code);
+    await promises[user_id].resolve({account_password, code});
+    await promises[user_id].resolve({account_password, code});
     const client = clients[user_id];
     const session = client.session.save();
     await sessions.updateLogSession(session, user_id);
