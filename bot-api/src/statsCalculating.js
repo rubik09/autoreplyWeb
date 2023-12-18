@@ -25,7 +25,7 @@ const statsCalculating = () => {
             let averageMessagesCount = incoming_messages_count / newUsersCount;
             if (incoming_messages_count < 1 || newUsersCount < 1) averageMessagesCount = 0;
 
-            await statsSending(username[0].username, incoming_messages_count, newUsersCount, averageMessagesCount, parsedKeywords);
+            await statsSending(username[0].username, incoming_messages_count, newUsersCount, averageMessagesCount.toFixed(2), parsedKeywords);
 
             const newArr = zeroOutCounts(parsedKeywords);
             const stringifyNewArr = JSON.stringify(newArr);
