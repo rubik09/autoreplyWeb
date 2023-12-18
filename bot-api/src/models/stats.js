@@ -12,9 +12,9 @@ class Stats {
         });
     }
 
-    async updateClientStats(incoming_messages_count, api_id_client) {
+    async updateClientStats(incoming_messages_count, users_count, api_id_client) {
         return this.sql.query('UPDATE stats SET ? WHERE ?', [{
-            incoming_messages_count,
+            incoming_messages_count, users_count,
         }, {api_id_client}]);
     }
 
@@ -28,6 +28,10 @@ class Stats {
 
     async getClientStats(api_id_client) {
         return this.sql.query('SELECT * FROM stats WHERE ?', [{ api_id_client }]);
+    }
+
+    async getCountStats(api_id_client) {
+        return this.sql.query('SELECT users_count FROM stats WHERE ?', { api_id_client });
     }
 }
 
