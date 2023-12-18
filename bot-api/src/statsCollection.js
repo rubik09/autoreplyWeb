@@ -6,11 +6,14 @@ export const incomingMessages = async (client, event) => {
     client.floodSleepThreshold = 300;
     client.setParseMode('html');
 
+    const {className} = event.originalUpdate;
+    if (className !== 'UpdateShortMessage') return;
+
     const {apiId} = client;
     const {userId} = event.originalUpdate;
-    const chatId = await user.getUserId(apiId, userId.value);
+    const chatId = await user.getUserId(apiId, userId?.value);
 
-    if (!chatId.length) await user.addUser(userId.value, apiId);
+    if (!chatId.length) await user.addUser(userId?.value, apiId);
 
     const statsArr = await stats.getClientStats(apiId);
 
@@ -22,6 +25,9 @@ export const incomingMessages = async (client, event) => {
 export const outgoingMessages = async (client, event) => {
     client.floodSleepThreshold = 300;
     client.setParseMode('html');
+
+    const {className} = event.originalUpdate;
+    if (className !== 'UpdateShortMessage') return;
 
     const {apiId} = client;
     const {message} = event.originalUpdate;
@@ -36,11 +42,15 @@ export const outgoingMessages = async (client, event) => {
 
         if (!keyword) continue;
 
-        const keywordLowerCase = keyword.toLowerCase().trim();
+        const keywordsList = keyword.split(';');
 
-        if (keywordLowerCase !== msgLowerCase) continue;
+        for (const item of keywordsList) {
+            const keywordLowerCase = item.toLowerCase().trim();
 
-        parsedKeywords[i].count++
+            if (!(msgLowerCase.indexOf(keywordLowerCase) >= 0)) continue;
+
+            parsedKeywords[i].count++
+        }
     }
     const stringifyKeywords = JSON.stringify(parsedKeywords);
 

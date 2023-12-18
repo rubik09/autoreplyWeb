@@ -11,6 +11,11 @@ const pool = mysql.createPool({
   password: MYSQL_ROOT_PASSWORD,
   database: MYSQL_DATABASE,
   charset: 'utf8mb4',
+  connectTimeout: 28800,
+  interactiveTimeout:28800,
+  waitTimeout: 28800,
+  timezone: '+0000',
+  queryTimeout: 60000,
 });
 
 pool.query = util.promisify(pool.query);

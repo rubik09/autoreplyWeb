@@ -33,9 +33,10 @@ CREATE TABLE IF NOT EXISTS `sessions`
 
 CREATE TABLE `stats`
 (
-    `id`                        int(11) NOT NULL AUTO_INCREMENT,
-    `api_id_client`             varchar(255),
-    `incoming_messages_count`   int(11) DEFAULT 0,
+    `id`                      int(11) NOT NULL AUTO_INCREMENT,
+    `api_id_client`           varchar(255),
+    `users_count`             int(11),
+    `incoming_messages_count` int(11) DEFAULT 0,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 81339
