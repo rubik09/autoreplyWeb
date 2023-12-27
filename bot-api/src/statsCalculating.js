@@ -30,8 +30,8 @@ const statsCalculating = () => {
 
             await sessions.updateKeywordsToSessionByApiId(stringifyNewArr, api_id);
             await stats.updateClientStats(0, 0, api_id);
-            await users.cleanTable();
         }
+        await users.cleanTable();
     }, {
         scheduled: true,
         timezone: "Europe/Moscow"
