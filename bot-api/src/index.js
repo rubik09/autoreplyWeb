@@ -11,7 +11,7 @@ import errorHandler from './app/middleware/errorHandling';
 import logger from './app/middleware/logger';
 import {ADDRESS, PORT} from './config';
 import routerHandler from './app/middleware/routerHanler';
-import statsCalculating from "./statsCalculating.js";
+import scheduledStatsCalculation from "./scheduledStatsCalculation.js";
 
 emmiter.on('newClient', async (client) => {
   client.addEventHandler(
@@ -24,7 +24,7 @@ emmiter.on('newClient', async (client) => {
   );
 });
 
-await statsCalculating();
+await scheduledStatsCalculation();
 await firstInit();
 
 const app = new Koa();

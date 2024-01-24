@@ -34,11 +34,17 @@ export const outgoingMessages = async (client, event) => {
     const keywords = await sessions.getKeywordsFromSession(apiId);
     const parsedKeywords = await JSON.parse(keywords[0].keywords);
 
+    console.log(new Date())
+
+    console.log(apiId, '***********', message, '************');
+
     const msgLowerCase = message.toLowerCase().trim();
     for (const [i, elem] of parsedKeywords.entries()) {
         const {
             keyword
         } = elem;
+
+        console.log(keyword);
 
         if (!keyword) continue;
 
@@ -47,12 +53,16 @@ export const outgoingMessages = async (client, event) => {
         for (const item of keywordsList) {
             const keywordLowerCase = item.toLowerCase().trim();
 
+            console.log(!(msgLowerCase.indexOf(keywordLowerCase) >= 0));
+
             if (!(msgLowerCase.indexOf(keywordLowerCase) >= 0)) continue;
 
             parsedKeywords[i].count++
         }
     }
     const stringifyKeywords = JSON.stringify(parsedKeywords);
+
+    console.log('same', keywords[0].keywords === stringifyKeywords);
 
     if (keywords[0].keywords === stringifyKeywords) return;
 
