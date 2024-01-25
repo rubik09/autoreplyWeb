@@ -1,7 +1,8 @@
 import {SHEET_ID, SPREADSHEET_ID} from "./config.js";
 import googleSheets from "./utils/googleClient.js";
 
-const StatsSending = async (username, incomingMessagesStats, newUsersCount, averageMessagesCount, keywordsDiffArr, time) => {
+const StatsSending = async (username, incomingMessagesStats, newUsersCount, averageMessagesCount, keywordsDiffArr, time, api_id) => {
+    console.log({startTime: new Date(), keywords: keywordsDiffArr, username, api_id})
     try {
         const currentDate = new Date();
         currentDate.setHours(currentDate.getHours() - 3);
@@ -100,6 +101,7 @@ const StatsSending = async (username, incomingMessagesStats, newUsersCount, aver
         (e) {
         console.log(e);
     }
+    console.log({endTime: new Date(), username, api_id})
 };
 
 export default StatsSending;
