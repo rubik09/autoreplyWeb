@@ -101,7 +101,7 @@ const StatsSending = async (username, incomingMessagesStats, newUsersCount, aver
         (e) {
         console.log(e);
     }
-    console.log({endTime: new Date(), username, api_id})
+    console.log({endTime: new Date(), username, api_id, keywords: keywordsDiffArr})
 };
 
 export default StatsSending;
