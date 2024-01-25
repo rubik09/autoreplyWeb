@@ -34,6 +34,8 @@ export const outgoingMessages = async (client, event) => {
     const keywords = await sessions.getKeywordsFromSession(apiId);
     const parsedKeywords = await JSON.parse(keywords[0].keywords);
 
+    console.log(event.originalUpdate.userId.value)
+
     console.log(new Date())
 
     console.log(apiId, '***********', message, '************');
