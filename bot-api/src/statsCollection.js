@@ -33,18 +33,16 @@ export const outgoingMessages = async (client, event) => {
     const {message} = event.originalUpdate;
     const keywords = await sessions.getKeywordsFromSession(apiId);
     const parsedKeywords = await JSON.parse(keywords[0].keywords);
+    const username = await sessions.getUsernameFromSession(apiId);
 
-    console.log(new Date())
 
-    console.log(apiId, '***********', message, '************');
+    console.log({username: username[0].username, apiId, userId: event.originalUpdate.userId.value, date: new Date()})
 
     const msgLowerCase = message.toLowerCase().trim();
     for (const [i, elem] of parsedKeywords.entries()) {
         const {
             keyword
         } = elem;
-
-        console.log(keyword);
 
         if (!keyword) continue;
 
@@ -53,7 +51,7 @@ export const outgoingMessages = async (client, event) => {
         for (const item of keywordsList) {
             const keywordLowerCase = item.toLowerCase().trim();
 
-            console.log(!(msgLowerCase.indexOf(keywordLowerCase) >= 0));
+            console.log(`keyword: ${keyword} matched?`, (msgLowerCase.indexOf(keywordLowerCase) >= 0));
 
             if (!(msgLowerCase.indexOf(keywordLowerCase) >= 0)) continue;
 
@@ -62,7 +60,7 @@ export const outgoingMessages = async (client, event) => {
     }
     const stringifyKeywords = JSON.stringify(parsedKeywords);
 
-    console.log('same', keywords[0].keywords === stringifyKeywords);
+    console.log({arraySame: keywords[0].keywords === stringifyKeywords, message});
 
     if (keywords[0].keywords === stringifyKeywords) return;
 
