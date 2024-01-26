@@ -38,7 +38,6 @@ app.use(parser())
   .use(routerHandler)
   .use(router.routes())
   .use(router.allowedMethods())
-  .use(routerHandler)
   .listen(PORT, () => {
     console.log(`🚀 Server listening ${ADDRESS}:${PORT}/ `);
   });
