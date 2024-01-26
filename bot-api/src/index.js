@@ -10,7 +10,6 @@ import router from './routes/mainRoute';
 import errorHandler from './app/middleware/errorHandling';
 import logger from './app/middleware/logger';
 import {ADDRESS, PORT} from './config';
-import routerHandler from './app/middleware/routerHanler';
 import scheduledStatsCalculation from "./scheduledStatsCalculation.js";
 
 emmiter.on('newClient', async (client) => {
@@ -35,7 +34,6 @@ app.use(parser())
   }))
   .use(logger)
   .use(errorHandler)
-  .use(routerHandler)
   .use(router.routes())
   .use(router.allowedMethods())
   .listen(PORT, () => {
