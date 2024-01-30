@@ -15,12 +15,14 @@ const calculating = async (time) => {
         const allUsers = await users.getCountUsers(api_id);
         const count = Object.values(allUsers[0])[0];
         const mainStats = await stats.getStatsByApiId(api_id);
-        const {incoming_messages_count} = mainStats[0];
+        const {incoming_messages_count, outgoing_messages_count} = mainStats[0];
         const keywords = await sessions.getKeywordsFromSession(api_id);
         const parsedKeywords = JSON.parse(keywords[0].keywords);
         const username = await sessions.getUsernameFromSession(api_id);
         let averageMessagesCount = incoming_messages_count / count;
         if (incoming_messages_count < 1 || count < 1) averageMessagesCount = 0;
+
+        console.log({username: username[0].username, api_id, 'incoming_messages': incoming_messages_count, 'outgoing_messages': outgoing_messages_count});
 
         await statsSending(username[0].username, incoming_messages_count, count, averageMessagesCount.toFixed(2), parsedKeywords, time, api_id);
 
@@ -28,7 +30,7 @@ const calculating = async (time) => {
         const stringifyNewArr = JSON.stringify(newArr);
 
         await sessions.updateKeywordsToSessionByApiId(stringifyNewArr, api_id);
-        await stats.updateClientStats(0, 0, api_id);
+        await stats.updateClientStats(0, 0, 0, api_id);
     }
     await users.cleanTable();
 };

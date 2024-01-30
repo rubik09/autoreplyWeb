@@ -37,6 +37,8 @@ CREATE TABLE `stats`
     `api_id_client`           varchar(255),
     `users_count`             int(11),
     `incoming_messages_count` int(11) DEFAULT 0,
+    `outgoing_messages_count` int(11) DEFAULT 0,
+
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 81339
