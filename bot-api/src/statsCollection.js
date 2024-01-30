@@ -17,7 +17,7 @@ export const incomingMessages = async (client, event) => {
 
     const statsArr = await stats.getClientStats(apiId);
 
-    if (!statsArr.length) await stats.addStats(0, apiId);
+    if (!statsArr.length) await stats.addStats(0, 0, apiId);
 
     await stats.updateIncomingMessagesCountToSessionByApiId(apiId);
 };
@@ -34,6 +34,11 @@ export const outgoingMessages = async (client, event) => {
     const keywords = await sessions.getKeywordsFromSession(apiId);
     const parsedKeywords = await JSON.parse(keywords[0].keywords);
     const username = await sessions.getUsernameFromSession(apiId);
+    const statsArr = await stats.getClientStats(apiId);
+
+    if (!statsArr.length) await stats.addStats(0, 0, apiId);
+
+    await stats.updateOutgoingMessagesCountToSessionByApiId(apiId);
 
 
     console.log({username: username[0].username, apiId, userId: event.originalUpdate.userId.value, date: new Date()})
