@@ -36,7 +36,7 @@ const calculating = async (time) => {
 };
 
 const scheduledStatsCalculation = () => {
-    cron.schedule('15 * * * * *', async () => {
+    cron.schedule('0 1 * * *', async () => {
         await calculating('10:00-00:00 - day');
     }, {scheduled: true, timezone: "Europe/Moscow"});
 
